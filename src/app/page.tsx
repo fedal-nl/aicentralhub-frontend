@@ -1,7 +1,15 @@
+import HeroSection from '@/components/home/HeroSection'
+import FeaturedTools from '@/components/home/FeaturedTools'
+import CategoriesGrid from '@/components/home/CategoriesGrid'
+import StatsBanner from '@/components/home/StatsBanner'
+
 export default function HomePage() {
   return (
-    <main>
-      <h1>AI CentralHub</h1>
-    </main>
+    <>
+      <HeroSection />
+      <StatsBanner />
+      <FeaturedTools />
+      <CategoriesGrid />
+    </>
   )
 }
