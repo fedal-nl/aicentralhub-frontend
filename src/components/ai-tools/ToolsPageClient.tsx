@@ -19,6 +19,7 @@ import { allTools } from '@/data/mockData'
 export default function ToolsPageClient() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
+  const [subcategory, setSubcategory] = useState('')
   const [pricing, setPricing] = useState('all')
   const [view, setView] = useState<'grid' | 'list'>('grid')
   const [page, setPage] = useState(1)
@@ -31,10 +32,14 @@ export default function ToolsPageClient() {
         tool.name.toLowerCase().includes(search.toLowerCase()) ||
         tool.description.toLowerCase().includes(search.toLowerCase())
       const matchesCategory = category === '' || tool.category === category
+      const matchesSubcategory =
+        subcategory === '' || tool.subcategory === subcategory
       const matchesPricing = pricing === 'all' || tool.pricing === pricing
-      return matchesSearch && matchesCategory && matchesPricing
+      return (
+        matchesSearch && matchesCategory && matchesSubcategory && matchesPricing
+      )
     })
-  }, [search, category, pricing])
+  }, [search, category, subcategory, pricing])
 
   const totalPages = Math.ceil(filtered.length / perPage)
 
@@ -47,17 +52,18 @@ export default function ToolsPageClient() {
     setSearch(value)
     setPage(1)
   }
-
   const handleCategoryChange = (value: string) => {
     setCategory(value)
     setPage(1)
   }
-
+  const handleSubcategoryChange = (value: string) => {
+    setSubcategory(value)
+    setPage(1)
+  }
   const handlePricingChange = (value: string) => {
     setPricing(value)
     setPage(1)
   }
-
   const handlePerPageChange = (e: SelectChangeEvent<number>) => {
     setPerPage(Number(e.target.value))
     setPage(1)
@@ -70,7 +76,6 @@ export default function ToolsPageClient() {
         minHeight: '100vh',
       }}>
       <Container maxWidth="xl" sx={{ py: 6 }}>
-        {/* Page header */}
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="overline"
@@ -103,20 +108,20 @@ export default function ToolsPageClient() {
           </Typography>
         </Box>
 
-        {/* Filters */}
         <ToolsFilter
           search={search}
           category={category}
+          subcategory={subcategory}
           pricing={pricing}
           view={view}
           totalCount={filtered.length}
           onSearchChange={handleSearchChange}
           onCategoryChange={handleCategoryChange}
+          onSubcategoryChange={handleSubcategoryChange}
           onPricingChange={handlePricingChange}
           onViewChange={setView}
         />
 
-        {/* Results */}
         <Box sx={{ mt: 4 }}>
           {view === 'grid' ? (
             <ToolsGrid tools={paginated} />
@@ -125,7 +130,6 @@ export default function ToolsPageClient() {
           )}
         </Box>
 
-        {/* Pagination footer */}
         {totalPages > 1 && (
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
@@ -135,7 +139,6 @@ export default function ToolsPageClient() {
               mt: 6,
               gap: 2,
             }}>
-            {/* Results info */}
             <Typography
               variant="body2"
               sx={{ color: 'text.secondary', fontFamily: 'Syne, sans-serif' }}>
@@ -144,7 +147,6 @@ export default function ToolsPageClient() {
               tools
             </Typography>
 
-            {/* Page numbers */}
             <Pagination
               count={totalPages}
               page={page}
@@ -171,7 +173,6 @@ export default function ToolsPageClient() {
               }}
             />
 
-            {/* Per page selector */}
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
               <Typography
                 variant="body2"
