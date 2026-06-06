@@ -107,17 +107,17 @@ export default async function CategoryPage({ params }: Props) {
           {cat.subcategories.map((sub) => (
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={sub.slug}>
               <Card
-                sx={(theme) => ({
+                sx={{
                   background: 'transparent',
                   border: '1px solid rgba(255,255,255,0.06)',
                   borderRadius: '12px',
                   transition: 'all 0.2s',
                   '&:hover': {
-                    borderColor: theme.palette.primary.main,
-                    background: `${theme.palette.primary.main}08`,
+                    borderColor: 'primary.main',
+                    background: 'rgba(0,212,255,0.03)',
                     transform: 'translateY(-2px)',
                   },
-                })}>
+                }}>
                 <CardActionArea
                   component={Link}
                   href={`/ai-tools/${cat.slug}/${sub.slug}`}
@@ -189,17 +189,17 @@ export default async function CategoryPage({ params }: Props) {
               {toolsInCategory.slice(0, 8).map((tool) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={tool.id}>
                   <Card
-                    sx={(theme) => ({
-                      background: theme.palette.background.paper,
+                    sx={{
+                      background: 'background.paper',
                       border: '1px solid rgba(255,255,255,0.06)',
                       borderRadius: '16px',
                       transition: 'all 0.2s',
                       '&:hover': {
-                        borderColor: theme.palette.primary.main,
+                        borderColor: 'primary.main',
                         transform: 'translateY(-4px)',
-                        boxShadow: `0 8px 32px ${theme.palette.primary.main}22`,
+                        boxShadow: '0 8px 32px rgba(0,212,255,0.13)',
                       },
-                    })}>
+                    }}>
                     <CardActionArea
                       component={Link}
                       href={`/ai-tools/${tool.slug}`}
@@ -229,9 +229,9 @@ export default async function CategoryPage({ params }: Props) {
                             fontFamily: 'Syne, sans-serif',
                             fontSize: '0.7rem',
                             fontWeight: 600,
-                            background: `${theme.palette.primary.main}22`,
+                            background: 'rgba(0,212,255,0.13)',
                             color: 'primary.main',
-                            border: `1px solid ${theme.palette.primary.main}44`,
+                            border: '1px solid rgba(0,212,255,0.27)',
                           }}
                         />
                       </Stack>
