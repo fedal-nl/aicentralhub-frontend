@@ -1,0 +1,212 @@
+'use client'
+
+import { useState, useMemo } from 'react'
+import {
+  Box,
+  Container,
+  Typography,
+  Pagination,
+  Stack,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+} from '@mui/material'
+import ToolsFilter from './ToolsFilter'
+import ToolsGrid from './ToolsGrid'
+import ToolsList from './ToolsList'
+import { allTools } from '@/data/mockData'
+
+export default function ToolsPageClient() {
+  const [search, setSearch] = useState('')
+  const [category, setCategory] = useState('')
+  const [pricing, setPricing] = useState('all')
+  const [view, setView] = useState<'grid' | 'list'>('grid')
+  const [page, setPage] = useState(1)
+  const [perPage, setPerPage] = useState(24)
+
+  const filtered = useMemo(() => {
+    return allTools.filter((tool) => {
+      const matchesSearch =
+        search === '' ||
+        tool.name.toLowerCase().includes(search.toLowerCase()) ||
+        tool.description.toLowerCase().includes(search.toLowerCase())
+      const matchesCategory = category === '' || tool.category === category
+      const matchesPricing = pricing === 'all' || tool.pricing === pricing
+      return matchesSearch && matchesCategory && matchesPricing
+    })
+  }, [search, category, pricing])
+
+  const totalPages = Math.ceil(filtered.length / perPage)
+
+  const paginated = useMemo(() => {
+    const start = (page - 1) * perPage
+    return filtered.slice(start, start + perPage)
+  }, [filtered, page, perPage])
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value)
+    setPage(1)
+  }
+
+  const handleCategoryChange = (value: string) => {
+    setCategory(value)
+    setPage(1)
+  }
+
+  const handlePricingChange = (value: string) => {
+    setPricing(value)
+    setPage(1)
+  }
+
+  const handlePerPageChange = (e: SelectChangeEvent<number>) => {
+    setPerPage(Number(e.target.value))
+    setPage(1)
+  }
+
+  return (
+    <Box
+      sx={{
+        background: (theme) => theme.palette.background.default,
+        minHeight: '100vh',
+      }}>
+      <Container maxWidth="xl" sx={{ py: 6 }}>
+        {/* Page header */}
+        <Box sx={{ mb: 4 }}>
+          <Typography
+            variant="overline"
+            sx={{
+              color: 'primary.main',
+              fontFamily: 'Syne, sans-serif',
+              fontWeight: 700,
+              letterSpacing: '0.15em',
+            }}>
+            Directory
+          </Typography>
+          <Typography
+            variant="h3"
+            sx={{
+              fontFamily: 'Syne, sans-serif',
+              fontWeight: 800,
+              color: 'text.primary',
+              mt: 0.5,
+            }}>
+            AI Tools
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'text.secondary',
+              fontFamily: 'Syne, sans-serif',
+              mt: 1,
+            }}>
+            Browse and discover the best AI tools across every category.
+          </Typography>
+        </Box>
+
+        {/* Filters */}
+        <ToolsFilter
+          search={search}
+          category={category}
+          pricing={pricing}
+          view={view}
+          totalCount={filtered.length}
+          onSearchChange={handleSearchChange}
+          onCategoryChange={handleCategoryChange}
+          onPricingChange={handlePricingChange}
+          onViewChange={setView}
+        />
+
+        {/* Results */}
+        <Box sx={{ mt: 4 }}>
+          {view === 'grid' ? (
+            <ToolsGrid tools={paginated} />
+          ) : (
+            <ToolsList tools={paginated} />
+          )}
+        </Box>
+
+        {/* Pagination footer */}
+        {totalPages > 1 && (
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              mt: 6,
+              gap: 2,
+            }}>
+            {/* Results info */}
+            <Typography
+              variant="body2"
+              sx={{ color: 'text.secondary', fontFamily: 'Syne, sans-serif' }}>
+              Showing {(page - 1) * perPage + 1}–
+              {Math.min(page * perPage, filtered.length)} of {filtered.length}{' '}
+              tools
+            </Typography>
+
+            {/* Page numbers */}
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(_, value) => setPage(value)}
+              shape="rounded"
+              sx={{
+                '& .MuiPaginationItem-root': {
+                  fontFamily: 'Syne, sans-serif',
+                  color: 'text.secondary',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  '&:hover': {
+                    background: (theme) => `${theme.palette.primary.main}22`,
+                    color: 'primary.main',
+                  },
+                  '&.Mui-selected': {
+                    background: (theme) => `${theme.palette.primary.main}33`,
+                    color: 'primary.main',
+                    borderColor: (theme) => theme.palette.primary.main,
+                    '&:hover': {
+                      background: (theme) => `${theme.palette.primary.main}44`,
+                    },
+                  },
+                },
+              }}
+            />
+
+            {/* Per page selector */}
+            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'text.secondary',
+                  fontFamily: 'Syne, sans-serif',
+                }}>
+                Per page:
+              </Typography>
+              <Select
+                value={perPage}
+                onChange={handlePerPageChange}
+                size="small"
+                sx={{
+                  fontFamily: 'Syne, sans-serif',
+                  fontSize: '0.9rem',
+                  color: 'text.primary',
+                  background: (theme) => theme.palette.background.paper,
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '8px',
+                  '.MuiOutlinedInput-notchedOutline': { border: 'none' },
+                }}>
+                {[24, 36, 48].map((n) => (
+                  <MenuItem
+                    key={n}
+                    value={n}
+                    sx={{ fontFamily: 'Syne, sans-serif' }}>
+                    {n}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Stack>
+          </Stack>
+        )}
+      </Container>
+    </Box>
+  )
+}
