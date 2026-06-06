@@ -1,4 +1,156 @@
-import { Tool, Category } from '@/types/tool'
+import { Tool, Category, ParentCategory } from '@/types/tool'
+
+export const parentCategories: ParentCategory[] = [
+  {
+    name: 'Productivity',
+    slug: 'productivity',
+    description:
+      'Tools to help you work smarter, manage tasks and automate workflows.',
+    subcategories: [
+      { name: 'Personal Assistant', slug: 'personal-assistant', count: 229 },
+      { name: 'Task Management', slug: 'task-management', count: 13 },
+      { name: 'Meetings', slug: 'meetings', count: 10 },
+      { name: 'Email', slug: 'email', count: 60 },
+      { name: 'Spreadsheets', slug: 'spreadsheets', count: 37 },
+      { name: 'Note Taking', slug: 'note-taking', count: 4 },
+    ],
+  },
+  {
+    name: 'Content & Writing',
+    slug: 'content-writing',
+    description:
+      'AI writing tools for every format — blogs, ads, emails and more.',
+    subcategories: [
+      { name: 'Copywriting', slug: 'copywriting', count: 251 },
+      { name: 'General Writing', slug: 'general-writing', count: 185 },
+      { name: 'Paraphraser', slug: 'paraphraser', count: 16 },
+      { name: 'Summarizer', slug: 'summarizer', count: 101 },
+      { name: 'Storytelling', slug: 'storytelling', count: 52 },
+      { name: 'Newsletters', slug: 'newsletters', count: 14 },
+    ],
+  },
+  {
+    name: 'Image & Design',
+    slug: 'image-design',
+    description: 'Generate, edit and enhance images and designs with AI.',
+    subcategories: [
+      { name: 'Image Generator', slug: 'image-generator', count: 55 },
+      { name: 'Image Editing', slug: 'image-editing', count: 124 },
+      { name: 'Design Tools', slug: 'design-tools', count: 242 },
+      { name: 'Logo Generator', slug: 'logo-generator', count: 8 },
+      { name: 'Avatars', slug: 'avatars', count: 65 },
+      { name: '3D', slug: '3d', count: 48 },
+    ],
+  },
+  {
+    name: 'Video',
+    slug: 'video',
+    description: 'Create, edit and enhance videos using the power of AI.',
+    subcategories: [
+      { name: 'Video Editing', slug: 'video-editing', count: 79 },
+      { name: 'Video Generator', slug: 'video-generator', count: 66 },
+      { name: 'Text to Video', slug: 'text-to-video', count: 11 },
+      { name: 'Personalized Videos', slug: 'personalized-videos', count: 46 },
+    ],
+  },
+  {
+    name: 'Audio',
+    slug: 'audio',
+    description: 'AI tools for voice, music, transcription and audio editing.',
+    subcategories: [
+      { name: 'Text to Speech', slug: 'text-to-speech', count: 103 },
+      { name: 'Music', slug: 'music', count: 111 },
+      { name: 'Transcriber', slug: 'transcriber', count: 71 },
+      { name: 'Audio Editing', slug: 'audio-editing', count: 58 },
+      { name: 'Voice Modulation', slug: 'voice-modulation', count: 2 },
+    ],
+  },
+  {
+    name: 'Code & Developer',
+    slug: 'code-developer',
+    description:
+      'AI-powered tools for developers, from code completion to deployment.',
+    subcategories: [
+      { name: 'Code Assistant', slug: 'code-assistant', count: 80 },
+      { name: 'Developer Tools', slug: 'developer-tools', count: 534 },
+      { name: 'Low-code/no-code', slug: 'low-code-no-code', count: 134 },
+      { name: 'SQL', slug: 'sql', count: 27 },
+      { name: 'API', slug: 'api', count: 52 },
+    ],
+  },
+  {
+    name: 'Marketing & SEO',
+    slug: 'marketing-seo',
+    description: 'Grow your audience and rank higher with AI marketing tools.',
+    subcategories: [
+      { name: 'SEO', slug: 'seo', count: 180 },
+      { name: 'Marketing', slug: 'marketing', count: 330 },
+      { name: 'Social Media', slug: 'social-media', count: 101 },
+      { name: 'Email Marketing', slug: 'email-marketing', count: 20 },
+      { name: 'Advertising', slug: 'advertising', count: 15 },
+    ],
+  },
+  {
+    name: 'Business',
+    slug: 'business',
+    description: 'AI tools for sales, finance, HR and business operations.',
+    subcategories: [
+      { name: 'CRM', slug: 'crm', count: 4 },
+      { name: 'Finance', slug: 'finance', count: 104 },
+      { name: 'Human Resources', slug: 'human-resources', count: 92 },
+      { name: 'Sales', slug: 'sales', count: 132 },
+      { name: 'E-commerce', slug: 'e-commerce', count: 139 },
+      { name: 'Customer Support', slug: 'customer-support', count: 133 },
+      { name: 'Analytics', slug: 'analytics', count: 46 },
+    ],
+  },
+  {
+    name: 'AI Chatbots',
+    slug: 'ai-chatbots',
+    description: 'Conversational AI, search engines and research assistants.',
+    subcategories: [
+      { name: 'Chatbots', slug: 'chatbots', count: 973 },
+      { name: 'Search Engine', slug: 'search-engine', count: 83 },
+      { name: 'Research', slug: 'research', count: 157 },
+      { name: 'Prompt Engineering', slug: 'prompt-engineering', count: 10 },
+    ],
+  },
+  {
+    name: 'Education',
+    slug: 'education',
+    description:
+      'Learn faster and teach better with AI-powered education tools.',
+    subcategories: [
+      { name: 'Education Assistant', slug: 'education-assistant', count: 151 },
+      { name: 'Online Learning', slug: 'online-learning', count: 2 },
+      { name: 'Kids', slug: 'kids', count: 19 },
+      { name: 'Languages', slug: 'languages', count: 123 },
+    ],
+  },
+  {
+    name: 'Fun & Creative',
+    slug: 'fun-creative',
+    description: 'Explore creative AI tools for art, gaming and entertainment.',
+    subcategories: [
+      { name: 'Generative Art', slug: 'generative-art', count: 73 },
+      { name: 'Gaming', slug: 'gaming', count: 61 },
+      { name: 'Fun Tools', slug: 'fun-tools', count: 110 },
+      { name: 'Comics', slug: 'comics', count: 1 },
+      { name: 'Drawing', slug: 'drawing', count: 1 },
+    ],
+  },
+  {
+    name: 'Health & Life',
+    slug: 'health-life',
+    description: 'AI tools for health, fitness, travel and everyday life.',
+    subcategories: [
+      { name: 'Healthcare', slug: 'healthcare', count: 83 },
+      { name: 'Health & Fitness', slug: 'health-fitness', count: 68 },
+      { name: 'Travel', slug: 'travel', count: 66 },
+      { name: 'Food & Drink', slug: 'food-drink', count: 3 },
+    ],
+  },
+]
 
 export const featuredTools: Tool[] = [
   {
@@ -8,6 +160,7 @@ export const featuredTools: Tool[] = [
     description:
       'The most widely used AI chatbot for writing, coding, research and more.',
     category: 'AI Chatbots',
+    subcategory: 'Chatbots',
     pricing: 'freemium',
     url: 'https://chat.openai.com',
   },
@@ -17,7 +170,8 @@ export const featuredTools: Tool[] = [
     slug: 'midjourney',
     description:
       'AI art generator that creates stunning images from text prompts.',
-    category: 'Generative Art',
+    category: 'Fun & Creative',
+    subcategory: 'Generative Art',
     pricing: 'paid',
     url: 'https://midjourney.com',
   },
@@ -27,6 +181,7 @@ export const featuredTools: Tool[] = [
     slug: 'elevenlabs',
     description: 'Realistic AI voice generation and text-to-speech platform.',
     category: 'Audio',
+    subcategory: 'Text to Speech',
     pricing: 'freemium',
     url: 'https://elevenlabs.io',
   },
@@ -37,6 +192,7 @@ export const featuredTools: Tool[] = [
     description:
       'Next-generation AI assistant by Anthropic for analysis, writing and coding.',
     category: 'AI Chatbots',
+    subcategory: 'Chatbots',
     pricing: 'freemium',
     url: 'https://claude.ai',
   },
@@ -46,7 +202,8 @@ export const featuredTools: Tool[] = [
     slug: 'runway',
     description:
       'AI-powered video editing and generation platform for creators.',
-    category: 'Video Editing',
+    category: 'Video',
+    subcategory: 'Video Editing',
     pricing: 'freemium',
     url: 'https://runwayml.com',
   },
@@ -55,7 +212,8 @@ export const featuredTools: Tool[] = [
     name: 'Grammarly',
     slug: 'grammarly',
     description: 'AI writing assistant that checks grammar, tone and clarity.',
-    category: 'General Writing',
+    category: 'Content & Writing',
+    subcategory: 'General Writing',
     pricing: 'freemium',
     url: 'https://grammarly.com',
   },
@@ -65,7 +223,8 @@ export const featuredTools: Tool[] = [
     slug: 'jasper',
     description:
       'AI copywriting tool for marketing teams and content creators.',
-    category: 'Copywriting',
+    category: 'Content & Writing',
+    subcategory: 'Copywriting',
     pricing: 'paid',
     url: 'https://jasper.ai',
   },
@@ -75,7 +234,8 @@ export const featuredTools: Tool[] = [
     slug: 'perplexity',
     description:
       'AI-powered search engine that answers questions with cited sources.',
-    category: 'Search Engine',
+    category: 'AI Chatbots',
+    subcategory: 'Search Engine',
     pricing: 'freemium',
     url: 'https://perplexity.ai',
   },
@@ -89,7 +249,8 @@ export const allTools: Tool[] = [
     slug: 'github-copilot',
     description:
       'AI pair programmer that suggests code completions in real time.',
-    category: 'Developer Tools',
+    category: 'Code & Developer',
+    subcategory: 'Code Assistant',
     pricing: 'paid',
     url: 'https://github.com/features/copilot',
   },
@@ -99,6 +260,7 @@ export const allTools: Tool[] = [
     slug: 'notion-ai',
     description: 'AI writing and summarization built directly into Notion.',
     category: 'Productivity',
+    subcategory: 'Note Taking',
     pricing: 'freemium',
     url: 'https://notion.so',
   },
@@ -108,7 +270,8 @@ export const allTools: Tool[] = [
     slug: 'copy-ai',
     description:
       'AI copywriter that generates marketing copy, emails and blog posts.',
-    category: 'Copywriting',
+    category: 'Content & Writing',
+    subcategory: 'Copywriting',
     pricing: 'freemium',
     url: 'https://copy.ai',
   },
@@ -118,7 +281,8 @@ export const allTools: Tool[] = [
     slug: 'stable-diffusion',
     description:
       'Open source text-to-image AI model for generating detailed artwork.',
-    category: 'Generative Art',
+    category: 'Image & Design',
+    subcategory: 'Image Generator',
     pricing: 'free',
     url: 'https://stability.ai',
   },
@@ -128,7 +292,8 @@ export const allTools: Tool[] = [
     slug: 'synthesia',
     description:
       'Create AI videos with virtual presenters from text in minutes.',
-    category: 'Video Editing',
+    category: 'Video',
+    subcategory: 'Video Generator',
     pricing: 'paid',
     url: 'https://synthesia.io',
   },
@@ -139,6 +304,7 @@ export const allTools: Tool[] = [
     description:
       'AI meeting assistant that records, transcribes and summarizes conversations.',
     category: 'Productivity',
+    subcategory: 'Meetings',
     pricing: 'freemium',
     url: 'https://otter.ai',
   },
@@ -148,7 +314,8 @@ export const allTools: Tool[] = [
     slug: 'canva-ai',
     description:
       'AI-powered design tools built into Canva for images, presentations and more.',
-    category: 'Design Tools',
+    category: 'Image & Design',
+    subcategory: 'Design Tools',
     pricing: 'freemium',
     url: 'https://canva.com',
   },
@@ -158,6 +325,7 @@ export const allTools: Tool[] = [
     slug: 'murf-ai',
     description: 'AI voice generator for creating studio-quality voiceovers.',
     category: 'Audio',
+    subcategory: 'Text to Speech',
     pricing: 'freemium',
     url: 'https://murf.ai',
   },
@@ -166,7 +334,8 @@ export const allTools: Tool[] = [
     name: 'Writesonic',
     slug: 'writesonic',
     description: 'AI writing tool for blogs, ads, emails and landing pages.',
-    category: 'Copywriting',
+    category: 'Content & Writing',
+    subcategory: 'Copywriting',
     pricing: 'freemium',
     url: 'https://writesonic.com',
   },
@@ -176,7 +345,8 @@ export const allTools: Tool[] = [
     slug: 'tabnine',
     description:
       'AI code completion tool that supports all major programming languages.',
-    category: 'Developer Tools',
+    category: 'Code & Developer',
+    subcategory: 'Code Assistant',
     pricing: 'freemium',
     url: 'https://tabnine.com',
   },
@@ -185,7 +355,8 @@ export const allTools: Tool[] = [
     name: 'Descript',
     slug: 'descript',
     description: 'AI-powered audio and video editing by editing a transcript.',
-    category: 'Video Editing',
+    category: 'Video',
+    subcategory: 'Video Editing',
     pricing: 'freemium',
     url: 'https://descript.com',
   },
@@ -195,7 +366,8 @@ export const allTools: Tool[] = [
     slug: 'surfer-seo',
     description:
       'AI SEO tool that helps you write and optimize content to rank higher.',
-    category: 'SEO',
+    category: 'Marketing & SEO',
+    subcategory: 'SEO',
     pricing: 'paid',
     url: 'https://surferseo.com',
   },
@@ -206,6 +378,7 @@ export const allTools: Tool[] = [
     description:
       'AI presentation builder that creates beautiful slides from a prompt.',
     category: 'Productivity',
+    subcategory: 'Personal Assistant',
     pricing: 'freemium',
     url: 'https://tome.app',
   },
@@ -215,7 +388,8 @@ export const allTools: Tool[] = [
     slug: 'hugging-face',
     description:
       'Open source platform for machine learning models and datasets.',
-    category: 'Developer Tools',
+    category: 'Code & Developer',
+    subcategory: 'Developer Tools',
     pricing: 'free',
     url: 'https://huggingface.co',
   },
@@ -226,6 +400,7 @@ export const allTools: Tool[] = [
     description:
       'AI notetaker that transcribes and analyzes your meetings automatically.',
     category: 'Productivity',
+    subcategory: 'Meetings',
     pricing: 'freemium',
     url: 'https://fireflies.ai',
   },
@@ -235,7 +410,8 @@ export const allTools: Tool[] = [
     slug: 'dall-e-3',
     description:
       'OpenAI image generation model that creates detailed images from text.',
-    category: 'Generative Art',
+    category: 'Image & Design',
+    subcategory: 'Image Generator',
     pricing: 'freemium',
     url: 'https://openai.com/dall-e-3',
   },
@@ -261,16 +437,4 @@ export const topCategories: Category[] = [
   { id: 12, name: 'Customer Support', slug: 'customer-support', count: 133 },
 ]
 
-export const allCategories: string[] = [
-  'AI Chatbots',
-  'Audio',
-  'Copywriting',
-  'Design Tools',
-  'Developer Tools',
-  'Generative Art',
-  'General Writing',
-  'Productivity',
-  'Search Engine',
-  'SEO',
-  'Video Editing',
-]
+export const allCategories: string[] = parentCategories.map((c) => c.name)
