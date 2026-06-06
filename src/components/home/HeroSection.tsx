@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 
 const stats = [
-  { value: '7,000+', label: 'AI Tools' },
+  { value: '7,500+', label: 'AI Tools' },
   { value: '50+', label: 'Categories' },
   { value: '100%', label: 'Free to Explore' },
 ]
@@ -163,7 +163,7 @@ export default function HeroSection() {
               lineHeight: 1.7,
               fontSize: { xs: '1rem', md: '1.15rem' },
             }}>
-            Browse, compare and review 7,000+ AI tools across 250+ categories.
+            Browse, compare and review 7,500+ AI tools across 50+ categories.
             Find exactly what you need — completely free.
           </Typography>
 
@@ -191,7 +191,7 @@ export default function HeroSection() {
             <SearchIcon sx={{ color: 'text.secondary', flexShrink: 0 }} />
             <InputBase
               fullWidth
-              placeholder="Search 7,000+ AI tools..."
+              placeholder="Search 7,500+ AI tools..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
