@@ -6,9 +6,12 @@ export interface Tool {
   longDescription?: string
   category: string
   subcategory: string
-  pricing: 'free' | 'freemium' | 'paid'
+  pricing: 'free' | 'freemium' | 'paid' | 'free-trial' | 'contact-us'
+  appType: 'website' | 'app' | 'chrome-extension' | 'api'
   url: string
   logo?: string
+  isFeatured?: boolean
+  metaDescription?: string
   rating?: number
   reviewCount?: number
 }
