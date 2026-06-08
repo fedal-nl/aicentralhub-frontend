@@ -14,6 +14,8 @@ const pricingColor: Record<Tool['pricing'], string> = {
   free: '#00D4FF',
   freemium: '#7B2FFF',
   paid: '#FF6B6B',
+  'free-trial': '#00E5A0',
+  'contact-us': '#FF9500',
 }
 
 export default function ToolsList({ tools }: ToolsListProps) {
