@@ -132,7 +132,7 @@ export default function ToolsGrid({ tools }: ToolsGridProps) {
                 <Stack direction="row" spacing={1}>
                   <Button
                     component={Link}
-                    href={`/ai-tools/${tool.slug}`}
+                    href={`/tool/${tool.slug}`}
                     variant="outlined"
                     size="small"
                     fullWidth

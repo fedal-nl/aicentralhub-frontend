@@ -161,7 +161,7 @@ export default function FeaturedTools() {
                   <Stack direction="row" spacing={1} sx={{ pt: 1 }}>
                     <Button
                       component={Link}
-                      href={`/ai-tools/${tool.slug}`}
+                      href={`/tool/${tool.slug}`}
                       variant="outlined"
                       size="small"
                       fullWidth

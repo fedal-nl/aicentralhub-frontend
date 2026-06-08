@@ -3,11 +3,14 @@ export interface Tool {
   name: string
   slug: string
   description: string
+  longDescription?: string
   category: string
   subcategory: string
   pricing: 'free' | 'freemium' | 'paid'
   url: string
   logo?: string
+  rating?: number
+  reviewCount?: number
 }
 
 export interface Subcategory {
