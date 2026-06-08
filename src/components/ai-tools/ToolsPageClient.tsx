@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { useSearchParams } from 'next/navigation'
 import {
   Box,
   Container,
@@ -17,10 +18,13 @@ import ToolsList from './ToolsList'
 import { allTools } from '@/data/mockData'
 
 export default function ToolsPageClient() {
-  const [search, setSearch] = useState('')
-  const [category, setCategory] = useState('')
-  const [subcategory, setSubcategory] = useState('')
-  const [pricing, setPricing] = useState('all')
+  const searchParams = useSearchParams()
+  const [search, setSearch] = useState(searchParams.get('search') ?? '')
+  const [category, setCategory] = useState(searchParams.get('category') ?? '')
+  const [subcategory, setSubcategory] = useState(
+    searchParams.get('subcategory') ?? '',
+  )
+  const [pricing, setPricing] = useState(searchParams.get('pricing') ?? 'all')
   const [view, setView] = useState<'grid' | 'list'>('grid')
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(24)
