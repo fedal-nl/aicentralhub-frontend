@@ -109,7 +109,7 @@ export default function ToolsList({ tools }: ToolsListProps) {
             <Stack direction="row" spacing={1} sx={{ flexShrink: 0 }}>
               <Button
                 component={Link}
-                href={`/ai-tools/${tool.slug}`}
+                href={`/tool/${tool.slug}`}
                 variant="outlined"
                 size="small"
                 endIcon={<ArrowForwardIcon fontSize="small" />}

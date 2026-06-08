@@ -202,7 +202,7 @@ export default async function CategoryPage({ params }: Props) {
                     }}>
                     <CardActionArea
                       component={Link}
-                      href={`/ai-tools/${tool.slug}`}
+                      href={`/tool/${tool.slug}`}
                       sx={{ p: 3 }}>
                       <Stack
                         direction="row"
