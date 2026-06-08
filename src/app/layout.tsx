@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   description:
     'AI CentralHub is your free AI tools directory with 7,000+ tools across 250+ categories. Discover and compare the best AI tools — free to explore.',
   metadataBase: new URL('https://ai-centralhub.com'),
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
   openGraph: {
     siteName: 'AI CentralHub',
     type: 'website',
