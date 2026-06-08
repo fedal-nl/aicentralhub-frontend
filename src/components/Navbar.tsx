@@ -25,9 +25,9 @@ import CloseIcon from '@mui/icons-material/Close'
 const navLinks = [
   { label: 'Featured Tools', href: '/featured-tools' },
   { label: 'AI Tools', href: '/ai-tools' },
+  { label: 'Categories', href: '/categories' },
   { label: 'Contact', href: '/contact' },
 ]
-
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const trigger = useScrollTrigger({ threshold: 20 })
