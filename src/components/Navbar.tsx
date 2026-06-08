@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import {
   AppBar,
   Toolbar,
@@ -30,6 +31,10 @@ const navLinks = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const trigger = useScrollTrigger({ threshold: 20 })
+  const pathname = usePathname()
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
     <>
@@ -72,13 +77,24 @@ export default function Navbar() {
                     component={Link}
                     href={link.href}
                     sx={{
-                      color: 'text.secondary',
                       fontFamily: 'Syne, sans-serif',
-                      fontWeight: 500,
+                      fontWeight: isActive(link.href) ? 700 : 500,
                       fontSize: '0.95rem',
+                      color: isActive(link.href)
+                        ? 'primary.main'
+                        : 'text.secondary',
+                      borderBottom: isActive(link.href)
+                        ? (theme) => `2px solid ${theme.palette.primary.main}`
+                        : '2px solid transparent',
+                      borderRadius: 0,
+                      px: 1.5,
+                      pb: 0.5,
+                      transition: 'all 0.2s',
                       '&:hover': {
                         color: 'primary.main',
-                        background: 'rgba(0, 212, 255, 0.06)',
+                        background: 'transparent',
+                        borderBottom: (theme) =>
+                          `2px solid ${theme.palette.primary.main}66`,
                       },
                     }}>
                     {link.label}
@@ -86,12 +102,8 @@ export default function Navbar() {
                 ))}
               </Box>
 
-              <Box
-                sx={{
-                  display: 'none',
-                  gap: 1.5,
-                  alignItems: 'center',
-                }}>
+              {/* Auth Buttons — hidden for now, change display to 'flex' when ready */}
+              <Box sx={{ display: 'none', gap: 1.5, alignItems: 'center' }}>
                 <Button
                   component={Link}
                   href="/login"
@@ -141,7 +153,7 @@ export default function Navbar() {
           paper: {
             sx: {
               width: 260,
-              background: '#111827',
+              background: (theme) => theme.palette.background.paper,
               borderLeft: '1px solid rgba(255,255,255,0.06)',
             },
           },
@@ -162,6 +174,12 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 sx={{
                   px: 3,
+                  borderLeft: isActive(link.href)
+                    ? (theme) => `3px solid ${theme.palette.primary.main}`
+                    : '3px solid transparent',
+                  background: isActive(link.href)
+                    ? (theme) => `${theme.palette.primary.main}11`
+                    : 'transparent',
                   '&:hover': { color: 'primary.main' },
                 }}>
                 <ListItemText
@@ -170,7 +188,10 @@ export default function Navbar() {
                     primary: {
                       sx: {
                         fontFamily: 'Syne, sans-serif',
-                        fontWeight: 500,
+                        fontWeight: isActive(link.href) ? 700 : 500,
+                        color: isActive(link.href)
+                          ? 'primary.main'
+                          : 'text.secondary',
                       },
                     },
                   }}
