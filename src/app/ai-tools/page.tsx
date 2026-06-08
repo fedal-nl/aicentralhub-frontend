@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Metadata } from 'next'
 import ToolsPageClient from '@/components/ai-tools/ToolsPageClient'
 
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 }
 
 export default function AIToolsPage() {
-  return <ToolsPageClient />
+  return (
+    <Suspense>
+      <ToolsPageClient />
+    </Suspense>
+  )
 }

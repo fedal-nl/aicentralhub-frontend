@@ -7,6 +7,7 @@ import {
   MenuItem,
   ToggleButtonGroup,
   ToggleButton,
+  IconButton,
   Chip,
   Stack,
   Typography,
@@ -15,6 +16,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import GridViewIcon from '@mui/icons-material/GridView'
 import ViewListIcon from '@mui/icons-material/ViewList'
 import { parentCategories } from '@/data/mockData'
+import ClearIcon from '@mui/icons-material/Clear'
 
 interface ToolsFilterProps {
   search: string
@@ -95,6 +97,18 @@ export default function ToolsFilter({
                 color: 'text.primary',
               }}
             />
+            {search && (
+              <IconButton
+                onClick={() => onSearchChange('')}
+                size="small"
+                sx={{
+                  color: 'text.secondary',
+                  flexShrink: 0,
+                  '&:hover': { color: 'text.primary' },
+                }}>
+                <ClearIcon fontSize="small" />
+              </IconButton>
+            )}
           </Box>
 
           <Stack

@@ -6,9 +6,9 @@ import VerifiedIcon from '@mui/icons-material/Verified'
 import UpdateIcon from '@mui/icons-material/Update'
 
 const stats = [
-  { icon: <TrendingUpIcon />, value: '7,500+', label: 'AI Tools Indexed' },
+  { icon: <TrendingUpIcon />, value: '7,000+', label: 'AI Tools Indexed' },
   { icon: <VerifiedIcon />, value: '50+', label: 'Categories Covered' },
-  { icon: <UpdateIcon />, value: 'Daily', label: 'New Tools Added' },
+  { icon: <UpdateIcon />, value: 'Frequently', label: 'New Tools Added' },
 ]
 
 export default function StatsBanner() {
