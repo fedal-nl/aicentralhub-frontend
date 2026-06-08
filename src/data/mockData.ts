@@ -163,7 +163,11 @@ export const featuredTools: Tool[] = [
     category: 'AI Chatbots',
     subcategory: 'Chatbots',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://chat.openai.com',
+    isFeatured: true,
+    metaDescription:
+      'ChatGPT is the most widely used AI chatbot for writing, coding, research and more. Try it free at AI CentralHub.',
     rating: 4.7,
     reviewCount: 3,
   },
@@ -177,7 +181,11 @@ export const featuredTools: Tool[] = [
     category: 'Fun & Creative',
     subcategory: 'Generative Art',
     pricing: 'paid',
+    appType: 'app',
     url: 'https://midjourney.com',
+    isFeatured: true,
+    metaDescription:
+      'Midjourney is the leading AI art generator that creates stunning images from text prompts. Discover it on AI CentralHub.',
     rating: 4.0,
     reviewCount: 2,
   },
@@ -190,7 +198,11 @@ export const featuredTools: Tool[] = [
     category: 'Audio',
     subcategory: 'Text to Speech',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://elevenlabs.io',
+    isFeatured: true,
+    metaDescription:
+      'ElevenLabs is the most realistic AI voice generation and text-to-speech platform. Explore it on AI CentralHub.',
     rating: 4.5,
     reviewCount: 0,
   },
@@ -204,7 +216,11 @@ export const featuredTools: Tool[] = [
     category: 'AI Chatbots',
     subcategory: 'Chatbots',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://claude.ai',
+    isFeatured: true,
+    metaDescription:
+      "Claude is Anthropic's next-generation AI assistant for analysis, writing and coding. Discover it on AI CentralHub.",
     rating: 4.5,
     reviewCount: 2,
   },
@@ -218,7 +234,11 @@ export const featuredTools: Tool[] = [
     category: 'Video',
     subcategory: 'Video Editing',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://runwayml.com',
+    isFeatured: true,
+    metaDescription:
+      'Runway is the leading AI video editing and generation platform for creators. Explore it on AI CentralHub.',
     rating: 4.3,
     reviewCount: 0,
   },
@@ -231,7 +251,11 @@ export const featuredTools: Tool[] = [
     category: 'Content & Writing',
     subcategory: 'General Writing',
     pricing: 'freemium',
+    appType: 'chrome-extension',
     url: 'https://grammarly.com',
+    isFeatured: true,
+    metaDescription:
+      'Grammarly is the leading AI writing assistant for grammar, tone and clarity. Find it on AI CentralHub.',
     rating: 5.0,
     reviewCount: 1,
   },
@@ -245,7 +269,11 @@ export const featuredTools: Tool[] = [
     category: 'Content & Writing',
     subcategory: 'Copywriting',
     pricing: 'paid',
+    appType: 'website',
     url: 'https://jasper.ai',
+    isFeatured: true,
+    metaDescription:
+      'Jasper AI is the leading AI copywriting tool for marketing teams and content creators. Discover it on AI CentralHub.',
     rating: 4.2,
     reviewCount: 0,
   },
@@ -259,7 +287,11 @@ export const featuredTools: Tool[] = [
     category: 'AI Chatbots',
     subcategory: 'Search Engine',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://perplexity.ai',
+    isFeatured: true,
+    metaDescription:
+      'Perplexity is an AI-powered search engine that answers questions with cited sources. Explore it on AI CentralHub.',
     rating: 4.6,
     reviewCount: 0,
   },
@@ -276,7 +308,11 @@ export const allTools: Tool[] = [
     category: 'Code & Developer',
     subcategory: 'Code Assistant',
     pricing: 'paid',
+    appType: 'api',
     url: 'https://github.com/features/copilot',
+    isFeatured: false,
+    metaDescription:
+      'GitHub Copilot is an AI pair programmer that suggests code completions in real time.',
   },
   {
     id: 10,
@@ -286,7 +322,11 @@ export const allTools: Tool[] = [
     category: 'Productivity',
     subcategory: 'Note Taking',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://notion.so',
+    isFeatured: false,
+    metaDescription:
+      'Notion AI brings AI writing and summarization directly into your Notion workspace.',
   },
   {
     id: 11,
@@ -297,7 +337,11 @@ export const allTools: Tool[] = [
     category: 'Content & Writing',
     subcategory: 'Copywriting',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://copy.ai',
+    isFeatured: false,
+    metaDescription:
+      'Copy.ai is an AI copywriter that generates marketing copy, emails and blog posts instantly.',
   },
   {
     id: 12,
@@ -308,7 +352,11 @@ export const allTools: Tool[] = [
     category: 'Image & Design',
     subcategory: 'Image Generator',
     pricing: 'free',
+    appType: 'api',
     url: 'https://stability.ai',
+    isFeatured: false,
+    metaDescription:
+      'Stable Diffusion is the leading open source text-to-image AI model for generating detailed artwork.',
   },
   {
     id: 13,
@@ -319,7 +367,11 @@ export const allTools: Tool[] = [
     category: 'Video',
     subcategory: 'Video Generator',
     pricing: 'paid',
+    appType: 'website',
     url: 'https://synthesia.io',
+    isFeatured: false,
+    metaDescription:
+      'Synthesia lets you create AI videos with virtual presenters from text in minutes.',
   },
   {
     id: 14,
@@ -330,7 +382,11 @@ export const allTools: Tool[] = [
     category: 'Productivity',
     subcategory: 'Meetings',
     pricing: 'freemium',
+    appType: 'app',
     url: 'https://otter.ai',
+    isFeatured: false,
+    metaDescription:
+      'Otter.ai is an AI meeting assistant that records, transcribes and summarizes your conversations.',
   },
   {
     id: 15,
@@ -341,7 +397,11 @@ export const allTools: Tool[] = [
     category: 'Image & Design',
     subcategory: 'Design Tools',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://canva.com',
+    isFeatured: false,
+    metaDescription:
+      'Canva AI brings powerful AI design tools to images, presentations and more.',
   },
   {
     id: 16,
@@ -351,7 +411,11 @@ export const allTools: Tool[] = [
     category: 'Audio',
     subcategory: 'Text to Speech',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://murf.ai',
+    isFeatured: false,
+    metaDescription:
+      'Murf AI is a powerful AI voice generator for creating studio-quality voiceovers.',
   },
   {
     id: 17,
@@ -361,7 +425,11 @@ export const allTools: Tool[] = [
     category: 'Content & Writing',
     subcategory: 'Copywriting',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://writesonic.com',
+    isFeatured: false,
+    metaDescription:
+      'Writesonic is an AI writing tool for blogs, ads, emails and landing pages.',
   },
   {
     id: 18,
@@ -372,7 +440,11 @@ export const allTools: Tool[] = [
     category: 'Code & Developer',
     subcategory: 'Code Assistant',
     pricing: 'freemium',
+    appType: 'api',
     url: 'https://tabnine.com',
+    isFeatured: false,
+    metaDescription:
+      'Tabnine is an AI code completion tool that supports all major programming languages.',
   },
   {
     id: 19,
@@ -382,7 +454,11 @@ export const allTools: Tool[] = [
     category: 'Video',
     subcategory: 'Video Editing',
     pricing: 'freemium',
+    appType: 'app',
     url: 'https://descript.com',
+    isFeatured: false,
+    metaDescription:
+      'Descript lets you edit audio and video by simply editing a transcript using AI.',
   },
   {
     id: 20,
@@ -393,7 +469,11 @@ export const allTools: Tool[] = [
     category: 'Marketing & SEO',
     subcategory: 'SEO',
     pricing: 'paid',
+    appType: 'website',
     url: 'https://surferseo.com',
+    isFeatured: false,
+    metaDescription:
+      'Surfer SEO is an AI SEO tool that helps you write and optimize content to rank higher on Google.',
   },
   {
     id: 21,
@@ -404,7 +484,11 @@ export const allTools: Tool[] = [
     category: 'Productivity',
     subcategory: 'Personal Assistant',
     pricing: 'freemium',
+    appType: 'website',
     url: 'https://tome.app',
+    isFeatured: false,
+    metaDescription:
+      'Tome is an AI presentation builder that creates beautiful slides from a simple prompt.',
   },
   {
     id: 22,
@@ -415,7 +499,11 @@ export const allTools: Tool[] = [
     category: 'Code & Developer',
     subcategory: 'Developer Tools',
     pricing: 'free',
+    appType: 'api',
     url: 'https://huggingface.co',
+    isFeatured: false,
+    metaDescription:
+      'Hugging Face is the leading open source platform for machine learning models and datasets.',
   },
   {
     id: 23,
@@ -426,7 +514,11 @@ export const allTools: Tool[] = [
     category: 'Productivity',
     subcategory: 'Meetings',
     pricing: 'freemium',
+    appType: 'app',
     url: 'https://fireflies.ai',
+    isFeatured: false,
+    metaDescription:
+      'Fireflies.ai is an AI notetaker that automatically transcribes and analyzes your meetings.',
   },
   {
     id: 24,
@@ -437,7 +529,11 @@ export const allTools: Tool[] = [
     category: 'Image & Design',
     subcategory: 'Image Generator',
     pricing: 'freemium',
+    appType: 'api',
     url: 'https://openai.com/dall-e-3',
+    isFeatured: false,
+    metaDescription:
+      "DALL-E 3 is OpenAI's image generation model that creates detailed images from text prompts.",
   },
 ]
 

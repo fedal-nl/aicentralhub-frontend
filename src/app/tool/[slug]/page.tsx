@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!tool) return {}
   return {
     title: `${tool.name} — AI Tool Review`,
-    description: tool.description,
+    description: tool.metaDescription ?? tool.description,
   }
 }
 

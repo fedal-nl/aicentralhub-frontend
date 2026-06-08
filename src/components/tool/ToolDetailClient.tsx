@@ -210,6 +210,30 @@ export default function ToolDetailClient({
                   </Typography>
                 </Box>
 
+                <Box>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: 'text.secondary',
+                      fontFamily: 'Syne, sans-serif',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em',
+                    }}>
+                    App Type
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: 'text.primary',
+                      fontFamily: 'Syne, sans-serif',
+                      fontWeight: 600,
+                      mt: 0.5,
+                      textTransform: 'capitalize',
+                    }}>
+                    {tool.appType.replace('-', ' ')}
+                  </Typography>
+                </Box>
+
                 <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)' }} />
 
                 <Button
