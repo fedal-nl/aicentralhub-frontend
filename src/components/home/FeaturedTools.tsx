@@ -76,6 +76,7 @@ export default function FeaturedTools() {
             gap: 2.5,
             overflowX: 'auto',
             pb: 2,
+            pt: 1,
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': { display: 'none' },
           }}>
