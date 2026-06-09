@@ -37,7 +37,6 @@ export default function RelatedTools({
       <Typography
         variant="h5"
         sx={{
-          fontFamily: 'Syne, sans-serif',
           fontWeight: 800,
           color: 'text.primary',
           mb: 4,
@@ -75,7 +74,6 @@ export default function RelatedTools({
                     label={tool.subcategory}
                     size="small"
                     sx={{
-                      fontFamily: 'Syne, sans-serif',
                       fontSize: '0.7rem',
                       background: 'rgba(255,255,255,0.05)',
                       border: '1px solid rgba(255,255,255,0.08)',
@@ -86,7 +84,6 @@ export default function RelatedTools({
                     label={tool.pricing}
                     size="small"
                     sx={{
-                      fontFamily: 'Syne, sans-serif',
                       fontSize: '0.7rem',
                       fontWeight: 600,
                       background: `${pricingColor[tool.pricing]}22`,
@@ -98,7 +95,6 @@ export default function RelatedTools({
                 <Typography
                   variant="h6"
                   sx={{
-                    fontFamily: 'Syne, sans-serif',
                     fontWeight: 700,
                     color: 'text.primary',
                     mb: 0.5,

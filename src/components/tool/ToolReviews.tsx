@@ -50,7 +50,6 @@ export default function ToolReviews({
       <Typography
         variant="h5"
         sx={{
-          fontFamily: 'Syne, sans-serif',
           fontWeight: 800,
           color: 'text.primary',
           mb: 4,
@@ -64,7 +63,6 @@ export default function ToolReviews({
           <Typography
             variant="h2"
             sx={{
-              fontFamily: 'Syne, sans-serif',
               fontWeight: 800,
               background: (theme) =>
                 `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
@@ -84,7 +82,7 @@ export default function ToolReviews({
             variant="body2"
             sx={{
               color: 'text.secondary',
-              fontFamily: 'Syne, sans-serif',
+
               mt: 0.5,
             }}>
             {reviewCount} {reviewCount === 1 ? 'review' : 'reviews'}
@@ -103,7 +101,7 @@ export default function ToolReviews({
                 variant="body2"
                 sx={{
                   color: 'text.secondary',
-                  fontFamily: 'Syne, sans-serif',
+
                   minWidth: 10,
                 }}>
                 {star}
@@ -127,7 +125,7 @@ export default function ToolReviews({
                 variant="body2"
                 sx={{
                   color: 'text.secondary',
-                  fontFamily: 'Syne, sans-serif',
+
                   minWidth: 20,
                 }}>
                 {count}
@@ -162,7 +160,6 @@ export default function ToolReviews({
                   <Typography
                     variant="subtitle1"
                     sx={{
-                      fontFamily: 'Syne, sans-serif',
                       fontWeight: 700,
                       color: 'text.primary',
                     }}>
@@ -182,7 +179,6 @@ export default function ToolReviews({
                       variant="caption"
                       sx={{
                         color: 'text.secondary',
-                        fontFamily: 'Syne, sans-serif',
                       }}>
                       by {review.author} ·{' '}
                       {new Date(review.date).toLocaleDateString('en-GB', {
@@ -198,7 +194,7 @@ export default function ToolReviews({
                 variant="body2"
                 sx={{
                   color: 'text.secondary',
-                  fontFamily: 'Syne, sans-serif',
+
                   lineHeight: 1.7,
                 }}>
                 {review.body}
@@ -219,7 +215,6 @@ export default function ToolReviews({
         <Typography
           variant="h6"
           sx={{
-            fontFamily: 'Syne, sans-serif',
             fontWeight: 700,
             color: 'text.primary',
             mb: 3,
@@ -232,7 +227,7 @@ export default function ToolReviews({
             variant="body1"
             sx={{
               color: 'primary.main',
-              fontFamily: 'Syne, sans-serif',
+
               fontWeight: 600,
             }}>
             Thank you for your review!
@@ -244,7 +239,7 @@ export default function ToolReviews({
                 variant="body2"
                 sx={{
                   color: 'text.secondary',
-                  fontFamily: 'Syne, sans-serif',
+
                   mb: 1,
                 }}>
                 Your rating
@@ -263,7 +258,6 @@ export default function ToolReviews({
               size="small"
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  fontFamily: 'Syne, sans-serif',
                   color: 'text.primary',
                   borderRadius: '10px',
                   '& fieldset': { borderColor: 'rgba(255,255,255,0.12)' },
@@ -271,7 +265,6 @@ export default function ToolReviews({
                   '&.Mui-focused fieldset': { borderColor: 'primary.main' },
                 },
                 '& .MuiInputLabel-root': {
-                  fontFamily: 'Syne, sans-serif',
                   color: 'text.secondary',
                 },
               }}
@@ -285,7 +278,6 @@ export default function ToolReviews({
               rows={4}
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  fontFamily: 'Syne, sans-serif',
                   color: 'text.primary',
                   borderRadius: '10px',
                   '& fieldset': { borderColor: 'rgba(255,255,255,0.12)' },
@@ -293,7 +285,6 @@ export default function ToolReviews({
                   '&.Mui-focused fieldset': { borderColor: 'primary.main' },
                 },
                 '& .MuiInputLabel-root': {
-                  fontFamily: 'Syne, sans-serif',
                   color: 'text.secondary',
                 },
               }}
@@ -303,7 +294,6 @@ export default function ToolReviews({
               variant="contained"
               disabled={!userRating || !title || !body}
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 700,
                 borderRadius: '10px',
                 alignSelf: 'flex-start',

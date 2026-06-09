@@ -8,7 +8,7 @@ import UpdateIcon from '@mui/icons-material/Update'
 const stats = [
   { icon: <TrendingUpIcon />, value: '7,000+', label: 'AI Tools Indexed' },
   { icon: <VerifiedIcon />, value: '50+', label: 'Categories Covered' },
-  { icon: <UpdateIcon />, value: 'Frequently', label: 'New Tools Added' },
+  { icon: <UpdateIcon />, value: 'Regularly', label: 'New Tools Added' },
 ]
 
 export default function StatsBanner() {
@@ -49,7 +49,6 @@ export default function StatsBanner() {
                 <Typography
                   variant="h5"
                   sx={{
-                    fontFamily: 'Syne, sans-serif',
                     fontWeight: 800,
                     color: 'text.primary',
                     lineHeight: 1,
@@ -60,7 +59,6 @@ export default function StatsBanner() {
                   variant="body2"
                   sx={{
                     color: 'text.secondary',
-                    fontFamily: 'Syne, sans-serif',
                   }}>
                   {stat.label}
                 </Typography>

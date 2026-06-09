@@ -25,9 +25,9 @@ import CloseIcon from '@mui/icons-material/Close'
 const navLinks = [
   { label: 'Featured Tools', href: '/featured-tools' },
   { label: 'AI Tools', href: '/ai-tools' },
+  { label: 'Categories', href: '/categories' },
   { label: 'Contact', href: '/contact' },
 ]
-
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const trigger = useScrollTrigger({ threshold: 20 })
@@ -77,7 +77,6 @@ export default function Navbar() {
                     component={Link}
                     href={link.href}
                     sx={{
-                      fontFamily: 'Syne, sans-serif',
                       fontWeight: isActive(link.href) ? 700 : 500,
                       fontSize: '0.95rem',
                       color: isActive(link.href)
@@ -110,7 +109,7 @@ export default function Navbar() {
                   variant="text"
                   sx={{
                     color: 'text.secondary',
-                    fontFamily: 'Syne, sans-serif',
+
                     '&:hover': { color: 'primary.main' },
                   }}>
                   Login
@@ -123,7 +122,7 @@ export default function Navbar() {
                     background: (theme) =>
                       `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                     color: '#fff',
-                    fontFamily: 'Syne, sans-serif',
+
                     '&:hover': {
                       background: (theme) =>
                         `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
@@ -187,7 +186,6 @@ export default function Navbar() {
                   slotProps={{
                     primary: {
                       sx: {
-                        fontFamily: 'Syne, sans-serif',
                         fontWeight: isActive(link.href) ? 700 : 500,
                         color: isActive(link.href)
                           ? 'primary.main'

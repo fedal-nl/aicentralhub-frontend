@@ -46,7 +46,6 @@ export default function ToolDetailClient({
                   <Typography
                     variant="h5"
                     sx={{
-                      fontFamily: 'Syne, sans-serif',
                       fontWeight: 800,
                       color: 'text.primary',
                       mb: 3,
@@ -59,7 +58,7 @@ export default function ToolDetailClient({
                       variant="body1"
                       sx={{
                         color: 'text.secondary',
-                        fontFamily: 'Syne, sans-serif',
+
                         lineHeight: 1.9,
                         mb: 2,
                       }}>
@@ -93,7 +92,6 @@ export default function ToolDetailClient({
               <Typography
                 variant="h6"
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   fontWeight: 700,
                   color: 'text.primary',
                   mb: 3,
@@ -107,7 +105,7 @@ export default function ToolDetailClient({
                     variant="caption"
                     sx={{
                       color: 'text.secondary',
-                      fontFamily: 'Syne, sans-serif',
+
                       textTransform: 'uppercase',
                       letterSpacing: '0.1em',
                     }}>
@@ -117,7 +115,7 @@ export default function ToolDetailClient({
                     variant="body2"
                     sx={{
                       color: 'text.primary',
-                      fontFamily: 'Syne, sans-serif',
+
                       fontWeight: 600,
                       mt: 0.5,
                     }}>
@@ -130,7 +128,7 @@ export default function ToolDetailClient({
                     variant="caption"
                     sx={{
                       color: 'text.secondary',
-                      fontFamily: 'Syne, sans-serif',
+
                       textTransform: 'uppercase',
                       letterSpacing: '0.1em',
                     }}>
@@ -140,7 +138,7 @@ export default function ToolDetailClient({
                     variant="body2"
                     sx={{
                       color: 'text.primary',
-                      fontFamily: 'Syne, sans-serif',
+
                       fontWeight: 600,
                       mt: 0.5,
                     }}>
@@ -153,7 +151,7 @@ export default function ToolDetailClient({
                     variant="caption"
                     sx={{
                       color: 'text.secondary',
-                      fontFamily: 'Syne, sans-serif',
+
                       textTransform: 'uppercase',
                       letterSpacing: '0.1em',
                     }}>
@@ -167,7 +165,6 @@ export default function ToolDetailClient({
                       }
                       size="small"
                       sx={{
-                        fontFamily: 'Syne, sans-serif',
                         fontWeight: 600,
                         fontSize: '0.75rem',
                         background:
@@ -193,7 +190,7 @@ export default function ToolDetailClient({
                     variant="caption"
                     sx={{
                       color: 'text.secondary',
-                      fontFamily: 'Syne, sans-serif',
+
                       textTransform: 'uppercase',
                       letterSpacing: '0.1em',
                     }}>
@@ -215,7 +212,7 @@ export default function ToolDetailClient({
                     variant="caption"
                     sx={{
                       color: 'text.secondary',
-                      fontFamily: 'Syne, sans-serif',
+
                       textTransform: 'uppercase',
                       letterSpacing: '0.1em',
                     }}>
@@ -225,7 +222,7 @@ export default function ToolDetailClient({
                     variant="body2"
                     sx={{
                       color: 'text.primary',
-                      fontFamily: 'Syne, sans-serif',
+
                       fontWeight: 600,
                       mt: 0.5,
                       textTransform: 'capitalize',
@@ -245,7 +242,6 @@ export default function ToolDetailClient({
                   fullWidth
                   endIcon={<OpenInNewIcon />}
                   sx={{
-                    fontFamily: 'Syne, sans-serif',
                     fontWeight: 700,
                     borderRadius: '10px',
                     py: 1.5,

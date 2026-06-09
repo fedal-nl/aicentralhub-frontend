@@ -113,7 +113,7 @@ export default function HeroSection() {
                 `rgba(${theme.palette.primary.main}, 0.08)`,
               border: (theme) => `1px solid ${theme.palette.primary.main}44`,
               color: 'primary.main',
-              fontFamily: 'Syne, sans-serif',
+
               fontWeight: 600,
               px: 1,
               backdropFilter: 'blur(8px)',
@@ -125,7 +125,6 @@ export default function HeroSection() {
             <Typography
               variant="h1"
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 800,
                 fontSize: { xs: '2rem', md: '3rem', lg: '3.8rem' },
                 lineHeight: 1.1,
@@ -138,7 +137,6 @@ export default function HeroSection() {
             <Typography
               variant="h1"
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 800,
                 fontSize: { xs: '2.8rem', md: '4.5rem', lg: '5.5rem' },
                 lineHeight: 1.1,
@@ -158,7 +156,7 @@ export default function HeroSection() {
             variant="h6"
             sx={{
               color: 'text.secondary',
-              fontFamily: 'Syne, sans-serif',
+
               fontWeight: 400,
               maxWidth: 560,
               lineHeight: 1.7,
@@ -197,7 +195,6 @@ export default function HeroSection() {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontSize: '1rem',
                 color: 'text.primary',
                 py: 1,
@@ -243,7 +240,7 @@ export default function HeroSection() {
               variant="body2"
               sx={{
                 color: 'text.secondary',
-                fontFamily: 'Syne, sans-serif',
+
                 alignSelf: 'center',
               }}>
               Trending:
@@ -257,7 +254,6 @@ export default function HeroSection() {
                   router.push(`/ai-tools?search=${encodeURIComponent(term)}`)
                 }
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   background: 'rgba(255,255,255,0.05)',
                   border: '1px solid rgba(255,255,255,0.08)',
                   color: 'text.secondary',
@@ -282,7 +278,6 @@ export default function HeroSection() {
                 <Typography
                   variant="h4"
                   sx={{
-                    fontFamily: 'Syne, sans-serif',
                     fontWeight: 800,
                     background: (theme) =>
                       `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
@@ -296,7 +291,6 @@ export default function HeroSection() {
                   variant="body2"
                   sx={{
                     color: 'text.secondary',
-                    fontFamily: 'Syne, sans-serif',
                   }}>
                   {stat.label}
                 </Typography>

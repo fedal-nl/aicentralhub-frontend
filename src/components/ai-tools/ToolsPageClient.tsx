@@ -85,7 +85,7 @@ export default function ToolsPageClient() {
             variant="overline"
             sx={{
               color: 'primary.main',
-              fontFamily: 'Syne, sans-serif',
+
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -94,7 +94,6 @@ export default function ToolsPageClient() {
           <Typography
             variant="h3"
             sx={{
-              fontFamily: 'Syne, sans-serif',
               fontWeight: 800,
               color: 'text.primary',
               mt: 0.5,
@@ -105,7 +104,7 @@ export default function ToolsPageClient() {
             variant="body1"
             sx={{
               color: 'text.secondary',
-              fontFamily: 'Syne, sans-serif',
+
               mt: 1,
             }}>
             Browse and discover the best AI tools across every category.
@@ -143,9 +142,7 @@ export default function ToolsPageClient() {
               mt: 6,
               gap: 2,
             }}>
-            <Typography
-              variant="body2"
-              sx={{ color: 'text.secondary', fontFamily: 'Syne, sans-serif' }}>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Showing {(page - 1) * perPage + 1}–
               {Math.min(page * perPage, filtered.length)} of {filtered.length}{' '}
               tools
@@ -158,7 +155,6 @@ export default function ToolsPageClient() {
               shape="rounded"
               sx={{
                 '& .MuiPaginationItem-root': {
-                  fontFamily: 'Syne, sans-serif',
                   color: 'text.secondary',
                   border: '1px solid rgba(255,255,255,0.08)',
                   '&:hover': {
@@ -182,7 +178,6 @@ export default function ToolsPageClient() {
                 variant="body2"
                 sx={{
                   color: 'text.secondary',
-                  fontFamily: 'Syne, sans-serif',
                 }}>
                 Per page:
               </Typography>
@@ -191,7 +186,6 @@ export default function ToolsPageClient() {
                 onChange={handlePerPageChange}
                 size="small"
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   fontSize: '0.9rem',
                   color: 'text.primary',
                   background: (theme) => theme.palette.background.paper,
@@ -200,10 +194,7 @@ export default function ToolsPageClient() {
                   '.MuiOutlinedInput-notchedOutline': { border: 'none' },
                 }}>
                 {[24, 36, 48].map((n) => (
-                  <MenuItem
-                    key={n}
-                    value={n}
-                    sx={{ fontFamily: 'Syne, sans-serif' }}>
+                  <MenuItem key={n} value={n}>
                     {n}
                   </MenuItem>
                 ))}

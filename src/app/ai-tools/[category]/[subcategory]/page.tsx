@@ -47,7 +47,6 @@ export default async function SubcategoryPage({ params }: Props) {
           href={`/ai-tools/${cat.slug}`}
           startIcon={<ArrowBackIcon />}
           sx={{
-            fontFamily: 'Syne, sans-serif',
             color: 'text.secondary',
             mb: 4,
             '&:hover': { color: 'primary.main' },
@@ -61,7 +60,7 @@ export default async function SubcategoryPage({ params }: Props) {
             variant="overline"
             sx={{
               color: 'primary.main',
-              fontFamily: 'Syne, sans-serif',
+
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -70,7 +69,6 @@ export default async function SubcategoryPage({ params }: Props) {
           <Typography
             variant="h3"
             sx={{
-              fontFamily: 'Syne, sans-serif',
               fontWeight: 800,
               color: 'text.primary',
               mt: 0.5,
@@ -81,7 +79,7 @@ export default async function SubcategoryPage({ params }: Props) {
             variant="body1"
             sx={{
               color: 'text.secondary',
-              fontFamily: 'Syne, sans-serif',
+
               mt: 1,
             }}>
             {sub.count.toLocaleString()} tools in this subcategory

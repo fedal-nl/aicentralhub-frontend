@@ -92,7 +92,6 @@ export default function ToolsFilter({
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontSize: '0.9rem',
                 color: 'text.primary',
               }}
@@ -125,7 +124,6 @@ export default function ToolsFilter({
               size="small"
               displayEmpty
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontSize: '0.9rem',
                 color: 'text.primary',
                 background: (theme) => theme.palette.background.paper,
@@ -136,10 +134,7 @@ export default function ToolsFilter({
               }}>
               <MenuItem value="">All Categories</MenuItem>
               {parentCategories.map((cat) => (
-                <MenuItem
-                  key={cat.slug}
-                  value={cat.name}
-                  sx={{ fontFamily: 'Syne, sans-serif' }}>
+                <MenuItem key={cat.slug} value={cat.name}>
                   {cat.name}
                 </MenuItem>
               ))}
@@ -158,7 +153,6 @@ export default function ToolsFilter({
                   size="small"
                   onClick={() => onPricingChange(option)}
                   sx={{
-                    fontFamily: 'Syne, sans-serif',
                     fontWeight: 600,
                     cursor: 'pointer',
                     background:
@@ -209,7 +203,7 @@ export default function ToolsFilter({
               variant="body2"
               sx={{
                 color: 'text.secondary',
-                fontFamily: 'Syne, sans-serif',
+
                 whiteSpace: 'nowrap',
               }}>
               {totalCount} tools
@@ -225,7 +219,6 @@ export default function ToolsFilter({
               size="small"
               onClick={() => onSubcategoryChange('')}
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 600,
                 cursor: 'pointer',
                 background:
@@ -246,7 +239,6 @@ export default function ToolsFilter({
                 size="small"
                 onClick={() => onSubcategoryChange(sub.name)}
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   cursor: 'pointer',
                   background:
                     subcategory === sub.name

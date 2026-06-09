@@ -49,7 +49,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
             startIcon={<ArrowBackIcon fontSize="small" />}
             size="small"
             sx={{
-              fontFamily: 'Syne, sans-serif',
               color: 'text.secondary',
               '&:hover': { color: 'primary.main' },
             }}>
@@ -65,7 +64,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                 href={`/ai-tools/${parentCat.slug}`}
                 size="small"
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   color: 'text.secondary',
                   '&:hover': { color: 'primary.main' },
                 }}>
@@ -76,9 +74,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             ›
           </Typography>
-          <Typography
-            variant="body2"
-            sx={{ color: 'primary.main', fontFamily: 'Syne, sans-serif' }}>
+          <Typography variant="body2" sx={{ color: 'primary.main' }}>
             {tool.name}
           </Typography>
         </Stack>
@@ -100,7 +96,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                 label={tool.category}
                 size="small"
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   fontSize: '0.75rem',
                   background: 'rgba(255,255,255,0.05)',
                   border: '1px solid rgba(255,255,255,0.08)',
@@ -111,7 +106,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                 label={tool.subcategory}
                 size="small"
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   fontSize: '0.75rem',
                   background: 'rgba(255,255,255,0.05)',
                   border: '1px solid rgba(255,255,255,0.08)',
@@ -122,7 +116,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                 label={tool.pricing}
                 size="small"
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   fontSize: '0.75rem',
                   fontWeight: 600,
                   background: `${pricingColor[tool.pricing]}22`,
@@ -135,7 +128,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
             <Typography
               variant="h2"
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 800,
                 color: 'text.primary',
                 mb: 1.5,
@@ -147,7 +139,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
               variant="body1"
               sx={{
                 color: 'text.secondary',
-                fontFamily: 'Syne, sans-serif',
+
                 lineHeight: 1.8,
                 maxWidth: 600,
                 mb: 3,
@@ -170,7 +162,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                 <Typography
                   variant="body1"
                   sx={{
-                    fontFamily: 'Syne, sans-serif',
                     fontWeight: 700,
                     color: 'text.primary',
                   }}>
@@ -180,7 +171,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                   variant="body2"
                   sx={{
                     color: 'text.secondary',
-                    fontFamily: 'Syne, sans-serif',
                   }}>
                   ({tool.reviewCount}{' '}
                   {tool.reviewCount === 1 ? 'review' : 'reviews'})
@@ -197,7 +187,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
               size="large"
               endIcon={<OpenInNewIcon />}
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 700,
                 borderRadius: '12px',
                 px: 4,
@@ -231,7 +220,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
             <Typography
               variant="h3"
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 800,
                 background: (theme) =>
                   `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,

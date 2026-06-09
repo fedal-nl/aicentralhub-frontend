@@ -41,7 +41,7 @@ export default function FeaturedTools() {
               variant="overline"
               sx={{
                 color: 'primary.main',
-                fontFamily: 'Syne, sans-serif',
+
                 fontWeight: 700,
                 letterSpacing: '0.15em',
               }}>
@@ -50,7 +50,6 @@ export default function FeaturedTools() {
             <Typography
               variant="h4"
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 800,
                 color: 'text.primary',
                 mt: 0.5,
@@ -63,7 +62,6 @@ export default function FeaturedTools() {
             href="/ai-tools"
             endIcon={<ArrowForwardIcon />}
             sx={{
-              fontFamily: 'Syne, sans-serif',
               color: 'primary.main',
               mt: { xs: 2, sm: 0 },
               '&:hover': {
@@ -114,7 +112,6 @@ export default function FeaturedTools() {
                       label={tool.category}
                       size="small"
                       sx={{
-                        fontFamily: 'Syne, sans-serif',
                         fontSize: '0.7rem',
                         background: 'rgba(255,255,255,0.05)',
                         border: '1px solid rgba(255,255,255,0.08)',
@@ -125,7 +122,6 @@ export default function FeaturedTools() {
                       label={tool.pricing}
                       size="small"
                       sx={{
-                        fontFamily: 'Syne, sans-serif',
                         fontSize: '0.7rem',
                         fontWeight: 600,
                         background: `${pricingColor[tool.pricing]}22`,
@@ -139,7 +135,6 @@ export default function FeaturedTools() {
                     <Typography
                       variant="h6"
                       sx={{
-                        fontFamily: 'Syne, sans-serif',
                         fontWeight: 700,
                         color: 'text.primary',
                         mb: 0.5,
@@ -168,7 +163,6 @@ export default function FeaturedTools() {
                       size="small"
                       fullWidth
                       sx={{
-                        fontFamily: 'Syne, sans-serif',
                         borderColor: 'rgba(255,255,255,0.12)',
                         color: 'text.secondary',
                         borderRadius: '8px',
@@ -191,7 +185,6 @@ export default function FeaturedTools() {
                       fullWidth
                       endIcon={<OpenInNewIcon fontSize="small" />}
                       sx={{
-                        fontFamily: 'Syne, sans-serif',
                         borderRadius: '8px',
                         color: '#fff',
                         background: (theme) =>
