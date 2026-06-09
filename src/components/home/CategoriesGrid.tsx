@@ -37,7 +37,7 @@ export default function CategoriesGrid() {
               variant="overline"
               sx={{
                 color: 'primary.main',
-                fontFamily: 'Syne, sans-serif',
+
                 fontWeight: 700,
                 letterSpacing: '0.15em',
               }}>
@@ -46,7 +46,6 @@ export default function CategoriesGrid() {
             <Typography
               variant="h4"
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 800,
                 color: 'text.primary',
                 mt: 0.5,
@@ -59,7 +58,6 @@ export default function CategoriesGrid() {
             href="/ai-tools"
             endIcon={<ArrowForwardIcon />}
             sx={{
-              fontFamily: 'Syne, sans-serif',
               color: 'primary.main',
               mt: { xs: 2, sm: 0 },
               '&:hover': {
@@ -116,7 +114,6 @@ export default function CategoriesGrid() {
                   <Typography
                     variant="body2"
                     sx={{
-                      fontFamily: 'Syne, sans-serif',
                       fontWeight: 600,
                       color: 'text.primary',
                       mb: 0.5,
@@ -128,7 +125,6 @@ export default function CategoriesGrid() {
                     variant="caption"
                     sx={{
                       color: 'text.secondary',
-                      fontFamily: 'Syne, sans-serif',
                     }}>
                     {category.count.toLocaleString()} tools
                   </Typography>

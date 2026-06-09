@@ -48,7 +48,7 @@ export default function CategoriesPageClient() {
             variant="overline"
             sx={{
               color: 'primary.main',
-              fontFamily: 'Syne, sans-serif',
+
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -57,7 +57,6 @@ export default function CategoriesPageClient() {
           <Typography
             variant="h3"
             sx={{
-              fontFamily: 'Syne, sans-serif',
               fontWeight: 800,
               color: 'text.primary',
               mt: 0.5,
@@ -68,7 +67,7 @@ export default function CategoriesPageClient() {
             variant="body1"
             sx={{
               color: 'text.secondary',
-              fontFamily: 'Syne, sans-serif',
+
               mt: 1,
               maxWidth: 560,
               lineHeight: 1.8,
@@ -136,7 +135,6 @@ export default function CategoriesPageClient() {
                     <Typography
                       variant="h6"
                       sx={{
-                        fontFamily: 'Syne, sans-serif',
                         fontWeight: 700,
                         color: 'text.primary',
                         mb: 0.5,
@@ -147,7 +145,7 @@ export default function CategoriesPageClient() {
                       variant="body2"
                       sx={{
                         color: 'text.secondary',
-                        fontFamily: 'Syne, sans-serif',
+
                         lineHeight: 1.6,
                         mb: 2,
                         flex: 1,
@@ -176,7 +174,6 @@ export default function CategoriesPageClient() {
                           label={`${totalTools.toLocaleString()} tools`}
                           size="small"
                           sx={{
-                            fontFamily: 'Syne, sans-serif',
                             fontSize: '0.7rem',
                             fontWeight: 600,
                             background: (theme) =>
@@ -190,7 +187,6 @@ export default function CategoriesPageClient() {
                           label={`${cat.subcategories.length} subcategories`}
                           size="small"
                           sx={{
-                            fontFamily: 'Syne, sans-serif',
                             fontSize: '0.7rem',
                             background: 'rgba(255,255,255,0.05)',
                             border: '1px solid rgba(255,255,255,0.08)',

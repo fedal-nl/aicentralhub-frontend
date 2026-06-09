@@ -45,7 +45,6 @@ export default function FeaturedToolsPageClient() {
               icon={<AutoAwesomeIcon sx={{ fontSize: 16 }} />}
               label="Hand-picked by the team"
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 600,
                 background: (theme) => `${theme.palette.primary.main}11`,
                 border: (theme) => `1px solid ${theme.palette.primary.main}44`,
@@ -57,7 +56,7 @@ export default function FeaturedToolsPageClient() {
               variant="overline"
               sx={{
                 color: 'primary.main',
-                fontFamily: 'Syne, sans-serif',
+
                 fontWeight: 700,
                 letterSpacing: '0.15em',
               }}>
@@ -66,7 +65,6 @@ export default function FeaturedToolsPageClient() {
             <Typography
               variant="h3"
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 800,
                 color: 'text.primary',
               }}>
@@ -76,7 +74,7 @@ export default function FeaturedToolsPageClient() {
               variant="body1"
               sx={{
                 color: 'text.secondary',
-                fontFamily: 'Syne, sans-serif',
+
                 maxWidth: 560,
                 lineHeight: 1.8,
               }}>
@@ -120,7 +118,7 @@ export default function FeaturedToolsPageClient() {
                       position: 'absolute',
                       top: -12,
                       right: 16,
-                      fontFamily: 'Syne, sans-serif',
+
                       fontWeight: 700,
                       fontSize: '0.7rem',
                       background: (theme) =>
@@ -149,7 +147,6 @@ export default function FeaturedToolsPageClient() {
                         label={tool.category}
                         size="small"
                         sx={{
-                          fontFamily: 'Syne, sans-serif',
                           fontSize: '0.7rem',
                           background: 'rgba(255,255,255,0.05)',
                           border: '1px solid rgba(255,255,255,0.08)',
@@ -160,7 +157,6 @@ export default function FeaturedToolsPageClient() {
                         label={tool.pricing}
                         size="small"
                         sx={{
-                          fontFamily: 'Syne, sans-serif',
                           fontSize: '0.7rem',
                           fontWeight: 600,
                           background: `${pricingColor[tool.pricing]}22`,
@@ -174,7 +170,6 @@ export default function FeaturedToolsPageClient() {
                       <Typography
                         variant="h6"
                         sx={{
-                          fontFamily: 'Syne, sans-serif',
                           fontWeight: 700,
                           color: 'text.primary',
                           mb: 0.5,
@@ -203,7 +198,6 @@ export default function FeaturedToolsPageClient() {
                         size="small"
                         fullWidth
                         sx={{
-                          fontFamily: 'Syne, sans-serif',
                           borderColor: 'rgba(255,255,255,0.12)',
                           color: 'text.secondary',
                           borderRadius: '8px',
@@ -226,7 +220,6 @@ export default function FeaturedToolsPageClient() {
                         fullWidth
                         endIcon={<OpenInNewIcon fontSize="small" />}
                         sx={{
-                          fontFamily: 'Syne, sans-serif',
                           borderRadius: '8px',
                           color: '#fff',
                           background: (theme) =>

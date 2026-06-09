@@ -25,16 +25,13 @@ export default function ToolsList({ tools }: ToolsListProps) {
         <Typography
           variant="h5"
           sx={{
-            fontFamily: 'Syne, sans-serif',
             fontWeight: 700,
             color: 'text.primary',
             mb: 1,
           }}>
           No tools found
         </Typography>
-        <Typography
-          variant="body2"
-          sx={{ color: 'text.secondary', fontFamily: 'Syne, sans-serif' }}>
+        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           Try adjusting your search or filters
         </Typography>
       </Box>
@@ -67,7 +64,6 @@ export default function ToolsList({ tools }: ToolsListProps) {
                 <Typography
                   variant="h6"
                   sx={{
-                    fontFamily: 'Syne, sans-serif',
                     fontWeight: 700,
                     color: 'text.primary',
                   }}>
@@ -77,7 +73,6 @@ export default function ToolsList({ tools }: ToolsListProps) {
                   label={tool.category}
                   size="small"
                   sx={{
-                    fontFamily: 'Syne, sans-serif',
                     fontSize: '0.7rem',
                     background: 'rgba(255,255,255,0.05)',
                     border: '1px solid rgba(255,255,255,0.08)',
@@ -88,7 +83,6 @@ export default function ToolsList({ tools }: ToolsListProps) {
                   label={tool.pricing}
                   size="small"
                   sx={{
-                    fontFamily: 'Syne, sans-serif',
                     fontSize: '0.7rem',
                     fontWeight: 600,
                     background: `${pricingColor[tool.pricing]}22`,
@@ -116,7 +110,6 @@ export default function ToolsList({ tools }: ToolsListProps) {
                 size="small"
                 endIcon={<ArrowForwardIcon fontSize="small" />}
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   borderColor: 'rgba(255,255,255,0.12)',
                   color: 'text.secondary',
                   borderRadius: '8px',
@@ -137,7 +130,6 @@ export default function ToolsList({ tools }: ToolsListProps) {
                 size="small"
                 endIcon={<OpenInNewIcon fontSize="small" />}
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   borderRadius: '8px',
                   color: '#fff',
                   background: (theme) =>

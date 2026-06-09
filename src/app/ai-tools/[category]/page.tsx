@@ -50,7 +50,6 @@ export default async function CategoryPage({ params }: Props) {
           href="/ai-tools"
           startIcon={<ArrowBackIcon />}
           sx={{
-            fontFamily: 'Syne, sans-serif',
             color: 'text.secondary',
             mb: 4,
             '&:hover': { color: 'primary.main' },
@@ -64,7 +63,7 @@ export default async function CategoryPage({ params }: Props) {
             variant="overline"
             sx={{
               color: 'primary.main',
-              fontFamily: 'Syne, sans-serif',
+
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -73,7 +72,6 @@ export default async function CategoryPage({ params }: Props) {
           <Typography
             variant="h3"
             sx={{
-              fontFamily: 'Syne, sans-serif',
               fontWeight: 800,
               color: 'text.primary',
               mt: 0.5,
@@ -84,7 +82,7 @@ export default async function CategoryPage({ params }: Props) {
             variant="body1"
             sx={{
               color: 'text.secondary',
-              fontFamily: 'Syne, sans-serif',
+
               mt: 1,
               maxWidth: 600,
             }}>
@@ -96,7 +94,6 @@ export default async function CategoryPage({ params }: Props) {
         <Typography
           variant="h5"
           sx={{
-            fontFamily: 'Syne, sans-serif',
             fontWeight: 700,
             color: 'text.primary',
             mb: 3,
@@ -132,7 +129,6 @@ export default async function CategoryPage({ params }: Props) {
                       <Typography
                         variant="h6"
                         sx={{
-                          fontFamily: 'Syne, sans-serif',
                           fontWeight: 700,
                           color: 'text.primary',
                         }}>
@@ -142,7 +138,7 @@ export default async function CategoryPage({ params }: Props) {
                         variant="body2"
                         sx={{
                           color: 'text.secondary',
-                          fontFamily: 'Syne, sans-serif',
+
                           mt: 0.5,
                         }}>
                         {sub.count.toLocaleString()} tools
@@ -171,7 +167,6 @@ export default async function CategoryPage({ params }: Props) {
               <Typography
                 variant="h5"
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   fontWeight: 700,
                   color: 'text.primary',
                 }}>
@@ -181,7 +176,7 @@ export default async function CategoryPage({ params }: Props) {
                 component={Link}
                 href={`/ai-tools?category=${encodeURIComponent(cat.name)}`}
                 endIcon={<ArrowForwardIcon />}
-                sx={{ fontFamily: 'Syne, sans-serif', color: 'primary.main' }}>
+                sx={{ color: 'primary.main' }}>
                 View all
               </Button>
             </Stack>
@@ -215,7 +210,6 @@ export default async function CategoryPage({ params }: Props) {
                           label={tool.subcategory}
                           size="small"
                           sx={{
-                            fontFamily: 'Syne, sans-serif',
                             fontSize: '0.7rem',
                             background: 'rgba(255,255,255,0.05)',
                             border: '1px solid rgba(255,255,255,0.08)',
@@ -226,7 +220,6 @@ export default async function CategoryPage({ params }: Props) {
                           label={tool.pricing}
                           size="small"
                           sx={{
-                            fontFamily: 'Syne, sans-serif',
                             fontSize: '0.7rem',
                             fontWeight: 600,
                             background: 'rgba(0,212,255,0.13)',
@@ -238,7 +231,6 @@ export default async function CategoryPage({ params }: Props) {
                       <Typography
                         variant="h6"
                         sx={{
-                          fontFamily: 'Syne, sans-serif',
                           fontWeight: 700,
                           color: 'text.primary',
                           mb: 0.5,

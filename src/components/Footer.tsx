@@ -62,7 +62,6 @@ export default function Footer() {
             <Typography
               variant="h6"
               sx={{
-                fontFamily: 'Syne, sans-serif',
                 fontWeight: 700,
                 color: 'primary.main',
                 mb: 1.5,
@@ -108,7 +107,6 @@ export default function Footer() {
               <Typography
                 variant="overline"
                 sx={{
-                  fontFamily: 'Syne, sans-serif',
                   fontWeight: 700,
                   color: 'text.primary',
                   letterSpacing: '0.1em',
@@ -124,7 +122,7 @@ export default function Footer() {
                       variant="body2"
                       sx={{
                         color: 'text.secondary',
-                        fontFamily: 'Syne, sans-serif',
+
                         transition: 'color 0.2s',
                         '&:hover': { color: 'primary.main' },
                       }}>
