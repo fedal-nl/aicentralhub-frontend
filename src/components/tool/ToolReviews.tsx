@@ -51,13 +51,12 @@ export default function ToolReviews({
         variant="h5"
         sx={{
           fontWeight: 800,
-          color: 'text.primary',
+          color: (theme) => theme.customColors.lightText,
           mb: 4,
         }}>
         Ratings & Reviews
       </Typography>
 
-      {/* Rating summary */}
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4} sx={{ mb: 5 }}>
         <Box sx={{ textAlign: 'center', minWidth: 120 }}>
           <Typography
@@ -81,15 +80,13 @@ export default function ToolReviews({
           <Typography
             variant="body2"
             sx={{
-              color: 'text.secondary',
-
+              color: (theme) => theme.customColors.lightTextSecondary,
               mt: 0.5,
             }}>
             {reviewCount} {reviewCount === 1 ? 'review' : 'reviews'}
           </Typography>
         </Box>
 
-        {/* Breakdown bars */}
         <Box sx={{ flex: 1 }}>
           {ratingBreakdown.map(({ star, count, percent }) => (
             <Stack
@@ -100,8 +97,7 @@ export default function ToolReviews({
               <Typography
                 variant="body2"
                 sx={{
-                  color: 'text.secondary',
-
+                  color: (theme) => theme.customColors.lightTextSecondary,
                   minWidth: 10,
                 }}>
                 {star}
@@ -113,7 +109,7 @@ export default function ToolReviews({
                   flex: 1,
                   height: 8,
                   borderRadius: 4,
-                  background: 'rgba(255,255,255,0.06)',
+                  background: (theme) => theme.customColors.lightBorder,
                   '& .MuiLinearProgress-bar': {
                     background: (theme) =>
                       `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
@@ -124,8 +120,7 @@ export default function ToolReviews({
               <Typography
                 variant="body2"
                 sx={{
-                  color: 'text.secondary',
-
+                  color: (theme) => theme.customColors.lightTextSecondary,
                   minWidth: 20,
                 }}>
                 {count}
@@ -135,19 +130,25 @@ export default function ToolReviews({
         </Box>
       </Stack>
 
-      <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)', mb: 4 }} />
+      <Divider
+        sx={{
+          borderColor: (theme) => theme.customColors.lightBorderSubtle,
+          mb: 4,
+        }}
+      />
 
-      {/* Existing reviews */}
       {reviews.length > 0 && (
         <Stack spacing={3} sx={{ mb: 5 }}>
           {reviews.map((review) => (
             <Card
               key={review.id}
               sx={{
-                background: (theme) => theme.palette.background.paper,
-                border: '1px solid rgba(255,255,255,0.06)',
+                background: (theme) => theme.customColors.lightBgAlt,
+                border: (theme) =>
+                  `1px solid ${theme.customColors.lightBorder}`,
                 borderRadius: '12px',
                 p: 3,
+                boxShadow: 'none',
               }}>
               <Stack
                 direction="row"
@@ -161,7 +162,7 @@ export default function ToolReviews({
                     variant="subtitle1"
                     sx={{
                       fontWeight: 700,
-                      color: 'text.primary',
+                      color: (theme) => theme.customColors.lightText,
                     }}>
                     {review.title}
                   </Typography>
@@ -178,7 +179,7 @@ export default function ToolReviews({
                     <Typography
                       variant="caption"
                       sx={{
-                        color: 'text.secondary',
+                        color: (theme) => theme.customColors.lightTextSecondary,
                       }}>
                       by {review.author} ·{' '}
                       {new Date(review.date).toLocaleDateString('en-GB', {
@@ -193,8 +194,7 @@ export default function ToolReviews({
               <Typography
                 variant="body2"
                 sx={{
-                  color: 'text.secondary',
-
+                  color: (theme) => theme.customColors.lightTextSecondary,
                   lineHeight: 1.7,
                 }}>
                 {review.body}
@@ -204,19 +204,19 @@ export default function ToolReviews({
         </Stack>
       )}
 
-      {/* Submit review form */}
       <Box
         sx={{
-          background: (theme) => theme.palette.background.paper,
-          border: '1px solid rgba(255,255,255,0.06)',
+          background: (theme) => theme.customColors.lightBg,
+          border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
           borderRadius: '16px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
           p: 4,
         }}>
         <Typography
           variant="h6"
           sx={{
             fontWeight: 700,
-            color: 'text.primary',
+            color: (theme) => theme.customColors.lightText,
             mb: 3,
           }}>
           Write a Review
@@ -225,11 +225,7 @@ export default function ToolReviews({
         {submitted ? (
           <Typography
             variant="body1"
-            sx={{
-              color: 'primary.main',
-
-              fontWeight: 600,
-            }}>
+            sx={{ color: 'primary.main', fontWeight: 600 }}>
             Thank you for your review!
           </Typography>
         ) : (
@@ -238,8 +234,7 @@ export default function ToolReviews({
               <Typography
                 variant="body2"
                 sx={{
-                  color: 'text.secondary',
-
+                  color: (theme) => theme.customColors.lightTextSecondary,
                   mb: 1,
                 }}>
                 Your rating
@@ -258,14 +253,19 @@ export default function ToolReviews({
               size="small"
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  color: 'text.primary',
+                  color: (theme) => theme.customColors.lightText,
                   borderRadius: '10px',
-                  '& fieldset': { borderColor: 'rgba(255,255,255,0.12)' },
-                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.24)' },
+                  '& fieldset': {
+                    borderColor: (theme) => theme.customColors.lightBorder,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: (theme) =>
+                      theme.customColors.lightTextSecondary,
+                  },
                   '&.Mui-focused fieldset': { borderColor: 'primary.main' },
                 },
                 '& .MuiInputLabel-root': {
-                  color: 'text.secondary',
+                  color: (theme) => theme.customColors.lightTextSecondary,
                 },
               }}
             />
@@ -278,14 +278,19 @@ export default function ToolReviews({
               rows={4}
               sx={{
                 '& .MuiOutlinedInput-root': {
-                  color: 'text.primary',
+                  color: (theme) => theme.customColors.lightText,
                   borderRadius: '10px',
-                  '& fieldset': { borderColor: 'rgba(255,255,255,0.12)' },
-                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.24)' },
+                  '& fieldset': {
+                    borderColor: (theme) => theme.customColors.lightBorder,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: (theme) =>
+                      theme.customColors.lightTextSecondary,
+                  },
                   '&.Mui-focused fieldset': { borderColor: 'primary.main' },
                 },
                 '& .MuiInputLabel-root': {
-                  color: 'text.secondary',
+                  color: (theme) => theme.customColors.lightTextSecondary,
                 },
               }}
             />
@@ -306,8 +311,8 @@ export default function ToolReviews({
                     `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
                 },
                 '&.Mui-disabled': {
-                  background: 'rgba(255,255,255,0.08)',
-                  color: 'text.secondary',
+                  background: (theme) => theme.customColors.lightChipBg,
+                  color: (theme) => theme.customColors.lightTextSecondary,
                 },
               }}>
               Submit Review

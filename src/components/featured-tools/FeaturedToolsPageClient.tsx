@@ -29,14 +29,14 @@ export default function FeaturedToolsPageClient() {
   return (
     <Box
       sx={{
-        background: (theme) => theme.palette.background.default,
+        background: (theme) => theme.customColors.lightBgAlt,
         minHeight: '100vh',
       }}>
-      {/* Header */}
       <Box
         sx={{
-          background: (theme) => theme.palette.background.paper,
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          background: (theme) => theme.customColors.lightBg,
+          borderBottom: (theme) =>
+            `1px solid ${theme.customColors.lightBorderSubtle}`,
           py: 8,
         }}>
         <Container maxWidth="xl">
@@ -56,7 +56,6 @@ export default function FeaturedToolsPageClient() {
               variant="overline"
               sx={{
                 color: 'primary.main',
-
                 fontWeight: 700,
                 letterSpacing: '0.15em',
               }}>
@@ -66,15 +65,14 @@ export default function FeaturedToolsPageClient() {
               variant="h3"
               sx={{
                 fontWeight: 800,
-                color: 'text.primary',
+                color: (theme) => theme.customColors.lightText,
               }}>
               Featured AI Tools
             </Typography>
             <Typography
               variant="body1"
               sx={{
-                color: 'text.secondary',
-
+                color: (theme) => theme.customColors.lightTextSecondary,
                 maxWidth: 560,
                 lineHeight: 1.8,
               }}>
@@ -86,7 +84,6 @@ export default function FeaturedToolsPageClient() {
         </Container>
       </Box>
 
-      {/* Tools grid */}
       <Container maxWidth="xl" sx={{ py: 8 }}>
         <Grid container spacing={3}>
           {featuredTools.map((tool, index) => (
@@ -94,9 +91,11 @@ export default function FeaturedToolsPageClient() {
               <Card
                 sx={{
                   height: '100%',
-                  background: (theme) => theme.palette.background.paper,
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  background: (theme) => theme.customColors.lightBg,
+                  border: (theme) =>
+                    `1px solid ${theme.customColors.lightBorder}`,
                   borderRadius: '16px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
                   transition:
                     'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
                   position: 'relative',
@@ -108,7 +107,6 @@ export default function FeaturedToolsPageClient() {
                       `0 8px 32px ${theme.palette.primary.main}22`,
                   },
                 }}>
-                {/* Featured badge for first 3 */}
                 {index < 3 && (
                   <Chip
                     icon={<AutoAwesomeIcon sx={{ fontSize: 12 }} />}
@@ -118,7 +116,6 @@ export default function FeaturedToolsPageClient() {
                       position: 'absolute',
                       top: -12,
                       right: 16,
-
                       fontWeight: 700,
                       fontSize: '0.7rem',
                       background: (theme) =>
@@ -148,9 +145,11 @@ export default function FeaturedToolsPageClient() {
                         size="small"
                         sx={{
                           fontSize: '0.7rem',
-                          background: 'rgba(255,255,255,0.05)',
-                          border: '1px solid rgba(255,255,255,0.08)',
-                          color: 'text.secondary',
+                          background: (theme) => theme.customColors.lightChipBg,
+                          border: (theme) =>
+                            `1px solid ${theme.customColors.lightBorder}`,
+                          color: (theme) =>
+                            theme.customColors.lightTextSecondary,
                         }}
                       />
                       <Chip
@@ -171,7 +170,7 @@ export default function FeaturedToolsPageClient() {
                         variant="h6"
                         sx={{
                           fontWeight: 700,
-                          color: 'text.primary',
+                          color: (theme) => theme.customColors.lightText,
                           mb: 0.5,
                         }}>
                         {tool.name}
@@ -179,7 +178,8 @@ export default function FeaturedToolsPageClient() {
                       <Typography
                         variant="body2"
                         sx={{
-                          color: 'text.secondary',
+                          color: (theme) =>
+                            theme.customColors.lightTextSecondary,
                           lineHeight: 1.6,
                           display: '-webkit-box',
                           WebkitLineClamp: 3,
@@ -198,8 +198,10 @@ export default function FeaturedToolsPageClient() {
                         size="small"
                         fullWidth
                         sx={{
-                          borderColor: 'rgba(255,255,255,0.12)',
-                          color: 'text.secondary',
+                          borderColor: (theme) =>
+                            theme.customColors.lightBorder,
+                          color: (theme) =>
+                            theme.customColors.lightTextSecondary,
                           borderRadius: '8px',
                           '&:hover': {
                             borderColor: 'primary.main',

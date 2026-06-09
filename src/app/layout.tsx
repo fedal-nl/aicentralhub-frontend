@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
-import { Syne } from 'next/font/google'
+import { Space_Grotesk } from 'next/font/google'
 import ThemeRegistry from '@/theme/ThemeRegistry'
+import { Box } from '@mui/material'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { Box } from '@mui/material'
 import './globals.scss'
 
-const syne = Syne({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
 })
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: '%s | AI CentralHub',
   },
   description:
-    'AI CentralHub is your free AI tools directory with 7,000+ tools across 250+ categories. Discover and compare the best AI tools — free to explore.',
+    'AI CentralHub is your free AI tools directory with 7,000+ tools across 50+ categories. Discover and compare the best AI tools — free to explore.',
   metadataBase: new URL('https://ai-centralhub.com'),
   icons: {
     icon: '/favicon.png',
@@ -42,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={syne.className}>
+    <html lang="en" className={spaceGrotesk.className}>
       <body
         style={{
           display: 'flex',

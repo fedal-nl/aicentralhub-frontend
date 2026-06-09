@@ -38,13 +38,13 @@ export default function WhySection() {
     <Box
       sx={{
         py: 10,
-        background: (theme) =>
-          `linear-gradient(180deg, ${theme.palette.background.default} 0%, ${theme.palette.background.paper} 100%)`,
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: (theme) => theme.customColors.lightBg,
+        borderTop: (theme) =>
+          `1px solid ${theme.customColors.lightBorderSubtle}`,
+        borderBottom: (theme) =>
+          `1px solid ${theme.customColors.lightBorderSubtle}`,
       }}>
       <Container maxWidth="xl">
-        {/* Section header */}
         <Stack
           spacing={1}
           sx={{ alignItems: 'center', textAlign: 'center', mb: 8 }}>
@@ -52,7 +52,6 @@ export default function WhySection() {
             variant="overline"
             sx={{
               color: 'primary.main',
-
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -62,15 +61,14 @@ export default function WhySection() {
             variant="h4"
             sx={{
               fontWeight: 800,
-              color: 'text.primary',
+              color: (theme) => theme.customColors.lightText,
             }}>
             Why AI CentralHub?
           </Typography>
           <Typography
             variant="body1"
             sx={{
-              color: 'text.secondary',
-
+              color: (theme) => theme.customColors.lightTextSecondary,
               maxWidth: 500,
               lineHeight: 1.8,
             }}>
@@ -86,8 +84,9 @@ export default function WhySection() {
                 sx={{
                   p: 4,
                   height: '100%',
-                  background: (theme) => theme.palette.background.paper,
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  background: (theme) => theme.customColors.lightBgAlt,
+                  border: (theme) =>
+                    `1px solid ${theme.customColors.lightBorder}`,
                   borderRadius: '16px',
                   transition: 'all 0.2s',
                   '&:hover': {
@@ -121,7 +120,7 @@ export default function WhySection() {
                   variant="h6"
                   sx={{
                     fontWeight: 700,
-                    color: 'text.primary',
+                    color: (theme) => theme.customColors.lightText,
                     mb: 1,
                   }}>
                   {reason.title}
@@ -129,8 +128,7 @@ export default function WhySection() {
                 <Typography
                   variant="body2"
                   sx={{
-                    color: 'text.secondary',
-
+                    color: (theme) => theme.customColors.lightTextSecondary,
                     lineHeight: 1.8,
                   }}>
                   {reason.description}

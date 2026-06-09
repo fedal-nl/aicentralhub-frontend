@@ -24,7 +24,6 @@ const pricingColor: Record<Tool['pricing'], string> = {
   'contact-us': '#FF9500',
 }
 
-// In production this will be fetched from the API sorted by created_at desc
 const recentTools = allTools.slice(16, 24)
 
 export default function RecentTools() {
@@ -32,11 +31,11 @@ export default function RecentTools() {
     <Box
       sx={{
         py: 10,
-        background: (theme) => theme.palette.background.default,
-        borderTop: '1px solid rgba(255,255,255,0.06)',
+        background: (theme) => theme.customColors.lightBg,
+        borderTop: (theme) =>
+          `1px solid ${theme.customColors.lightBorderSubtle}`,
       }}>
       <Container maxWidth="xl">
-        {/* Section header */}
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           sx={{
@@ -49,7 +48,6 @@ export default function RecentTools() {
               variant="overline"
               sx={{
                 color: 'primary.main',
-
                 fontWeight: 700,
                 letterSpacing: '0.15em',
               }}>
@@ -59,7 +57,7 @@ export default function RecentTools() {
               variant="h4"
               sx={{
                 fontWeight: 800,
-                color: 'text.primary',
+                color: (theme) => theme.customColors.lightText,
                 mt: 0.5,
               }}>
               Recently Added
@@ -80,11 +78,11 @@ export default function RecentTools() {
           </Button>
         </Stack>
 
-        {/* Tools list */}
         <Box
           sx={{
-            background: (theme) => theme.palette.background.paper,
-            border: '1px solid rgba(255,255,255,0.06)',
+            background: (theme) => theme.customColors.lightBgAlt,
+            border: (theme) =>
+              `1px solid ${theme.customColors.lightBorderSubtle}`,
             borderRadius: '16px',
             overflow: 'hidden',
           }}>
@@ -102,7 +100,6 @@ export default function RecentTools() {
                     background: (theme) => `${theme.palette.primary.main}08`,
                   },
                 }}>
-                {/* Left: number + info */}
                 <Stack
                   direction="row"
                   spacing={3}
@@ -111,7 +108,7 @@ export default function RecentTools() {
                     variant="h6"
                     sx={{
                       fontWeight: 800,
-                      color: 'rgba(255,255,255,0.1)',
+                      color: (theme) => theme.customColors.lightBorder,
                       minWidth: 32,
                       fontSize: '1.2rem',
                     }}>
@@ -126,7 +123,7 @@ export default function RecentTools() {
                         variant="subtitle1"
                         sx={{
                           fontWeight: 700,
-                          color: 'text.primary',
+                          color: (theme) => theme.customColors.lightText,
                         }}>
                         {tool.name}
                       </Typography>
@@ -138,9 +135,11 @@ export default function RecentTools() {
                         size="small"
                         sx={{
                           fontSize: '0.7rem',
-                          background: 'rgba(255,255,255,0.05)',
-                          border: '1px solid rgba(255,255,255,0.08)',
-                          color: 'text.secondary',
+                          background: (theme) => theme.customColors.lightChipBg,
+                          border: (theme) =>
+                            `1px solid ${theme.customColors.lightBorder}`,
+                          color: (theme) =>
+                            theme.customColors.lightTextSecondary,
                         }}
                       />
                       <Chip
@@ -158,8 +157,7 @@ export default function RecentTools() {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: 'text.secondary',
-
+                        color: (theme) => theme.customColors.lightTextSecondary,
                         lineHeight: 1.6,
                       }}>
                       {tool.description}
@@ -167,7 +165,6 @@ export default function RecentTools() {
                   </Box>
                 </Stack>
 
-                {/* Right: actions */}
                 <Stack direction="row" spacing={1} sx={{ flexShrink: 0 }}>
                   <Button
                     component={Link}
@@ -175,8 +172,8 @@ export default function RecentTools() {
                     variant="outlined"
                     size="small"
                     sx={{
-                      borderColor: 'rgba(255,255,255,0.12)',
-                      color: 'text.secondary',
+                      borderColor: (theme) => theme.customColors.lightBorder,
+                      color: (theme) => theme.customColors.lightTextSecondary,
                       borderRadius: '8px',
                       '&:hover': {
                         borderColor: 'primary.main',
@@ -210,7 +207,12 @@ export default function RecentTools() {
                 </Stack>
               </Stack>
               {index < recentTools.length - 1 && (
-                <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)' }} />
+                <Divider
+                  sx={{
+                    borderColor: (theme) =>
+                      theme.customColors.lightBorderSubtle,
+                  }}
+                />
               )}
             </Box>
           ))}

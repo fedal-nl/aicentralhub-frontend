@@ -19,6 +19,7 @@ import { allTools } from '@/data/mockData'
 
 export default function ToolsPageClient() {
   const searchParams = useSearchParams()
+
   const [search, setSearch] = useState(searchParams.get('search') ?? '')
   const [category, setCategory] = useState(searchParams.get('category') ?? '')
   const [subcategory, setSubcategory] = useState(
@@ -76,7 +77,7 @@ export default function ToolsPageClient() {
   return (
     <Box
       sx={{
-        background: (theme) => theme.palette.background.default,
+        background: (theme) => theme.customColors.lightBgAlt,
         minHeight: '100vh',
       }}>
       <Container maxWidth="xl" sx={{ py: 6 }}>
@@ -85,7 +86,6 @@ export default function ToolsPageClient() {
             variant="overline"
             sx={{
               color: 'primary.main',
-
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -95,7 +95,7 @@ export default function ToolsPageClient() {
             variant="h3"
             sx={{
               fontWeight: 800,
-              color: 'text.primary',
+              color: (theme) => theme.customColors.lightText,
               mt: 0.5,
             }}>
             AI Tools
@@ -103,8 +103,7 @@ export default function ToolsPageClient() {
           <Typography
             variant="body1"
             sx={{
-              color: 'text.secondary',
-
+              color: (theme) => theme.customColors.lightTextSecondary,
               mt: 1,
             }}>
             Browse and discover the best AI tools across every category.
@@ -142,7 +141,9 @@ export default function ToolsPageClient() {
               mt: 6,
               gap: 2,
             }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <Typography
+              variant="body2"
+              sx={{ color: (theme) => theme.customColors.lightTextSecondary }}>
               Showing {(page - 1) * perPage + 1}–
               {Math.min(page * perPage, filtered.length)} of {filtered.length}{' '}
               tools
@@ -155,8 +156,9 @@ export default function ToolsPageClient() {
               shape="rounded"
               sx={{
                 '& .MuiPaginationItem-root': {
-                  color: 'text.secondary',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  color: (theme) => theme.customColors.lightTextSecondary,
+                  border: (theme) =>
+                    `1px solid ${theme.customColors.lightBorder}`,
                   '&:hover': {
                     background: (theme) => `${theme.palette.primary.main}22`,
                     color: 'primary.main',
@@ -165,9 +167,6 @@ export default function ToolsPageClient() {
                     background: (theme) => `${theme.palette.primary.main}33`,
                     color: 'primary.main',
                     borderColor: (theme) => theme.palette.primary.main,
-                    '&:hover': {
-                      background: (theme) => `${theme.palette.primary.main}44`,
-                    },
                   },
                 },
               }}
@@ -177,7 +176,7 @@ export default function ToolsPageClient() {
               <Typography
                 variant="body2"
                 sx={{
-                  color: 'text.secondary',
+                  color: (theme) => theme.customColors.lightTextSecondary,
                 }}>
                 Per page:
               </Typography>
@@ -187,9 +186,10 @@ export default function ToolsPageClient() {
                 size="small"
                 sx={{
                   fontSize: '0.9rem',
-                  color: 'text.primary',
-                  background: (theme) => theme.palette.background.paper,
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  color: (theme) => theme.customColors.lightText,
+                  background: (theme) => theme.customColors.lightBg,
+                  border: (theme) =>
+                    `1px solid ${theme.customColors.lightBorder}`,
                   borderRadius: '8px',
                   '.MuiOutlinedInput-notchedOutline': { border: 'none' },
                 }}>

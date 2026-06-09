@@ -26,12 +26,14 @@ export default function ToolsList({ tools }: ToolsListProps) {
           variant="h5"
           sx={{
             fontWeight: 700,
-            color: 'text.primary',
+            color: (theme) => theme.customColors.lightText,
             mb: 1,
           }}>
           No tools found
         </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <Typography
+          variant="body2"
+          sx={{ color: (theme) => theme.customColors.lightTextSecondary }}>
           Try adjusting your search or filters
         </Typography>
       </Box>
@@ -41,10 +43,11 @@ export default function ToolsList({ tools }: ToolsListProps) {
   return (
     <Box
       sx={{
-        background: (theme) => theme.palette.background.paper,
-        border: '1px solid rgba(255,255,255,0.06)',
+        background: (theme) => theme.customColors.lightBg,
+        border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
         borderRadius: '16px',
         overflow: 'hidden',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
       }}>
       {tools.map((tool, index) => (
         <Box key={tool.id}>
@@ -55,6 +58,10 @@ export default function ToolsList({ tools }: ToolsListProps) {
               justifyContent: 'space-between',
               p: 3,
               gap: 2,
+              transition: 'background 0.2s',
+              '&:hover': {
+                background: (theme) => `${theme.palette.primary.main}08`,
+              },
             }}>
             <Box sx={{ flex: 1 }}>
               <Stack
@@ -65,7 +72,7 @@ export default function ToolsList({ tools }: ToolsListProps) {
                   variant="h6"
                   sx={{
                     fontWeight: 700,
-                    color: 'text.primary',
+                    color: (theme) => theme.customColors.lightText,
                   }}>
                   {tool.name}
                 </Typography>
@@ -74,9 +81,10 @@ export default function ToolsList({ tools }: ToolsListProps) {
                   size="small"
                   sx={{
                     fontSize: '0.7rem',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    color: 'text.secondary',
+                    background: (theme) => theme.customColors.lightChipBg,
+                    border: (theme) =>
+                      `1px solid ${theme.customColors.lightBorder}`,
+                    color: (theme) => theme.customColors.lightTextSecondary,
                   }}
                 />
                 <Chip
@@ -94,7 +102,7 @@ export default function ToolsList({ tools }: ToolsListProps) {
               <Typography
                 variant="body2"
                 sx={{
-                  color: 'text.secondary',
+                  color: (theme) => theme.customColors.lightTextSecondary,
                   lineHeight: 1.6,
                   maxWidth: 600,
                 }}>
@@ -110,8 +118,8 @@ export default function ToolsList({ tools }: ToolsListProps) {
                 size="small"
                 endIcon={<ArrowForwardIcon fontSize="small" />}
                 sx={{
-                  borderColor: 'rgba(255,255,255,0.12)',
-                  color: 'text.secondary',
+                  borderColor: (theme) => theme.customColors.lightBorder,
+                  color: (theme) => theme.customColors.lightTextSecondary,
                   borderRadius: '8px',
                   '&:hover': {
                     borderColor: 'primary.main',
@@ -144,7 +152,11 @@ export default function ToolsList({ tools }: ToolsListProps) {
             </Stack>
           </Stack>
           {index < tools.length - 1 && (
-            <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)' }} />
+            <Divider
+              sx={{
+                borderColor: (theme) => theme.customColors.lightBorderSubtle,
+              }}
+            />
           )}
         </Box>
       ))}

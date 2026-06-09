@@ -33,8 +33,9 @@ export default function ToolHero({ tool }: ToolHeroProps) {
   return (
     <Box
       sx={{
-        background: (theme) => theme.palette.background.paper,
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: (theme) => theme.customColors.lightBg,
+        borderBottom: (theme) =>
+          `1px solid ${theme.customColors.lightBorderSubtle}`,
         py: 6,
       }}>
       <Container maxWidth="xl">
@@ -49,14 +50,18 @@ export default function ToolHero({ tool }: ToolHeroProps) {
             startIcon={<ArrowBackIcon fontSize="small" />}
             size="small"
             sx={{
-              color: 'text.secondary',
+              color: (theme) => theme.customColors.lightTextSecondary,
               '&:hover': { color: 'primary.main' },
             }}>
             AI Tools
           </Button>
           {parentCat && (
             <>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: (theme) => theme.customColors.lightTextSecondary,
+                }}>
                 ›
               </Typography>
               <Button
@@ -64,14 +69,16 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                 href={`/ai-tools/${parentCat.slug}`}
                 size="small"
                 sx={{
-                  color: 'text.secondary',
+                  color: (theme) => theme.customColors.lightTextSecondary,
                   '&:hover': { color: 'primary.main' },
                 }}>
                 {tool.category}
               </Button>
             </>
           )}
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography
+            variant="body2"
+            sx={{ color: (theme) => theme.customColors.lightTextSecondary }}>
             ›
           </Typography>
           <Typography variant="body2" sx={{ color: 'primary.main' }}>
@@ -86,7 +93,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
             alignItems: { xs: 'flex-start', md: 'center' },
             gap: 4,
           }}>
-          {/* Left: info */}
           <Box sx={{ flex: 1 }}>
             <Stack
               direction="row"
@@ -97,9 +103,10 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                 size="small"
                 sx={{
                   fontSize: '0.75rem',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  color: 'text.secondary',
+                  background: (theme) => theme.customColors.lightChipBg,
+                  border: (theme) =>
+                    `1px solid ${theme.customColors.lightBorder}`,
+                  color: (theme) => theme.customColors.lightTextSecondary,
                 }}
               />
               <Chip
@@ -107,9 +114,10 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                 size="small"
                 sx={{
                   fontSize: '0.75rem',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  color: 'text.secondary',
+                  background: (theme) => theme.customColors.lightChipBg,
+                  border: (theme) =>
+                    `1px solid ${theme.customColors.lightBorder}`,
+                  color: (theme) => theme.customColors.lightTextSecondary,
                 }}
               />
               <Chip
@@ -129,7 +137,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
               variant="h2"
               sx={{
                 fontWeight: 800,
-                color: 'text.primary',
+                color: (theme) => theme.customColors.lightText,
                 mb: 1.5,
               }}>
               {tool.name}
@@ -138,8 +146,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
             <Typography
               variant="body1"
               sx={{
-                color: 'text.secondary',
-
+                color: (theme) => theme.customColors.lightTextSecondary,
                 lineHeight: 1.8,
                 maxWidth: 600,
                 mb: 3,
@@ -147,7 +154,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
               {tool.description}
             </Typography>
 
-            {/* Rating summary */}
             {tool.rating && (
               <Stack
                 direction="row"
@@ -163,14 +169,14 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                   variant="body1"
                   sx={{
                     fontWeight: 700,
-                    color: 'text.primary',
+                    color: (theme) => theme.customColors.lightText,
                   }}>
                   {tool.rating.toFixed(1)}
                 </Typography>
                 <Typography
                   variant="body2"
                   sx={{
-                    color: 'text.secondary',
+                    color: (theme) => theme.customColors.lightTextSecondary,
                   }}>
                   ({tool.reviewCount}{' '}
                   {tool.reviewCount === 1 ? 'review' : 'reviews'})
@@ -203,7 +209,6 @@ export default function ToolHero({ tool }: ToolHeroProps) {
             </Button>
           </Box>
 
-          {/* Right: logo placeholder */}
           <Box
             sx={{
               width: { xs: 100, md: 160 },
@@ -211,7 +216,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
               borderRadius: '24px',
               background: (theme) =>
                 `linear-gradient(135deg, ${theme.palette.primary.main}22, ${theme.palette.secondary.main}22)`,
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

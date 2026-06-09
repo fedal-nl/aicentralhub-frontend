@@ -20,9 +20,11 @@ export default function CategoriesGrid() {
     <Box
       sx={{
         py: 10,
-        background: (theme) => theme.palette.background.paper,
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: (theme) => theme.customColors.lightBgAlt,
+        borderTop: (theme) =>
+          `1px solid ${theme.customColors.lightBorderSubtle}`,
+        borderBottom: (theme) =>
+          `1px solid ${theme.customColors.lightBorderSubtle}`,
       }}>
       <Container maxWidth="xl">
         <Stack
@@ -37,7 +39,6 @@ export default function CategoriesGrid() {
               variant="overline"
               sx={{
                 color: 'primary.main',
-
                 fontWeight: 700,
                 letterSpacing: '0.15em',
               }}>
@@ -47,7 +48,7 @@ export default function CategoriesGrid() {
               variant="h4"
               sx={{
                 fontWeight: 800,
-                color: 'text.primary',
+                color: (theme) => theme.customColors.lightText,
                 mt: 0.5,
               }}>
               Top Categories
@@ -73,14 +74,18 @@ export default function CategoriesGrid() {
             <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={category.id}>
               <Card
                 sx={{
-                  background: 'transparent',
-                  border: '1px solid rgba(255,255,255,0.06)',
+                  background: (theme) => theme.customColors.lightBg,
+                  border: (theme) =>
+                    `1px solid ${theme.customColors.lightBorder}`,
                   borderRadius: '12px',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
                   transition: 'all 0.2s',
                   '&:hover': {
                     borderColor: (theme) => theme.palette.primary.main,
                     background: (theme) => `${theme.palette.primary.main}08`,
                     transform: 'translateY(-2px)',
+                    boxShadow: (theme) =>
+                      `0 4px 20px ${theme.palette.primary.main}22`,
                   },
                 }}>
                 <CardActionArea
@@ -115,7 +120,7 @@ export default function CategoriesGrid() {
                     variant="body2"
                     sx={{
                       fontWeight: 600,
-                      color: 'text.primary',
+                      color: (theme) => theme.customColors.lightText,
                       mb: 0.5,
                       lineHeight: 1.3,
                     }}>
@@ -124,7 +129,7 @@ export default function CategoriesGrid() {
                   <Typography
                     variant="caption"
                     sx={{
-                      color: 'text.secondary',
+                      color: (theme) => theme.customColors.lightTextSecondary,
                     }}>
                     {category.count.toLocaleString()} tools
                   </Typography>

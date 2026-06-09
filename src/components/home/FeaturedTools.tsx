@@ -26,8 +26,7 @@ const pricingColor: Record<Tool['pricing'], string> = {
 
 export default function FeaturedTools() {
   return (
-    <Box
-      sx={{ py: 10, background: (theme) => theme.palette.background.default }}>
+    <Box sx={{ py: 10, background: (theme) => theme.customColors.lightBg }}>
       <Container maxWidth="xl">
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
@@ -41,7 +40,6 @@ export default function FeaturedTools() {
               variant="overline"
               sx={{
                 color: 'primary.main',
-
                 fontWeight: 700,
                 letterSpacing: '0.15em',
               }}>
@@ -51,7 +49,7 @@ export default function FeaturedTools() {
               variant="h4"
               sx={{
                 fontWeight: 800,
-                color: 'text.primary',
+                color: (theme) => theme.customColors.lightText,
                 mt: 0.5,
               }}>
               Featured AI Tools
@@ -88,9 +86,11 @@ export default function FeaturedTools() {
                 minWidth: 260,
                 maxWidth: 260,
                 flexShrink: 0,
-                background: (theme) => theme.palette.background.paper,
-                border: '1px solid rgba(255,255,255,0.06)',
+                background: (theme) => theme.customColors.lightBg,
+                border: (theme) =>
+                  `1px solid ${theme.customColors.lightBorder}`,
                 borderRadius: '16px',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
                 transition:
                   'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
                 '&:hover': {
@@ -113,9 +113,10 @@ export default function FeaturedTools() {
                       size="small"
                       sx={{
                         fontSize: '0.7rem',
-                        background: 'rgba(255,255,255,0.05)',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        color: 'text.secondary',
+                        background: (theme) => theme.customColors.lightChipBg,
+                        border: (theme) =>
+                          `1px solid ${theme.customColors.lightBorder}`,
+                        color: (theme) => theme.customColors.lightTextSecondary,
                       }}
                     />
                     <Chip
@@ -136,7 +137,7 @@ export default function FeaturedTools() {
                       variant="h6"
                       sx={{
                         fontWeight: 700,
-                        color: 'text.primary',
+                        color: (theme) => theme.customColors.lightText,
                         mb: 0.5,
                       }}>
                       {tool.name}
@@ -144,7 +145,7 @@ export default function FeaturedTools() {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: 'text.secondary',
+                        color: (theme) => theme.customColors.lightTextSecondary,
                         lineHeight: 1.6,
                         display: '-webkit-box',
                         WebkitLineClamp: 3,
@@ -163,8 +164,8 @@ export default function FeaturedTools() {
                       size="small"
                       fullWidth
                       sx={{
-                        borderColor: 'rgba(255,255,255,0.12)',
-                        color: 'text.secondary',
+                        borderColor: (theme) => theme.customColors.lightBorder,
+                        color: (theme) => theme.customColors.lightTextSecondary,
                         borderRadius: '8px',
                         '&:hover': {
                           borderColor: 'primary.main',
