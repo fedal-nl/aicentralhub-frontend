@@ -38,7 +38,7 @@ export default function RelatedTools({
         variant="h5"
         sx={{
           fontWeight: 800,
-          color: 'text.primary',
+          color: (theme) => theme.customColors.lightText,
           mb: 4,
         }}>
         Related Tools
@@ -48,9 +48,11 @@ export default function RelatedTools({
           <Grid size={{ xs: 12, sm: 6, md: 3 }} key={tool.id}>
             <Card
               sx={{
-                background: (theme) => theme.palette.background.paper,
-                border: '1px solid rgba(255,255,255,0.06)',
+                background: (theme) => theme.customColors.lightBg,
+                border: (theme) =>
+                  `1px solid ${theme.customColors.lightBorder}`,
                 borderRadius: '16px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
                 transition: 'all 0.2s',
                 '&:hover': {
                   borderColor: (theme) => theme.palette.primary.main,
@@ -75,9 +77,10 @@ export default function RelatedTools({
                     size="small"
                     sx={{
                       fontSize: '0.7rem',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.08)',
-                      color: 'text.secondary',
+                      background: (theme) => theme.customColors.lightChipBg,
+                      border: (theme) =>
+                        `1px solid ${theme.customColors.lightBorder}`,
+                      color: (theme) => theme.customColors.lightTextSecondary,
                     }}
                   />
                   <Chip
@@ -96,7 +99,7 @@ export default function RelatedTools({
                   variant="h6"
                   sx={{
                     fontWeight: 700,
-                    color: 'text.primary',
+                    color: (theme) => theme.customColors.lightText,
                     mb: 0.5,
                   }}>
                   {tool.name}
@@ -104,7 +107,7 @@ export default function RelatedTools({
                 <Typography
                   variant="body2"
                   sx={{
-                    color: 'text.secondary',
+                    color: (theme) => theme.customColors.lightTextSecondary,
                     lineHeight: 1.6,
                     display: '-webkit-box',
                     WebkitLineClamp: 2,

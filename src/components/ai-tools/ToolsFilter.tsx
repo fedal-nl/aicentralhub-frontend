@@ -7,16 +7,16 @@ import {
   MenuItem,
   ToggleButtonGroup,
   ToggleButton,
-  IconButton,
   Chip,
   Stack,
   Typography,
+  IconButton,
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
+import ClearIcon from '@mui/icons-material/Clear'
 import GridViewIcon from '@mui/icons-material/GridView'
 import ViewListIcon from '@mui/icons-material/ViewList'
 import { parentCategories } from '@/data/mockData'
-import ClearIcon from '@mui/icons-material/Clear'
 
 interface ToolsFilterProps {
   search: string
@@ -56,8 +56,9 @@ export default function ToolsFilter({
         position: 'sticky',
         top: 70,
         zIndex: 10,
-        background: (theme) => theme.palette.background.default,
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: (theme) => theme.customColors.lightBgAlt,
+        borderBottom: (theme) =>
+          `1px solid ${theme.customColors.lightBorderSubtle}`,
         py: 2,
       }}>
       <Stack spacing={2}>
@@ -73,8 +74,8 @@ export default function ToolsFilter({
             sx={{
               display: 'flex',
               alignItems: 'center',
-              background: (theme) => theme.palette.background.paper,
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: (theme) => theme.customColors.lightBg,
+              border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
               borderRadius: '10px',
               px: 2,
               py: 0.8,
@@ -85,7 +86,12 @@ export default function ToolsFilter({
                 borderColor: (theme) => theme.palette.primary.main,
               },
             }}>
-            <SearchIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+            <SearchIcon
+              sx={{
+                color: (theme) => theme.customColors.lightTextSecondary,
+                fontSize: 20,
+              }}
+            />
             <InputBase
               fullWidth
               placeholder="Search tools..."
@@ -93,7 +99,7 @@ export default function ToolsFilter({
               onChange={(e) => onSearchChange(e.target.value)}
               sx={{
                 fontSize: '0.9rem',
-                color: 'text.primary',
+                color: (theme) => theme.customColors.lightText,
               }}
             />
             {search && (
@@ -101,9 +107,8 @@ export default function ToolsFilter({
                 onClick={() => onSearchChange('')}
                 size="small"
                 sx={{
-                  color: 'text.secondary',
-                  flexShrink: 0,
-                  '&:hover': { color: 'text.primary' },
+                  color: (theme) => theme.customColors.lightTextSecondary,
+                  '&:hover': { color: (theme) => theme.customColors.lightText },
                 }}>
                 <ClearIcon fontSize="small" />
               </IconButton>
@@ -125,9 +130,10 @@ export default function ToolsFilter({
               displayEmpty
               sx={{
                 fontSize: '0.9rem',
-                color: 'text.primary',
-                background: (theme) => theme.palette.background.paper,
-                border: '1px solid rgba(255,255,255,0.08)',
+                color: (theme) => theme.customColors.lightText,
+                background: (theme) => theme.customColors.lightBg,
+                border: (theme) =>
+                  `1px solid ${theme.customColors.lightBorder}`,
                 borderRadius: '10px',
                 minWidth: 180,
                 '.MuiOutlinedInput-notchedOutline': { border: 'none' },
@@ -158,13 +164,16 @@ export default function ToolsFilter({
                     background:
                       pricing === option
                         ? (theme) => `${theme.palette.primary.main}22`
-                        : 'rgba(255,255,255,0.05)',
+                        : (theme) => theme.customColors.lightChipBg,
                     color:
-                      pricing === option ? 'primary.main' : 'text.secondary',
+                      pricing === option
+                        ? 'primary.main'
+                        : (theme) => theme.customColors.lightTextSecondary,
                     border:
                       pricing === option
                         ? (theme) => `1px solid ${theme.palette.primary.main}66`
-                        : '1px solid rgba(255,255,255,0.08)',
+                        : (theme) =>
+                            `1px solid ${theme.customColors.lightBorder}`,
                   }}
                 />
               ))}
@@ -177,12 +186,13 @@ export default function ToolsFilter({
               onChange={(_, val) => val && onViewChange(val)}
               size="small"
               sx={{
-                background: (theme) => theme.palette.background.paper,
-                border: '1px solid rgba(255,255,255,0.08)',
+                background: (theme) => theme.customColors.lightBg,
+                border: (theme) =>
+                  `1px solid ${theme.customColors.lightBorder}`,
                 borderRadius: '10px',
                 '.MuiToggleButton-root': {
                   border: 'none',
-                  color: 'text.secondary',
+                  color: (theme) => theme.customColors.lightTextSecondary,
                   px: 1.5,
                   '&.Mui-selected': {
                     background: (theme) => `${theme.palette.primary.main}22`,
@@ -202,8 +212,7 @@ export default function ToolsFilter({
             <Typography
               variant="body2"
               sx={{
-                color: 'text.secondary',
-
+                color: (theme) => theme.customColors.lightTextSecondary,
                 whiteSpace: 'nowrap',
               }}>
               {totalCount} tools
@@ -211,7 +220,7 @@ export default function ToolsFilter({
           </Stack>
         </Stack>
 
-        {/* Subcategory chips — only show when a parent category is selected */}
+        {/* Subcategory chips */}
         {subcategories.length > 0 && (
           <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
             <Chip
@@ -224,12 +233,15 @@ export default function ToolsFilter({
                 background:
                   subcategory === ''
                     ? (theme) => `${theme.palette.secondary.main}22`
-                    : 'rgba(255,255,255,0.05)',
-                color: subcategory === '' ? 'secondary.main' : 'text.secondary',
+                    : (theme) => theme.customColors.lightChipBg,
+                color:
+                  subcategory === ''
+                    ? 'secondary.main'
+                    : (theme) => theme.customColors.lightTextSecondary,
                 border:
                   subcategory === ''
                     ? (theme) => `1px solid ${theme.palette.secondary.main}66`
-                    : '1px solid rgba(255,255,255,0.08)',
+                    : (theme) => `1px solid ${theme.customColors.lightBorder}`,
               }}
             />
             {subcategories.map((sub) => (
@@ -243,15 +255,16 @@ export default function ToolsFilter({
                   background:
                     subcategory === sub.name
                       ? (theme) => `${theme.palette.secondary.main}22`
-                      : 'rgba(255,255,255,0.05)',
+                      : (theme) => theme.customColors.lightChipBg,
                   color:
                     subcategory === sub.name
                       ? 'secondary.main'
-                      : 'text.secondary',
+                      : (theme) => theme.customColors.lightTextSecondary,
                   border:
                     subcategory === sub.name
                       ? (theme) => `1px solid ${theme.palette.secondary.main}66`
-                      : '1px solid rgba(255,255,255,0.08)',
+                      : (theme) =>
+                          `1px solid ${theme.customColors.lightBorder}`,
                 }}
               />
             ))}

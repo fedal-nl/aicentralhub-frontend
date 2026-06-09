@@ -1,10 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import Link from 'next/link'
-import { Box, Container, Typography, Button } from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { parentCategories, allTools } from '@/data/mockData'
-import ToolsGrid from '@/components/ai-tools/ToolsGrid'
+import SubcategoryPageClient from '@/components/ai-tools/SubcategoryPageClient'
 
 interface Props {
   params: Promise<{ category: string; subcategory: string }>
@@ -38,57 +35,5 @@ export default async function SubcategoryPage({ params }: Props) {
 
   const tools = allTools.filter((t) => t.subcategory === sub.name)
 
-  return (
-    <Box sx={{ background: 'background.default', minHeight: '100vh', py: 6 }}>
-      <Container maxWidth="xl">
-        {/* Back button */}
-        <Button
-          component={Link}
-          href={`/ai-tools/${cat.slug}`}
-          startIcon={<ArrowBackIcon />}
-          sx={{
-            color: 'text.secondary',
-            mb: 4,
-            '&:hover': { color: 'primary.main' },
-          }}>
-          {cat.name}
-        </Button>
-
-        {/* Header */}
-        <Box sx={{ mb: 6 }}>
-          <Typography
-            variant="overline"
-            sx={{
-              color: 'primary.main',
-
-              fontWeight: 700,
-              letterSpacing: '0.15em',
-            }}>
-            {cat.name}
-          </Typography>
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 800,
-              color: 'text.primary',
-              mt: 0.5,
-            }}>
-            {sub.name} AI Tools
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              color: 'text.secondary',
-
-              mt: 1,
-            }}>
-            {sub.count.toLocaleString()} tools in this subcategory
-          </Typography>
-        </Box>
-
-        {/* Tools grid */}
-        <ToolsGrid tools={tools} />
-      </Container>
-    </Box>
-  )
+  return <SubcategoryPageClient cat={cat} sub={sub} tools={tools} />
 }

@@ -33,14 +33,14 @@ export default function CategoriesPageClient() {
   return (
     <Box
       sx={{
-        background: (theme) => theme.palette.background.default,
+        background: (theme) => theme.customColors.lightBgAlt,
         minHeight: '100vh',
       }}>
-      {/* Header */}
       <Box
         sx={{
-          background: (theme) => theme.palette.background.paper,
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          background: (theme) => theme.customColors.lightBg,
+          borderBottom: (theme) =>
+            `1px solid ${theme.customColors.lightBorderSubtle}`,
           py: 8,
         }}>
         <Container maxWidth="xl">
@@ -48,7 +48,6 @@ export default function CategoriesPageClient() {
             variant="overline"
             sx={{
               color: 'primary.main',
-
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -58,7 +57,7 @@ export default function CategoriesPageClient() {
             variant="h3"
             sx={{
               fontWeight: 800,
-              color: 'text.primary',
+              color: (theme) => theme.customColors.lightText,
               mt: 0.5,
             }}>
             All Categories
@@ -66,19 +65,17 @@ export default function CategoriesPageClient() {
           <Typography
             variant="body1"
             sx={{
-              color: 'text.secondary',
-
+              color: (theme) => theme.customColors.lightTextSecondary,
               mt: 1,
               maxWidth: 560,
               lineHeight: 1.8,
             }}>
-            Browse 7,000+ AI tools organised across 12 parent categories and 60+
-            subcategories. Find exactly the type of tool you need.
+            Browse 7,000+ AI tools organised across 12 parent categories and 50+
+            subcategories.
           </Typography>
         </Container>
       </Box>
 
-      {/* Categories grid */}
       <Container maxWidth="xl" sx={{ py: 8 }}>
         <Grid container spacing={3}>
           {parentCategories.map((cat, index) => {
@@ -91,9 +88,11 @@ export default function CategoriesPageClient() {
                 <Card
                   sx={{
                     height: '100%',
-                    background: (theme) => theme.palette.background.paper,
-                    border: '1px solid rgba(255,255,255,0.06)',
+                    background: (theme) => theme.customColors.lightBg,
+                    border: (theme) =>
+                      `1px solid ${theme.customColors.lightBorder}`,
                     borderRadius: '16px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
                     transition: 'all 0.2s',
                     '&:hover': {
                       borderColor: (theme) => theme.palette.primary.main,
@@ -112,7 +111,6 @@ export default function CategoriesPageClient() {
                       flexDirection: 'column',
                       alignItems: 'flex-start',
                     }}>
-                    {/* Icon */}
                     <Box
                       sx={{
                         width: 56,
@@ -131,12 +129,11 @@ export default function CategoriesPageClient() {
                       {categoryIcons[cat.slug] ?? '🔧'}
                     </Box>
 
-                    {/* Name & description */}
                     <Typography
                       variant="h6"
                       sx={{
                         fontWeight: 700,
-                        color: 'text.primary',
+                        color: (theme) => theme.customColors.lightText,
                         mb: 0.5,
                       }}>
                       {cat.name}
@@ -144,8 +141,7 @@ export default function CategoriesPageClient() {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: 'text.secondary',
-
+                        color: (theme) => theme.customColors.lightTextSecondary,
                         lineHeight: 1.6,
                         mb: 2,
                         flex: 1,
@@ -157,7 +153,6 @@ export default function CategoriesPageClient() {
                       {cat.description}
                     </Typography>
 
-                    {/* Footer */}
                     <Stack
                       direction="row"
                       sx={{
@@ -188,14 +183,21 @@ export default function CategoriesPageClient() {
                           size="small"
                           sx={{
                             fontSize: '0.7rem',
-                            background: 'rgba(255,255,255,0.05)',
-                            border: '1px solid rgba(255,255,255,0.08)',
-                            color: 'text.secondary',
+                            background: (theme) =>
+                              theme.customColors.lightChipBg,
+                            border: (theme) =>
+                              `1px solid ${theme.customColors.lightBorder}`,
+                            color: (theme) =>
+                              theme.customColors.lightTextSecondary,
                           }}
                         />
                       </Stack>
                       <ArrowForwardIcon
-                        sx={{ fontSize: 18, color: 'text.secondary' }}
+                        sx={{
+                          fontSize: 18,
+                          color: (theme) =>
+                            theme.customColors.lightTextSecondary,
+                        }}
                       />
                     </Stack>
                   </CardActionArea>

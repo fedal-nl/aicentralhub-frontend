@@ -43,7 +43,8 @@ export default function HeroSection() {
     <Box
       sx={{
         position: 'relative',
-        minHeight: '65vh',
+        height: { xs: 'auto', md: '55vh' },
+        minHeight: 'unset',
         display: 'flex',
         alignItems: 'center',
         overflow: 'hidden',
@@ -102,8 +103,8 @@ export default function HeroSection() {
         }}
       />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 6 }}>
-        <Stack spacing={5} sx={{ alignItems: 'center', textAlign: 'center' }}>
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, py: 3 }}>
+        <Stack spacing={3} sx={{ alignItems: 'center', textAlign: 'center' }}>
           {/* Badge */}
           <Chip
             icon={<AutoAwesomeIcon sx={{ fontSize: 16 }} />}
