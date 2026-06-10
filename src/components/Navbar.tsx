@@ -43,22 +43,21 @@ export default function Navbar() {
           position="fixed"
           elevation={0}
           sx={{
-            background: 'rgba(10, 14, 26, 0.85)',
-            backdropFilter: 'blur(12px)',
+            background: '#0a111f',
             borderBottom: '1px solid rgba(255,255,255,0.06)',
             transition: 'all 0.3s ease',
           }}>
           <Container maxWidth="xl">
             <Toolbar
               disableGutters
-              sx={{ height: 70, justifyContent: 'space-between' }}>
+              sx={{ height: 90, justifyContent: 'space-between' }}>
               {/* Logo */}
               <Link href="/">
                 <Image
                   src="/assets/ai-centralhub-logo-dark-version.png"
                   alt="AI CentralHub"
-                  width={220}
-                  height={55}
+                  width={330}
+                  height={90}
                   style={{ objectFit: 'contain' }}
                   priority
                 />
