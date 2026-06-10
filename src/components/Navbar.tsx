@@ -26,6 +26,7 @@ const navLinks = [
   { label: 'Featured Tools', href: '/featured-tools' },
   { label: 'AI Tools', href: '/ai-tools' },
   { label: 'Categories', href: '/categories' },
+  { label: 'Submit a Tool', href: '/submit-tool' },
   { label: 'Contact', href: '/contact' },
 ]
 export default function Navbar() {
