@@ -159,10 +159,12 @@ export default function ToolDetailClient({
                   </Typography>
                   <Box sx={{ mt: 0.5 }}>
                     <Chip
-                      label={
-                        tool.pricing.charAt(0).toUpperCase() +
-                        tool.pricing.slice(1)
-                      }
+                      label={tool.pricing
+                        .split('-')
+                        .map(
+                          (w: string) => w.charAt(0).toUpperCase() + w.slice(1),
+                        )
+                        .join(' ')}
                       size="small"
                       sx={{
                         fontWeight: 600,

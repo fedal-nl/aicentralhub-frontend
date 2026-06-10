@@ -32,7 +32,14 @@ interface ToolsFilterProps {
   onViewChange: (value: 'grid' | 'list') => void
 }
 
-const pricingOptions = ['all', 'free', 'freemium', 'paid']
+const pricingOptions = [
+  'all',
+  'free',
+  'freemium',
+  'paid',
+  'free-trial',
+  'contact-us',
+]
 
 export default function ToolsFilter({
   search,
@@ -154,7 +161,10 @@ export default function ToolsFilter({
                   label={
                     option === 'all'
                       ? 'All'
-                      : option.charAt(0).toUpperCase() + option.slice(1)
+                      : option
+                          .split('-')
+                          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                          .join(' ')
                   }
                   size="small"
                   onClick={() => onPricingChange(option)}

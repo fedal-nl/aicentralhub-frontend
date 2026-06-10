@@ -38,7 +38,7 @@ const theme = createTheme({
       dark: '#6a1fe0',
     },
     background: {
-      default: '#0A0E1A',
+      default: '#0a111f',
       paper: '#111827',
     },
     text: {
@@ -51,7 +51,7 @@ const theme = createTheme({
     // Light sections
     lightBg: '#FFFFFF',
     lightBgAlt: '#F8F9FA',
-    lightText: '#0A0E1A',
+    lightText: '#0a111f',
     lightTextSecondary: '#64748B',
     lightBorder: 'rgba(0,0,0,0.08)',
     lightBorderSubtle: 'rgba(0,0,0,0.06)',
