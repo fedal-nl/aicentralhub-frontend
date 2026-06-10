@@ -50,6 +50,10 @@ const faqs = [
       "If you'd like to see a specific tool added to our directory, use the contact form and include the tool name and URL. We'll review and add it if it meets our quality standards.",
   },
 ]
+const isValidEmail = (email: string) =>
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(
+    email.trim(),
+  )
 
 export default function ContactPageClient() {
   const [name, setName] = useState('')
@@ -59,7 +63,7 @@ export default function ContactPageClient() {
   const [submitted, setSubmitted] = useState(false)
 
   const handleSubmit = () => {
-    if (!name || !email || !message) return
+    if (!name || !email || !message || !isValidEmail(email)) return
     setSubmitted(true)
   }
 
@@ -217,6 +221,12 @@ export default function ContactPageClient() {
                         onChange={(e) => setEmail(e.target.value)}
                         fullWidth
                         size="small"
+                        error={email !== '' && !isValidEmail(email)}
+                        helperText={
+                          email !== '' && !isValidEmail(email)
+                            ? 'Please enter a valid email address'
+                            : ''
+                        }
                         sx={textFieldSx}
                       />
                     </Grid>
