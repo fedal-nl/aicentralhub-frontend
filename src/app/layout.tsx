@@ -4,6 +4,7 @@ import ThemeRegistry from '@/theme/ThemeRegistry'
 import { Box } from '@mui/material'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import CookieConsent from '@/components/legal/CookieConsent'
 import './globals.scss'
 
 const spaceGrotesk = Space_Grotesk({
@@ -55,6 +56,7 @@ export default function RootLayout({
             {children}
           </Box>
           <Footer />
+          <CookieConsent />
         </ThemeRegistry>
       </body>
     </html>
