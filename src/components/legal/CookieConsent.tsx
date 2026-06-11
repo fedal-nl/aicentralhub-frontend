@@ -5,28 +5,52 @@ import Link from 'next/link'
 import { Box, Typography, Button, Stack } from '@mui/material'
 import CookieIcon from '@mui/icons-material/Cookie'
 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void
+    dataLayer: any[]
+  }
+}
+
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie_consent')
     if (!consent) {
-      // Small delay so it doesn't flash on first render
       const timer = setTimeout(() => setVisible(true), 1000)
       return () => clearTimeout(timer)
     }
+    // If previously accepted, enable analytics
+    if (consent === 'accepted') {
+      enableAnalytics()
+    }
   }, [])
+
+  const enableAnalytics = () => {
+    if (typeof window !== 'undefined' && window.gtag && GA_MEASUREMENT_ID) {
+      window.gtag('consent', 'update', {
+        analytics_storage: 'granted',
+      })
+    }
+  }
 
   const handleAccept = () => {
     localStorage.setItem('cookie_consent', 'accepted')
     setVisible(false)
-    // Here you would initialize analytics (Google Analytics etc.)
+    enableAnalytics()
   }
 
   const handleDecline = () => {
     localStorage.setItem('cookie_consent', 'declined')
     setVisible(false)
-    // Analytics will not be initialized
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('consent', 'update', {
+        analytics_storage: 'denied',
+      })
+    }
   }
 
   if (!visible) return null
