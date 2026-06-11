@@ -51,6 +51,7 @@ npm run start
 
 ## Project Structure
 
+```
 src/
 ├── app/                    # Next.js App Router pages
 │   ├── ai-tools/           # AI tools listing + category pages
@@ -74,6 +75,7 @@ src/
 ├── data/                   # Mock data (replace with API calls)
 ├── theme/                  # MUI theme configuration
 └── types/                  # TypeScript interfaces
+```
 
 ## Key Architectural Decisions
 
