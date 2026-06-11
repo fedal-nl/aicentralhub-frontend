@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk } from 'next/font/google'
-import ThemeRegistry from '@/theme/ThemeRegistry'
 import { Box } from '@mui/material'
+import ThemeRegistry from '@/theme/ThemeRegistry'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import CookieConsent from '@/components/legal/CookieConsent'
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 import './globals.scss'
 
 const spaceGrotesk = Space_Grotesk({
@@ -51,6 +52,7 @@ export default function RootLayout({
           minHeight: '100vh',
         }}>
         <ThemeRegistry>
+          <GoogleAnalytics />
           <Navbar />
           <Box component="main" sx={{ flex: 1 }}>
             {children}
