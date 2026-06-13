@@ -17,6 +17,7 @@ const footerLinks = {
     { label: 'Home', href: '/' },
     { label: 'Featured Tools', href: '/featured-tools' },
     { label: 'AI Tools', href: '/ai-tools' },
+    { label: 'Submit a Tool', href: '/submit-tool' },
   ],
   Support: [
     { label: 'Contact Us', href: '/contact' },
