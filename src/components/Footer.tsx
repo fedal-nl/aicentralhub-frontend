@@ -12,17 +12,25 @@ import XIcon from '@mui/icons-material/X'
 import FacebookIcon from '@mui/icons-material/Facebook'
 import InstagramIcon from '@mui/icons-material/Instagram'
 
-const footerLinks = {
+const footerLinks: Record<
+  string,
+  { label: string; href: string; hidden?: boolean }[]
+> = {
   'AI CentralHub': [
     { label: 'Home', href: '/' },
     { label: 'Featured Tools', href: '/featured-tools' },
     { label: 'AI Tools', href: '/ai-tools' },
+    { label: 'Categories', href: '/categories' },
     { label: 'Submit a Tool', href: '/submit-tool' },
   ],
   Support: [
     { label: 'Contact Us', href: '/contact' },
     { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Cookies Policy', href: '/cookies-policy' },
+  ],
+  Account: [
+    { label: 'Login', href: '/login', hidden: true },
+    { label: 'Sign Up', href: '/signup', hidden: true },
   ],
 }
 
@@ -103,37 +111,42 @@ export default function Footer() {
           </Grid>
 
           {/* Link columns */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <Grid size={{ xs: 6, md: 2 }} key={title}>
-              <Typography
-                variant="overline"
-                sx={{
-                  fontWeight: 700,
-                  color: 'text.primary',
-                  letterSpacing: '0.1em',
-                  mb: 2,
-                  display: 'block',
-                }}>
-                {title}
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.2 }}>
-                {links.map((link) => (
-                  <Link key={link.href} href={link.href}>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: 'text.secondary',
+          {Object.entries(footerLinks)
+            .filter(([_, links]) => links.some((link) => !link.hidden))
+            .map(([title, links]) => (
+              <Grid size={{ xs: 6, md: 2 }} key={title}>
+                <Typography
+                  variant="overline"
+                  sx={{
+                    fontWeight: 700,
+                    color: 'text.primary',
+                    letterSpacing: '0.1em',
+                    mb: 2,
+                    display: 'block',
+                  }}>
+                  {title}
+                </Typography>
+                <Box
+                  sx={{ display: 'flex', flexDirection: 'column', gap: 1.2 }}>
+                  {links
+                    .filter((link) => !link.hidden)
+                    .map((link) => (
+                      <Link key={link.href} href={link.href}>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: 'text.secondary',
 
-                        transition: 'color 0.2s',
-                        '&:hover': { color: 'primary.main' },
-                      }}>
-                      {link.label}
-                    </Typography>
-                  </Link>
-                ))}
-              </Box>
-            </Grid>
-          ))}
+                            transition: 'color 0.2s',
+                            '&:hover': { color: 'primary.main' },
+                          }}>
+                          {link.label}
+                        </Typography>
+                      </Link>
+                    ))}
+                </Box>
+              </Grid>
+            ))}
         </Grid>
 
         <Divider sx={{ my: 5, borderColor: 'rgba(255,255,255,0.06)' }} />
