@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { parentCategories } from '@/data/mockData'
 import CategoryPageClient from '@/components/ai-tools/CategoryPageClient'
+import CategoryStructuredData from '@/components/structured-data/CategoryStructuredData'
 
 interface Props {
   params: Promise<{ category: string }>
@@ -26,5 +27,10 @@ export default async function CategoryPage({ params }: Props) {
   const cat = parentCategories.find((c) => c.slug === slug)
   if (!cat) notFound()
 
-  return <CategoryPageClient cat={cat} />
+  return (
+    <>
+      <CategoryStructuredData cat={cat} />
+      <CategoryPageClient cat={cat} />
+    </>
+  )
 }

@@ -4,6 +4,7 @@ import { allTools } from '@/data/mockData'
 import { mockReviews } from '@/data/mockReviews'
 import ToolHero from '@/components/tool/ToolHero'
 import ToolDetailClient from '@/components/tool/ToolDetailClient'
+import ToolStructuredData from '@/components/structured-data/ToolStructuredData'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -40,6 +41,7 @@ export default async function ToolDetailPage({ params }: Props) {
 
   return (
     <>
+      <ToolStructuredData tool={tool} />
       <ToolHero tool={tool} />
       <ToolDetailClient
         tool={tool}
