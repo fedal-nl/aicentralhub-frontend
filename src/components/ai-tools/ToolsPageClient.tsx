@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import {
   Box,
@@ -15,10 +15,13 @@ import {
 import ToolsFilter from './ToolsFilter'
 import ToolsGrid from './ToolsGrid'
 import ToolsList from './ToolsList'
+import ToolGridSkeleton from '@/components/skeletons/ToolGridSkeleton'
+import ToolListSkeleton from '@/components/skeletons/ToolListSkeleton'
 import { allTools } from '@/data/mockData'
 
 export default function ToolsPageClient() {
   const searchParams = useSearchParams()
+  const [loading, setLoading] = useState(false)
 
   const [search, setSearch] = useState(searchParams.get('search') ?? '')
   const [category, setCategory] = useState(searchParams.get('category') ?? '')
@@ -53,25 +56,37 @@ export default function ToolsPageClient() {
     return filtered.slice(start, start + perPage)
   }, [filtered, page, perPage])
 
+  // Simulate loading when filters change
+  // Replace this with real API loading state when backend is connected
+  const triggerLoading = () => {
+    setLoading(true)
+    setTimeout(() => setLoading(false), 400)
+  }
+
   const handleSearchChange = (value: string) => {
     setSearch(value)
     setPage(1)
+    triggerLoading()
   }
   const handleCategoryChange = (value: string) => {
     setCategory(value)
     setPage(1)
+    triggerLoading()
   }
   const handleSubcategoryChange = (value: string) => {
     setSubcategory(value)
     setPage(1)
+    triggerLoading()
   }
   const handlePricingChange = (value: string) => {
     setPricing(value)
     setPage(1)
+    triggerLoading()
   }
   const handlePerPageChange = (e: SelectChangeEvent<number>) => {
     setPerPage(Number(e.target.value))
     setPage(1)
+    triggerLoading()
   }
 
   return (
@@ -125,14 +140,20 @@ export default function ToolsPageClient() {
         />
 
         <Box sx={{ mt: 4 }}>
-          {view === 'grid' ? (
+          {loading ? (
+            view === 'grid' ? (
+              <ToolGridSkeleton count={perPage > 12 ? 12 : perPage} />
+            ) : (
+              <ToolListSkeleton count={8} />
+            )
+          ) : view === 'grid' ? (
             <ToolsGrid tools={paginated} />
           ) : (
             <ToolsList tools={paginated} />
           )}
         </Box>
 
-        {totalPages > 1 && (
+        {!loading && totalPages > 1 && (
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             sx={{
@@ -152,7 +173,10 @@ export default function ToolsPageClient() {
             <Pagination
               count={totalPages}
               page={page}
-              onChange={(_, value) => setPage(value)}
+              onChange={(_, value) => {
+                setPage(value)
+                triggerLoading()
+              }}
               shape="rounded"
               sx={{
                 '& .MuiPaginationItem-root': {
