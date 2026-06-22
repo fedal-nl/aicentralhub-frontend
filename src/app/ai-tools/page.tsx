@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { Metadata } from 'next'
 import ToolsPageClient from '@/components/ai-tools/ToolsPageClient'
 import ToolsListStructuredData from '@/components/structured-data/ToolsListStructuredData'
-import { allTools } from '@/data/mockData'
+import { getTools } from '@/lib/api'
 
 export const metadata: Metadata = {
   title: 'AI Tools',
@@ -10,12 +10,22 @@ export const metadata: Metadata = {
     'Browse 7,000+ AI tools across 50+ categories. Filter by pricing, category and more.',
 }
 
-export default function AIToolsPage() {
+export default async function AIToolsPage() {
+  let initialData = { results: [], count: 0 }
+  try {
+    initialData = await getTools({ page: 1, page_size: 24 })
+  } catch (error) {
+    console.error('Failed to fetch tools:', error)
+  }
+
   return (
     <>
-      <ToolsListStructuredData tools={allTools} />
+      <ToolsListStructuredData tools={initialData.results} />
       <Suspense>
-        <ToolsPageClient />
+        <ToolsPageClient
+          initialTools={initialData.results}
+          initialCount={initialData.count}
+        />
       </Suspense>
     </>
   )

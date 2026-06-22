@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Box,
@@ -14,8 +15,8 @@ import {
 } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
-import { featuredTools } from '@/data/mockData'
 import { Tool } from '@/types/tool'
+import { featuredTools as mockFeaturedTools } from '@/data/mockData'
 
 const pricingColor: Record<Tool['pricing'], string> = {
   free: '#00D4FF',
@@ -26,6 +27,25 @@ const pricingColor: Record<Tool['pricing'], string> = {
 }
 
 export default function FeaturedToolsPageClient() {
+  const [tools, setTools] = useState<Tool[]>(mockFeaturedTools)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const res = await fetch('/api/tools-proxy?featured=true&page_size=12')
+        const data = await res.json()
+        const results = data.results ?? data
+        if (results.length > 0) setTools(results)
+      } catch {
+        // fallback to mock data already set
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchFeatured()
+  }, [])
+
   return (
     <Box
       sx={{
@@ -86,7 +106,7 @@ export default function FeaturedToolsPageClient() {
 
       <Container maxWidth="xl" sx={{ py: 8 }}>
         <Grid container spacing={3}>
-          {featuredTools.map((tool, index) => (
+          {tools.map((tool, index) => (
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={tool.id}>
               <Card
                 sx={{

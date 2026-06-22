@@ -16,6 +16,13 @@ export interface Tool {
   reviewCount?: number
 }
 
+export interface PaginatedResponse<T> {
+  count: number
+  next: string | null
+  previous: string | null
+  results: T[]
+}
+
 export interface Subcategory {
   name: string
   slug: string

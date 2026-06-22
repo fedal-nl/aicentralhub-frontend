@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import {
   Box,
@@ -17,10 +17,17 @@ import ToolsGrid from './ToolsGrid'
 import ToolsList from './ToolsList'
 import ToolGridSkeleton from '@/components/skeletons/ToolGridSkeleton'
 import ToolListSkeleton from '@/components/skeletons/ToolListSkeleton'
-import { allTools } from '@/data/mockData'
+import { Tool } from '@/types/tool'
 
-export default function ToolsPageClient() {
+interface Props {
+  initialTools: Tool[]
+  initialCount: number
+}
+
+export default function ToolsPageClient({ initialTools, initialCount }: Props) {
   const searchParams = useSearchParams()
+  const [tools, setTools] = useState<Tool[]>(initialTools)
+  const [totalCount, setTotalCount] = useState(initialCount)
   const [loading, setLoading] = useState(false)
 
   const [search, setSearch] = useState(searchParams.get('search') ?? '')
@@ -33,61 +40,116 @@ export default function ToolsPageClient() {
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(24)
 
-  const filtered = useMemo(() => {
-    return allTools.filter((tool) => {
-      const matchesSearch =
-        search === '' ||
-        tool.name.toLowerCase().includes(search.toLowerCase()) ||
-        tool.description.toLowerCase().includes(search.toLowerCase())
-      const matchesCategory = category === '' || tool.category === category
-      const matchesSubcategory =
-        subcategory === '' || tool.subcategory === subcategory
-      const matchesPricing = pricing === 'all' || tool.pricing === pricing
-      return (
-        matchesSearch && matchesCategory && matchesSubcategory && matchesPricing
-      )
-    })
-  }, [search, category, subcategory, pricing])
-
-  const totalPages = Math.ceil(filtered.length / perPage)
-
-  const paginated = useMemo(() => {
-    const start = (page - 1) * perPage
-    return filtered.slice(start, start + perPage)
-  }, [filtered, page, perPage])
-
-  // Simulate loading when filters change
-  // Replace this with real API loading state when backend is connected
-  const triggerLoading = () => {
+  const fetchTools = async (params: {
+    search?: string
+    category?: string
+    subcategory?: string
+    pricing?: string
+    page?: number
+    page_size?: number
+  }) => {
     setLoading(true)
-    setTimeout(() => setLoading(false), 400)
+    try {
+      const query = new URLSearchParams()
+      if (params.search) query.set('search', params.search)
+      if (params.category) query.set('category', params.category)
+      if (params.subcategory) query.set('subcategory', params.subcategory)
+      if (params.pricing && params.pricing !== 'all')
+        query.set('pricing', params.pricing)
+      if (params.page) query.set('page', String(params.page))
+      if (params.page_size) query.set('page_size', String(params.page_size))
+
+      const res = await fetch(`/api/tools-proxy?${query.toString()}`)
+      const data = await res.json()
+      setTools(data.results ?? [])
+      setTotalCount(data.count ?? 0)
+    } catch (error) {
+      console.error('Failed to fetch tools:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleSearchChange = (value: string) => {
     setSearch(value)
     setPage(1)
-    triggerLoading()
+    fetchTools({
+      search: value,
+      category,
+      subcategory,
+      pricing,
+      page: 1,
+      page_size: perPage,
+    })
   }
+
   const handleCategoryChange = (value: string) => {
     setCategory(value)
+    setSubcategory('')
     setPage(1)
-    triggerLoading()
+    fetchTools({
+      search,
+      category: value,
+      subcategory: '',
+      pricing,
+      page: 1,
+      page_size: perPage,
+    })
   }
+
   const handleSubcategoryChange = (value: string) => {
     setSubcategory(value)
     setPage(1)
-    triggerLoading()
+    fetchTools({
+      search,
+      category,
+      subcategory: value,
+      pricing,
+      page: 1,
+      page_size: perPage,
+    })
   }
+
   const handlePricingChange = (value: string) => {
     setPricing(value)
     setPage(1)
-    triggerLoading()
+    fetchTools({
+      search,
+      category,
+      subcategory,
+      pricing: value,
+      page: 1,
+      page_size: perPage,
+    })
   }
+
   const handlePerPageChange = (e: SelectChangeEvent<number>) => {
-    setPerPage(Number(e.target.value))
+    const value = Number(e.target.value)
+    setPerPage(value)
     setPage(1)
-    triggerLoading()
+    fetchTools({
+      search,
+      category,
+      subcategory,
+      pricing,
+      page: 1,
+      page_size: value,
+    })
   }
+
+  const handlePageChange = (value: number) => {
+    setPage(value)
+    fetchTools({
+      search,
+      category,
+      subcategory,
+      pricing,
+      page: value,
+      page_size: perPage,
+    })
+  }
+
+  const totalPages = Math.ceil(totalCount / perPage)
 
   return (
     <Box
@@ -131,7 +193,7 @@ export default function ToolsPageClient() {
           subcategory={subcategory}
           pricing={pricing}
           view={view}
-          totalCount={filtered.length}
+          totalCount={totalCount}
           onSearchChange={handleSearchChange}
           onCategoryChange={handleCategoryChange}
           onSubcategoryChange={handleSubcategoryChange}
@@ -147,9 +209,9 @@ export default function ToolsPageClient() {
               <ToolListSkeleton count={8} />
             )
           ) : view === 'grid' ? (
-            <ToolsGrid tools={paginated} />
+            <ToolsGrid tools={tools} />
           ) : (
-            <ToolsList tools={paginated} />
+            <ToolsList tools={tools} />
           )}
         </Box>
 
@@ -166,17 +228,13 @@ export default function ToolsPageClient() {
               variant="body2"
               sx={{ color: (theme) => theme.customColors.lightTextSecondary }}>
               Showing {(page - 1) * perPage + 1}–
-              {Math.min(page * perPage, filtered.length)} of {filtered.length}{' '}
-              tools
+              {Math.min(page * perPage, totalCount)} of {totalCount} tools
             </Typography>
 
             <Pagination
               count={totalPages}
               page={page}
-              onChange={(_, value) => {
-                setPage(value)
-                triggerLoading()
-              }}
+              onChange={(_, value) => handlePageChange(value)}
               shape="rounded"
               sx={{
                 '& .MuiPaginationItem-root': {
