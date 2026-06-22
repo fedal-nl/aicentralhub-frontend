@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Box,
@@ -14,9 +14,9 @@ import {
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
-import { featuredTools } from '@/data/mockData'
 import { Tool } from '@/types/tool'
 import FeaturedToolsSkeleton from '@/components/skeletons/FeaturedToolsSkeleton'
+import { featuredTools as mockFeaturedTools } from '@/data/mockData'
 
 const pricingColor: Record<Tool['pricing'], string> = {
   free: '#00D4FF',
@@ -27,8 +27,26 @@ const pricingColor: Record<Tool['pricing'], string> = {
 }
 
 export default function FeaturedTools() {
-  // Set to true when backend is connected
-  const [loading] = useState(false)
+  const [tools, setTools] = useState<Tool[]>(mockFeaturedTools)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const res = await fetch('/api/tools-proxy?featured=true&page_size=12')
+        const data = await res.json()
+        const results = data.results ?? data
+        console.log('LENGTH', results.length)
+
+        if (results.length > 0) setTools(results)
+      } catch {
+        // fallback to mock data already set
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchFeatured()
+  }, [])
 
   return (
     <Box sx={{ py: 10, background: (theme) => theme.customColors.lightBg }}>
@@ -88,7 +106,7 @@ export default function FeaturedTools() {
               scrollbarWidth: 'none',
               '&::-webkit-scrollbar': { display: 'none' },
             }}>
-            {featuredTools.map((tool) => (
+            {tools.map((tool) => (
               <Card
                 key={tool.id}
                 sx={{
