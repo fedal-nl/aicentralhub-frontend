@@ -15,7 +15,7 @@ const pricingColor: Record<string, string> = {
   freemium: '#7B2FFF',
   paid: '#FF6B6B',
   'free-trial': '#00E5A0',
-  'contact-us': '#FF9500',
+  'contact-for-pricing': '#FF9500',
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'

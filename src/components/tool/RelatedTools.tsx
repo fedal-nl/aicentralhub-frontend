@@ -22,7 +22,7 @@ const pricingColor: Record<Tool['pricing'], string> = {
   freemium: '#7B2FFF',
   paid: '#FF6B6B',
   'free-trial': '#00E5A0',
-  'contact-us': '#FF9500',
+  'contact-for-pricing': '#FF9500',
 }
 
 export default function RelatedTools({

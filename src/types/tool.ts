@@ -6,7 +6,7 @@ export interface Tool {
   longDescription?: string
   category: string
   subcategory: string
-  pricing: 'free' | 'freemium' | 'paid' | 'free-trial' | 'contact-us'
+  pricing: 'free' | 'freemium' | 'paid' | 'free-trial' | 'contact-for-pricing'
   appType: 'website' | 'app' | 'chrome-extension' | 'api'
   url: string
   logo?: string
