@@ -468,7 +468,7 @@ export const allTools: Tool[] = [
       'AI SEO tool that helps you write and optimize content to rank higher.',
     category: 'Marketing & SEO',
     subcategory: 'SEO',
-    pricing: 'contact-us',
+    pricing: 'contact-for-pricing',
     appType: 'website',
     url: 'https://surferseo.com',
     isFeatured: false,

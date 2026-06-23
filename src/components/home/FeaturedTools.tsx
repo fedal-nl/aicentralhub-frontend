@@ -23,7 +23,7 @@ const pricingColor: Record<Tool['pricing'], string> = {
   freemium: '#7B2FFF',
   paid: '#FF6B6B',
   'free-trial': '#00E5A0',
-  'contact-us': '#FF9500',
+  'contact-for-pricing': '#FF9500',
 }
 
 export default function FeaturedTools() {
@@ -36,7 +36,6 @@ export default function FeaturedTools() {
         const res = await fetch('/api/tools-proxy?featured=true&page_size=12')
         const data = await res.json()
         const results = data.results ?? data
-        console.log('LENGTH', results.length)
 
         if (results.length > 0) setTools(results)
       } catch {

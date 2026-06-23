@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Box,
@@ -13,20 +14,40 @@ import {
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
-import { allTools } from '@/data/mockData'
 import { Tool } from '@/types/tool'
+import { allTools as mockTools } from '@/data/mockData'
 
 const pricingColor: Record<Tool['pricing'], string> = {
   free: '#00D4FF',
   freemium: '#7B2FFF',
   paid: '#FF6B6B',
   'free-trial': '#00E5A0',
-  'contact-us': '#FF9500',
+  'contact-for-pricing': '#FF9500',
 }
 
-const recentTools = allTools.slice(16, 24)
-
 export default function RecentTools() {
+  const [tools, setTools] = useState<Tool[]>(mockTools.slice(0, 8))
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchRecent = async () => {
+      try {
+        // Backend should support ordering by created_at desc
+        const res = await fetch(
+          '/api/tools-proxy?page_size=8&ordering=-created_at',
+        )
+        const data = await res.json()
+        const results = data.results ?? data
+        if (results.length > 0) setTools(results)
+      } catch {
+        // fallback to mock data already set
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchRecent()
+  }, [])
+
   return (
     <Box
       sx={{
@@ -86,7 +107,7 @@ export default function RecentTools() {
             borderRadius: '16px',
             overflow: 'hidden',
           }}>
-          {recentTools.map((tool, index) => (
+          {tools.map((tool, index) => (
             <Box key={tool.id}>
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
@@ -206,7 +227,7 @@ export default function RecentTools() {
                   </Button>
                 </Stack>
               </Stack>
-              {index < recentTools.length - 1 && (
+              {index < tools.length - 1 && (
                 <Divider
                   sx={{
                     borderColor: (theme) =>

@@ -38,7 +38,7 @@ const pricingOptions = [
   'freemium',
   'paid',
   'free-trial',
-  'contact-us',
+  'contact-for-pricing',
 ]
 
 export default function ToolsFilter({

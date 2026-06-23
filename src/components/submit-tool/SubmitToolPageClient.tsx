@@ -24,7 +24,13 @@ import LockIcon from '@mui/icons-material/Lock'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { parentCategories } from '@/data/mockData'
 
-const pricingOptions = ['free', 'freemium', 'paid', 'free-trial', 'contact-us']
+const pricingOptions = [
+  'free',
+  'freemium',
+  'paid',
+  'free-trial',
+  'contact-for-pricing',
+]
 const appTypeOptions = ['website', 'app', 'chrome-extension', 'api']
 const steps = ['Tool Information', 'Details & Pricing', 'SEO & Submit']
 const isValidEmail = (email: string) =>
