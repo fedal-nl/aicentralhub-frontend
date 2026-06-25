@@ -7,7 +7,27 @@ const headers = {
 }
 
 // Maps backend snake_case fields to frontend camelCase
-function mapTool(tool: any) {
+interface BackendTool {
+  id: number
+  name: string
+  slug: string
+  website_url: string
+  description: string
+  long_description?: string
+  category: string
+  subcategory: string
+  pricing_model: string
+  app_type: string
+  tags?: string
+  logo_url?: string
+  is_featured: boolean
+  meta_description?: string
+  rating?: string
+  review_count?: number
+  is_active: boolean
+}
+
+function mapTool(tool: BackendTool) {
   return {
     id: tool.id,
     name: tool.name,

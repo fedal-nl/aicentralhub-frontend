@@ -1,5 +1,6 @@
 'use client'
 
+import { Theme } from '@mui/material/styles'
 import { useState } from 'react'
 import Link from 'next/link'
 import {
@@ -12,7 +13,6 @@ import {
   Stack,
   Select,
   MenuItem,
-  Chip,
   Stepper,
   Step,
   StepLabel,
@@ -81,31 +81,31 @@ export default function SubmitToolPageClient() {
 
   const textFieldSx = {
     '& .MuiOutlinedInput-root': {
-      color: (theme: any) => theme.customColors.lightText,
+      color: (theme: Theme) => theme.customColors.lightText,
       borderRadius: '10px',
-      background: (theme: any) => theme.customColors.lightBg,
+      background: (theme: Theme) => theme.customColors.lightBg,
       '& fieldset': {
-        borderColor: (theme: any) => theme.customColors.lightBorder,
+        borderColor: (theme: Theme) => theme.customColors.lightBorder,
       },
       '&:hover fieldset': {
-        borderColor: (theme: any) => theme.customColors.lightTextSecondary,
+        borderColor: (theme: Theme) => theme.customColors.lightTextSecondary,
       },
       '&.Mui-focused fieldset': { borderColor: 'primary.main' },
     },
     '& .MuiInputLabel-root': {
-      color: (theme: any) => theme.customColors.lightTextSecondary,
+      color: (theme: Theme) => theme.customColors.lightTextSecondary,
     },
   }
 
   const selectSx = {
-    color: (theme: any) => theme.customColors.lightText,
-    background: (theme: any) => theme.customColors.lightBg,
+    color: (theme: Theme) => theme.customColors.lightText,
+    background: (theme: Theme) => theme.customColors.lightBg,
     borderRadius: '10px',
     '.MuiOutlinedInput-notchedOutline': {
-      borderColor: (theme: any) => theme.customColors.lightBorder,
+      borderColor: (theme: Theme) => theme.customColors.lightBorder,
     },
     '&:hover .MuiOutlinedInput-notchedOutline': {
-      borderColor: (theme: any) => theme.customColors.lightTextSecondary,
+      borderColor: (theme: Theme) => theme.customColors.lightTextSecondary,
     },
     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: 'primary.main',
@@ -565,8 +565,8 @@ export default function SubmitToolPageClient() {
                   borderRadius: '10px',
                   '& .MuiAlert-icon': { color: 'primary.main' },
                 }}>
-                If you don't have a logo URL, our team will source one during
-                the review process.
+                If you don&apos;t have a logo URL, our team will source one
+                during the review process.
               </Alert>
             </Stack>
           )}
