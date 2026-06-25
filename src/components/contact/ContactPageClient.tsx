@@ -62,9 +62,32 @@ export default function ContactPageClient() {
   const [message, setMessage] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = () => {
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async () => {
     if (!name || !email || !message || !isValidEmail(email)) return
-    setSubmitted(true)
+
+    setSending(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, subject, message }),
+      })
+
+      if (!res.ok) {
+        throw new Error('Failed to send')
+      }
+
+      setSubmitted(true)
+    } catch (err) {
+      setError('Something went wrong. Please try again or email us directly.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const textFieldSx = {
@@ -251,14 +274,19 @@ export default function ContactPageClient() {
                   <Button
                     onClick={handleSubmit}
                     variant="contained"
-                    disabled={!name || !email || !message}
+                    disabled={
+                      !name ||
+                      !email ||
+                      !message ||
+                      !isValidEmail(email) ||
+                      sending
+                    }
                     endIcon={<SendIcon />}
                     sx={{
                       fontWeight: 700,
                       borderRadius: '10px',
                       alignSelf: 'flex-start',
                       px: 4,
-                      py: 1.5,
                       background: (theme) =>
                         `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                       color: '#fff',
@@ -267,12 +295,17 @@ export default function ContactPageClient() {
                           `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
                       },
                       '&.Mui-disabled': {
-                        background: (theme) => theme.customColors.lightChipBg,
-                        color: (theme) => theme.customColors.lightTextSecondary,
+                        background: 'rgba(255,255,255,0.08)',
+                        color: 'text.secondary',
                       },
                     }}>
-                    Send Message
+                    {sending ? 'Sending...' : 'Send Message'}
                   </Button>
+                  {error && (
+                    <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
+                      {error}
+                    </Typography>
+                  )}
                 </Stack>
               )}
             </Box>
