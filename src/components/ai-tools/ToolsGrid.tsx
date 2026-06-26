@@ -12,6 +12,7 @@ import {
   Stack,
 } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import FavoriteButton from '@/components/tool/FavoriteButton'
 import { Tool } from '@/types/tool'
 
 interface ToolsGridProps {
@@ -103,6 +104,7 @@ export default function ToolsGrid({ tools }: ToolsGridProps) {
                       border: `1px solid ${pricingColor[tool.pricing]}44`,
                     }}
                   />
+                  <FavoriteButton toolId={tool.id} size="small" />
                 </Stack>
 
                 <Box sx={{ flex: 1 }}>

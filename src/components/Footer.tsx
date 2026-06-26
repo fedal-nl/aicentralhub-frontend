@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import {
   Box,
@@ -7,15 +9,13 @@ import {
   IconButton,
   Divider,
 } from '@mui/material'
+import { useSession } from 'next-auth/react'
 import YouTubeIcon from '@mui/icons-material/YouTube'
 import XIcon from '@mui/icons-material/X'
 import FacebookIcon from '@mui/icons-material/Facebook'
 import InstagramIcon from '@mui/icons-material/Instagram'
 
-const footerLinks: Record<
-  string,
-  { label: string; href: string; hidden?: boolean }[]
-> = {
+const baseFooterLinks: Record<string, { label: string; href: string }[]> = {
   'AI CentralHub': [
     { label: 'Home', href: '/' },
     { label: 'Featured Tools', href: '/featured-tools' },
@@ -27,10 +27,6 @@ const footerLinks: Record<
     { label: 'Contact Us', href: '/contact' },
     { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Cookies Policy', href: '/cookies-policy' },
-  ],
-  Account: [
-    { label: 'Login', href: '/login', hidden: true },
-    { label: 'Sign Up', href: '/signup', hidden: true },
   ],
 }
 
@@ -54,6 +50,21 @@ const socialLinks = [
 ]
 
 export default function Footer() {
+  const { status } = useSession()
+
+  const accountLinks =
+    status === 'authenticated'
+      ? [{ label: 'Dashboard', href: '/dashboard' }]
+      : [
+          { label: 'Login', href: '/login' },
+          { label: 'Sign Up', href: '/signup' },
+        ]
+
+  const footerLinks = {
+    ...baseFooterLinks,
+    Account: accountLinks,
+  }
+
   return (
     <Box
       component="footer"
@@ -66,15 +77,10 @@ export default function Footer() {
       }}>
       <Container maxWidth="xl">
         <Grid container spacing={6}>
-          {/* Brand column */}
           <Grid size={{ xs: 12, md: 4 }}>
             <Typography
               variant="h6"
-              sx={{
-                fontWeight: 700,
-                color: 'primary.main',
-                mb: 1.5,
-              }}>
+              sx={{ fontWeight: 700, color: 'primary.main', mb: 1.5 }}>
               AI CentralHub
             </Typography>
             <Typography
@@ -82,7 +88,7 @@ export default function Footer() {
               color="text.secondary"
               sx={{ maxWidth: 280, lineHeight: 1.8 }}>
               Your free AI tools directory. Discover, compare and review 7,000+
-              AI tools across 250+ categories.
+              AI tools across 50+ categories.
             </Typography>
             <Box sx={{ mt: 3, display: 'flex', gap: 1 }}>
               {socialLinks.map((s) => (
@@ -110,52 +116,44 @@ export default function Footer() {
             </Box>
           </Grid>
 
-          {/* Link columns */}
-          {Object.entries(footerLinks)
-            .filter(([, links]) => links.some((link) => !link.hidden))
-            .map(([title, links]) => (
-              <Grid size={{ xs: 6, md: 2 }} key={title}>
-                <Typography
-                  variant="overline"
-                  sx={{
-                    fontWeight: 700,
-                    color: 'text.primary',
-                    letterSpacing: '0.1em',
-                    mb: 2,
-                    display: 'block',
-                  }}>
-                  {title}
-                </Typography>
-                <Box
-                  sx={{ display: 'flex', flexDirection: 'column', gap: 1.2 }}>
-                  {links
-                    .filter((link) => !link.hidden)
-                    .map((link) => (
-                      <Link key={link.href} href={link.href}>
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            color: 'text.secondary',
-
-                            transition: 'color 0.2s',
-                            '&:hover': { color: 'primary.main' },
-                          }}>
-                          {link.label}
-                        </Typography>
-                      </Link>
-                    ))}
-                </Box>
-              </Grid>
-            ))}
+          {Object.entries(footerLinks).map(([title, links]) => (
+            <Grid size={{ xs: 6, md: 2 }} key={title}>
+              <Typography
+                variant="overline"
+                sx={{
+                  fontWeight: 700,
+                  color: 'text.primary',
+                  letterSpacing: '0.1em',
+                  mb: 2,
+                  display: 'block',
+                }}>
+                {title}
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.2 }}>
+                {links.map((link) => (
+                  <Link key={link.href} href={link.href}>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: 'text.secondary',
+                        transition: 'color 0.2s',
+                        '&:hover': { color: 'primary.main' },
+                      }}>
+                      {link.label}
+                    </Typography>
+                  </Link>
+                ))}
+              </Box>
+            </Grid>
+          ))}
         </Grid>
 
         <Divider sx={{ my: 5, borderColor: 'rgba(255,255,255,0.06)' }} />
 
         <Typography
           variant="body2"
-          color="text.secondary"
-          sx={{ textAlign: 'center' }}>
-          © {new Date().getFullYear()} AI CentralHub by The Webdux
+          sx={{ color: 'text.secondary', textAlign: 'center' }}>
+          © {new Date().getFullYear()} AI CentralHub by The Webdux Hub
         </Typography>
       </Container>
     </Box>

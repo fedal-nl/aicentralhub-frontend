@@ -14,8 +14,8 @@ import {
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
+import FavoriteButton from '@/components/tool/FavoriteButton'
 import { Tool } from '@/types/tool'
-import { allTools as mockTools } from '@/data/mockData'
 import ToolListSkeleton from '@/components/skeletons/ToolListSkeleton'
 
 const pricingColor: Record<Tool['pricing'], string> = {
@@ -27,21 +27,22 @@ const pricingColor: Record<Tool['pricing'], string> = {
 }
 
 export default function RecentTools() {
-  const [tools, setTools] = useState<Tool[]>(mockTools.slice(0, 8))
+  const [tools, setTools] = useState<Tool[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        // Backend should support ordering by created_at desc
         const res = await fetch(
           '/api/tools-proxy?page_size=8&ordering=-created_at',
         )
+        if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()
         const results = data.results ?? data
-        if (results.length > 0) setTools(results)
+        setTools(results)
       } catch {
-        // fallback to mock data already set
+        setError(true)
       } finally {
         setLoading(false)
       }
@@ -99,8 +100,30 @@ export default function RecentTools() {
             View all tools
           </Button>
         </Stack>
+
         {loading ? (
           <ToolListSkeleton count={8} />
+        ) : error ? (
+          <Typography
+            variant="body2"
+            sx={{
+              color: (theme) => theme.customColors.lightTextSecondary,
+              textAlign: 'center',
+              py: 4,
+            }}>
+            Unable to load recently added tools right now. Please try again
+            later.
+          </Typography>
+        ) : tools.length === 0 ? (
+          <Typography
+            variant="body2"
+            sx={{
+              color: (theme) => theme.customColors.lightTextSecondary,
+              textAlign: 'center',
+              py: 4,
+            }}>
+            No tools available yet.
+          </Typography>
         ) : (
           <Box
             sx={{
@@ -195,7 +218,11 @@ export default function RecentTools() {
                     </Box>
                   </Stack>
 
-                  <Stack direction="row" spacing={1} sx={{ flexShrink: 0 }}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{ flexShrink: 0, alignItems: 'center' }}>
+                    <FavoriteButton toolId={tool.id} size="small" />
                     <Button
                       component={Link}
                       href={`/tool/${tool.slug}`}
