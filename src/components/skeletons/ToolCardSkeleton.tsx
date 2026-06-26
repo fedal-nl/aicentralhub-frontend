@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Skeleton, Stack } from '@mui/material'
+import { Card, CardContent, Skeleton, Stack } from '@mui/material'
 
 export default function ToolCardSkeleton() {
   return (

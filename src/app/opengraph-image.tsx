@@ -62,6 +62,7 @@ export default async function OGImage() {
         width={280}
         height={70}
         style={{ objectFit: 'contain', marginBottom: '32px' }}
+        alt="ai-centralhub-logo"
       />
 
       {/* Headline */}
