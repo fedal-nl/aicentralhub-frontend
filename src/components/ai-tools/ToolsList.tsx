@@ -117,6 +117,7 @@ export default function ToolsList({ tools }: ToolsListProps) {
                 variant="outlined"
                 size="small"
                 endIcon={<ArrowForwardIcon fontSize="small" />}
+                fullWidth
                 sx={{
                   borderColor: (theme) => theme.customColors.lightBorder,
                   color: (theme) => theme.customColors.lightTextSecondary,
@@ -137,6 +138,7 @@ export default function ToolsList({ tools }: ToolsListProps) {
                 variant="contained"
                 size="small"
                 endIcon={<OpenInNewIcon fontSize="small" />}
+                fullWidth
                 sx={{
                   borderRadius: '8px',
                   color: '#fff',

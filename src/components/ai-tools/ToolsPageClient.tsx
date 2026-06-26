@@ -156,6 +156,8 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
       sx={{
         background: (theme) => theme.customColors.lightBgAlt,
         minHeight: '100vh',
+        overflowX: 'hidden',
+        width: '100%',
       }}>
       <Container maxWidth="xl" sx={{ py: 6 }}>
         <Box sx={{ mb: 4 }}>

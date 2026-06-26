@@ -61,21 +61,21 @@ export default function ToolsFilter({
     <Box
       sx={{
         position: 'sticky',
-        top: 70,
+        top: 90,
         zIndex: 10,
         background: (theme) => theme.customColors.lightBgAlt,
         borderBottom: (theme) =>
           `1px solid ${theme.customColors.lightBorderSubtle}`,
         py: 2,
+        width: '100%',
+        overflowX: 'hidden',
       }}>
-      <Stack spacing={2}>
+      <Stack spacing={1.5}>
+        {/* Row 1: Search + Category (stacks on mobile, inline on desktop) */}
         <Stack
           direction={{ xs: 'column', md: 'row' }}
-          spacing={2}
-          sx={{
-            alignItems: { xs: 'stretch', md: 'center' },
-            justifyContent: 'space-between',
-          }}>
+          spacing={1.5}
+          sx={{ width: '100%' }}>
           {/* Search */}
           <Box
             sx={{
@@ -87,7 +87,7 @@ export default function ToolsFilter({
               px: 2,
               py: 0.8,
               gap: 1,
-              flexGrow: 1,
+              width: '100%',
               maxWidth: { md: 340 },
               '&:focus-within': {
                 borderColor: (theme) => theme.palette.primary.main,
@@ -97,6 +97,7 @@ export default function ToolsFilter({
               sx={{
                 color: (theme) => theme.customColors.lightTextSecondary,
                 fontSize: 20,
+                flexShrink: 0,
               }}
             />
             <InputBase
@@ -107,6 +108,7 @@ export default function ToolsFilter({
               sx={{
                 fontSize: '0.9rem',
                 color: (theme) => theme.customColors.lightText,
+                minWidth: 0,
               }}
             />
             {search && (
@@ -115,6 +117,7 @@ export default function ToolsFilter({
                 size="small"
                 sx={{
                   color: (theme) => theme.customColors.lightTextSecondary,
+                  flexShrink: 0,
                   '&:hover': { color: (theme) => theme.customColors.lightText },
                 }}>
                 <ClearIcon fontSize="small" />
@@ -122,117 +125,125 @@ export default function ToolsFilter({
             )}
           </Box>
 
-          <Stack
-            direction="row"
-            spacing={2}
-            sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
-            {/* Category filter */}
-            <Select
-              value={category}
-              onChange={(e) => {
-                onCategoryChange(e.target.value)
-                onSubcategoryChange('')
-              }}
-              size="small"
-              displayEmpty
-              sx={{
-                fontSize: '0.9rem',
-                color: (theme) => theme.customColors.lightText,
-                background: (theme) => theme.customColors.lightBg,
-                border: (theme) =>
-                  `1px solid ${theme.customColors.lightBorder}`,
-                borderRadius: '10px',
-                minWidth: 180,
-                '.MuiOutlinedInput-notchedOutline': { border: 'none' },
-              }}>
-              <MenuItem value="">All Categories</MenuItem>
-              {parentCategories.map((cat) => (
-                <MenuItem key={cat.slug} value={cat.name}>
-                  {cat.name}
-                </MenuItem>
-              ))}
-            </Select>
-
-            {/* Pricing filter */}
-            <Stack direction="row" spacing={1}>
-              {pricingOptions.map((option) => (
-                <Chip
-                  key={option}
-                  label={
-                    option === 'all'
-                      ? 'All'
-                      : option
-                          .split('-')
-                          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                          .join(' ')
-                  }
-                  size="small"
-                  onClick={() => onPricingChange(option)}
-                  sx={{
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    background:
-                      pricing === option
-                        ? (theme) => `${theme.palette.primary.main}22`
-                        : (theme) => theme.customColors.lightChipBg,
-                    color:
-                      pricing === option
-                        ? 'primary.main'
-                        : (theme) => theme.customColors.lightTextSecondary,
-                    border:
-                      pricing === option
-                        ? (theme) => `1px solid ${theme.palette.primary.main}66`
-                        : (theme) =>
-                            `1px solid ${theme.customColors.lightBorder}`,
-                  }}
-                />
-              ))}
-            </Stack>
-
-            {/* View toggle */}
-            <ToggleButtonGroup
-              value={view}
-              exclusive
-              onChange={(_, val) => val && onViewChange(val)}
-              size="small"
-              sx={{
-                background: (theme) => theme.customColors.lightBg,
-                border: (theme) =>
-                  `1px solid ${theme.customColors.lightBorder}`,
-                borderRadius: '10px',
-                '.MuiToggleButton-root': {
-                  border: 'none',
-                  color: (theme) => theme.customColors.lightTextSecondary,
-                  px: 1.5,
-                  '&.Mui-selected': {
-                    background: (theme) => `${theme.palette.primary.main}22`,
-                    color: 'primary.main',
-                  },
-                },
-              }}>
-              <ToggleButton value="grid">
-                <GridViewIcon fontSize="small" />
-              </ToggleButton>
-              <ToggleButton value="list">
-                <ViewListIcon fontSize="small" />
-              </ToggleButton>
-            </ToggleButtonGroup>
-
-            {/* Count */}
-            <Typography
-              variant="body2"
-              sx={{
-                color: (theme) => theme.customColors.lightTextSecondary,
-                whiteSpace: 'nowrap',
-              }}>
-              {totalCount} tools
-            </Typography>
-          </Stack>
+          {/* Category filter */}
+          <Select
+            value={category}
+            onChange={(e) => {
+              onCategoryChange(e.target.value)
+              onSubcategoryChange('')
+            }}
+            size="small"
+            displayEmpty
+            fullWidth
+            sx={{
+              fontSize: '0.9rem',
+              color: (theme) => theme.customColors.lightText,
+              background: (theme) => theme.customColors.lightBg,
+              border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
+              borderRadius: '10px',
+              width: { xs: '100%', md: 'auto' },
+              minWidth: { md: 180 },
+              flexShrink: 0,
+              '.MuiOutlinedInput-notchedOutline': { border: 'none' },
+            }}>
+            <MenuItem value="">All Categories</MenuItem>
+            {parentCategories.map((cat) => (
+              <MenuItem key={cat.slug} value={cat.name}>
+                {cat.name}
+              </MenuItem>
+            ))}
+          </Select>
         </Stack>
 
-        {/* Subcategory chips */}
+        {/* Row 2: Pricing chips — wraps freely, never overflows */}
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            flexWrap: 'wrap',
+            gap: 1,
+            rowGap: 1,
+          }}>
+          {pricingOptions.map((option) => (
+            <Chip
+              key={option}
+              label={
+                option === 'all'
+                  ? 'All'
+                  : option
+                      .split('-')
+                      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                      .join(' ')
+              }
+              size="small"
+              onClick={() => onPricingChange(option)}
+              sx={{
+                fontWeight: 600,
+                cursor: 'pointer',
+                background:
+                  pricing === option
+                    ? (theme) => `${theme.palette.primary.main}22`
+                    : (theme) => theme.customColors.lightChipBg,
+                color:
+                  pricing === option
+                    ? 'primary.main'
+                    : (theme) => theme.customColors.lightTextSecondary,
+                border:
+                  pricing === option
+                    ? (theme) => `1px solid ${theme.palette.primary.main}66`
+                    : (theme) => `1px solid ${theme.customColors.lightBorder}`,
+              }}
+            />
+          ))}
+        </Stack>
+
+        {/* Row 3: View toggle + count */}
+        <Stack
+          direction="row"
+          sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+          <ToggleButtonGroup
+            value={view}
+            exclusive
+            onChange={(_, val) => val && onViewChange(val)}
+            size="small"
+            sx={{
+              background: (theme) => theme.customColors.lightBg,
+              border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
+              borderRadius: '10px',
+              '.MuiToggleButton-root': {
+                border: 'none',
+                color: (theme) => theme.customColors.lightTextSecondary,
+                px: 1.5,
+                '&.Mui-selected': {
+                  background: (theme) => `${theme.palette.primary.main}22`,
+                  color: 'primary.main',
+                },
+              },
+            }}>
+            <ToggleButton value="grid">
+              <GridViewIcon fontSize="small" />
+            </ToggleButton>
+            <ToggleButton value="list">
+              <ViewListIcon fontSize="small" />
+            </ToggleButton>
+          </ToggleButtonGroup>
+
+          <Typography
+            variant="body2"
+            sx={{
+              color: (theme) => theme.customColors.lightTextSecondary,
+              whiteSpace: 'nowrap',
+            }}>
+            {totalCount.toLocaleString()} tools
+          </Typography>
+        </Stack>
+
+        {/* Subcategory chips — only show when a parent category is selected */}
         {subcategories.length > 0 && (
-          <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ flexWrap: 'wrap', gap: 1, rowGap: 1, pt: 0.5 }}>
             <Chip
               label="All"
               size="small"
