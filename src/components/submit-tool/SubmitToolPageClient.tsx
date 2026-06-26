@@ -1,6 +1,5 @@
 'use client'
 
-import { Theme } from '@mui/material/styles'
 import { useState } from 'react'
 import Link from 'next/link'
 import {
@@ -19,6 +18,7 @@ import {
   Divider,
   Alert,
 } from '@mui/material'
+import { Theme } from '@mui/material/styles'
 import SendIcon from '@mui/icons-material/Send'
 import LockIcon from '@mui/icons-material/Lock'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'

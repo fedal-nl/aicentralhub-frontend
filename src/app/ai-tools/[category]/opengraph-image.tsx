@@ -96,6 +96,7 @@ export default async function OGImage({ params }: Props) {
           width={180}
           height={45}
           style={{ objectFit: 'contain' }}
+          alt="ai-centralhub-logo"
         />
       </div>
 

@@ -112,7 +112,7 @@ export default function Footer() {
 
           {/* Link columns */}
           {Object.entries(footerLinks)
-            .filter(([_, links]) => links.some((link) => !link.hidden))
+            .filter(([, links]) => links.some((link) => !link.hidden))
             .map(([title, links]) => (
               <Grid size={{ xs: 6, md: 2 }} key={title}>
                 <Typography

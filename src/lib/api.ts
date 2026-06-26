@@ -1,3 +1,5 @@
+import { Tool } from '@/types/tool'
+
 const BASE_URL = process.env.BACKEND_URL ?? 'https://api.fedal.xyz'
 const API_KEY = process.env.API_KEY ?? ''
 
@@ -27,7 +29,7 @@ interface BackendTool {
   is_active: boolean
 }
 
-function mapTool(tool: BackendTool) {
+function mapTool(tool: BackendTool): Tool {
   return {
     id: tool.id,
     name: tool.name,
@@ -37,15 +39,13 @@ function mapTool(tool: BackendTool) {
     longDescription: tool.long_description,
     category: tool.category,
     subcategory: tool.subcategory,
-    pricing: tool.pricing_model,
-    appType: tool.app_type,
-    tags: tool.tags,
+    pricing: tool.pricing_model as Tool['pricing'],
+    appType: tool.app_type as Tool['appType'],
     logo: tool.logo_url,
     isFeatured: tool.is_featured,
     metaDescription: tool.meta_description,
     rating: tool.rating ? parseFloat(tool.rating) : 0,
     reviewCount: tool.review_count,
-    isActive: tool.is_active,
   }
 }
 

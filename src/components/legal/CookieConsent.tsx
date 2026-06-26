@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { Box, Typography, Button, Stack } from '@mui/material'
 import CookieIcon from '@mui/icons-material/Cookie'
@@ -9,13 +9,21 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void
-    dataLayer: any[]
+    gtag: (...args: unknown[]) => void
+    dataLayer: unknown[]
   }
 }
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false)
+
+  const enableAnalytics = useCallback(() => {
+    if (typeof window !== 'undefined' && window.gtag && GA_MEASUREMENT_ID) {
+      window.gtag('consent', 'update', {
+        analytics_storage: 'granted',
+      })
+    }
+  }, [])
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie_consent')
@@ -23,19 +31,10 @@ export default function CookieConsent() {
       const timer = setTimeout(() => setVisible(true), 1000)
       return () => clearTimeout(timer)
     }
-    // If previously accepted, enable analytics
     if (consent === 'accepted') {
       enableAnalytics()
     }
-  }, [])
-
-  const enableAnalytics = () => {
-    if (typeof window !== 'undefined' && window.gtag && GA_MEASUREMENT_ID) {
-      window.gtag('consent', 'update', {
-        analytics_storage: 'granted',
-      })
-    }
-  }
+  }, [enableAnalytics])
 
   const handleAccept = () => {
     localStorage.setItem('cookie_consent', 'accepted')

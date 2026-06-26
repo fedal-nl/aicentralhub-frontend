@@ -3,7 +3,27 @@ import { NextRequest, NextResponse } from 'next/server'
 const BASE_URL = process.env.BACKEND_URL ?? 'https://api.fedal.xyz'
 const API_KEY = process.env.API_KEY ?? ''
 
-function mapTool(tool: any) {
+interface BackendTool {
+  id: number
+  name: string
+  slug: string
+  website_url: string
+  description: string
+  long_description?: string
+  category: string
+  subcategory: string
+  pricing_model: string
+  app_type: string
+  tags?: string
+  logo_url?: string
+  is_featured: boolean
+  meta_description?: string
+  rating?: string
+  review_count?: number
+  is_active: boolean
+}
+
+function mapTool(tool: BackendTool) {
   return {
     id: tool.id,
     name: tool.name,
@@ -29,7 +49,6 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const query = new URLSearchParams()
 
-  // Map frontend param names to backend param names
   if (searchParams.get('search'))
     query.set('search', searchParams.get('search')!)
   if (searchParams.get('category'))
@@ -43,6 +62,8 @@ export async function GET(request: NextRequest) {
   if (searchParams.get('page')) query.set('page', searchParams.get('page')!)
   if (searchParams.get('page_size'))
     query.set('page_size', searchParams.get('page_size')!)
+  if (searchParams.get('ordering'))
+    query.set('ordering', searchParams.get('ordering')!)
 
   try {
     const res = await fetch(`${BASE_URL}/api/tools/?${query.toString()}`, {
@@ -68,7 +89,7 @@ export async function GET(request: NextRequest) {
       previous: data.previous,
       results: (data.results ?? []).map(mapTool),
     })
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

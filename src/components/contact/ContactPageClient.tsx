@@ -14,6 +14,7 @@ import {
   AccordionDetails,
   Chip,
 } from '@mui/material'
+import { Theme } from '@mui/material/styles'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SendIcon from '@mui/icons-material/Send'
 import EmailIcon from '@mui/icons-material/Email'
@@ -83,7 +84,7 @@ export default function ContactPageClient() {
       }
 
       setSubmitted(true)
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again or email us directly.')
     } finally {
       setSending(false)
@@ -92,19 +93,19 @@ export default function ContactPageClient() {
 
   const textFieldSx = {
     '& .MuiOutlinedInput-root': {
-      color: (theme: any) => theme.customColors.lightText,
+      color: (theme: Theme) => theme.customColors.lightText,
       borderRadius: '10px',
-      background: (theme: any) => theme.customColors.lightBg,
+      background: (theme: Theme) => theme.customColors.lightBg,
       '& fieldset': {
-        borderColor: (theme: any) => theme.customColors.lightBorder,
+        borderColor: (theme: Theme) => theme.customColors.lightBorder,
       },
       '&:hover fieldset': {
-        borderColor: (theme: any) => theme.customColors.lightTextSecondary,
+        borderColor: (theme: Theme) => theme.customColors.lightTextSecondary,
       },
       '&.Mui-focused fieldset': { borderColor: 'primary.main' },
     },
     '& .MuiInputLabel-root': {
-      color: (theme: any) => theme.customColors.lightTextSecondary,
+      color: (theme: Theme) => theme.customColors.lightTextSecondary,
     },
   }
 
@@ -149,8 +150,8 @@ export default function ContactPageClient() {
               maxWidth: 560,
               lineHeight: 1.8,
             }}>
-            Have a question, suggestion or want to submit your tool? We'd love
-            to hear from you.
+            Have a question, suggestion or want to submit your tool? We&apos;d
+            love to hear from you.
           </Typography>
         </Container>
       </Box>
@@ -219,8 +220,8 @@ export default function ContactPageClient() {
                       color: (theme) => theme.customColors.lightTextSecondary,
                       mt: 2,
                     }}>
-                    Thank you for reaching out. We'll get back to you as soon as
-                    possible.
+                    Thank you for reaching out. We&apos;ll get back to you as
+                    soon as possible.
                   </Typography>
                 </Box>
               ) : (
