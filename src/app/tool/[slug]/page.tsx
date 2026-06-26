@@ -4,13 +4,13 @@ import { getToolBySlug, getReviews, getTools } from '@/lib/api'
 import ToolHero from '@/components/tool/ToolHero'
 import ToolDetailClient from '@/components/tool/ToolDetailClient'
 import ToolStructuredData from '@/components/structured-data/ToolStructuredData'
+import { Review } from '@/types/review'
+import { Tool } from '@/types/tool'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-// Don't pre-generate static params for 7,500+ tools at build time
-// Instead use dynamic rendering with on-demand caching
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -32,14 +32,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ToolDetailPage({ params }: Props) {
   const { slug } = await params
 
-  let tool = null
+  let tool: Tool | null = null
   try {
     tool = await getToolBySlug(slug)
   } catch {
     notFound()
   }
 
-  let reviews = []
+  if (!tool) notFound()
+
+  let reviews: Review[] = []
   try {
     reviews = await getReviews({ tool: slug })
   } catch {
@@ -48,17 +50,17 @@ export default async function ToolDetailPage({ params }: Props) {
 
   const averageRating =
     reviews.length > 0
-      ? reviews.reduce((sum: number, r: any) => sum + r.rating, 0) /
+      ? reviews.reduce((sum: number, r: Review) => sum + r.rating, 0) /
         reviews.length
       : (tool.rating ?? 0)
 
-  let relatedTools = []
+  let relatedTools: Tool[] = []
   try {
     const relatedData = await getTools({
       subcategory: tool.subcategory,
       page_size: 5,
     })
-    relatedTools = relatedData.results.filter((t: any) => t.slug !== slug)
+    relatedTools = relatedData.results.filter((t: Tool) => t.slug !== slug)
   } catch {
     relatedTools = []
   }
