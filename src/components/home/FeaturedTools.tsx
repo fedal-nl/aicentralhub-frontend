@@ -14,9 +14,9 @@ import {
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import FavoriteButton from '@/components/tool/FavoriteButton'
 import { Tool } from '@/types/tool'
 import FeaturedToolsSkeleton from '@/components/skeletons/FeaturedToolsSkeleton'
-import { featuredTools as mockFeaturedTools } from '@/data/mockData'
 
 const pricingColor: Record<Tool['pricing'], string> = {
   free: '#00D4FF',
@@ -27,19 +27,20 @@ const pricingColor: Record<Tool['pricing'], string> = {
 }
 
 export default function FeaturedTools() {
-  const [tools, setTools] = useState<Tool[]>(mockFeaturedTools)
+  const [tools, setTools] = useState<Tool[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
         const res = await fetch('/api/tools-proxy?featured=true&page_size=12')
+        if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()
         const results = data.results ?? data
-
-        if (results.length > 0) setTools(results)
+        setTools(results)
       } catch {
-        // fallback to mock data already set
+        setError(true)
       } finally {
         setLoading(false)
       }
@@ -94,6 +95,26 @@ export default function FeaturedTools() {
 
         {loading ? (
           <FeaturedToolsSkeleton count={6} />
+        ) : error ? (
+          <Typography
+            variant="body2"
+            sx={{
+              color: (theme) => theme.customColors.lightTextSecondary,
+              textAlign: 'center',
+              py: 4,
+            }}>
+            Unable to load featured tools right now. Please try again later.
+          </Typography>
+        ) : tools.length === 0 ? (
+          <Typography
+            variant="body2"
+            sx={{
+              color: (theme) => theme.customColors.lightTextSecondary,
+              textAlign: 'center',
+              py: 4,
+            }}>
+            No featured tools available yet.
+          </Typography>
         ) : (
           <Box
             sx={{
@@ -149,17 +170,23 @@ export default function FeaturedTools() {
                             theme.customColors.lightTextSecondary,
                         }}
                       />
-                      <Chip
-                        label={tool.pricing}
-                        size="small"
-                        sx={{
-                          fontSize: '0.7rem',
-                          fontWeight: 600,
-                          background: `${pricingColor[tool.pricing]}22`,
-                          color: pricingColor[tool.pricing],
-                          border: `1px solid ${pricingColor[tool.pricing]}44`,
-                        }}
-                      />
+                      <Stack
+                        direction="row"
+                        spacing={0.5}
+                        sx={{ alignItems: 'center' }}>
+                        <Chip
+                          label={tool.pricing}
+                          size="small"
+                          sx={{
+                            fontSize: '0.7rem',
+                            fontWeight: 600,
+                            background: `${pricingColor[tool.pricing]}22`,
+                            color: pricingColor[tool.pricing],
+                            border: `1px solid ${pricingColor[tool.pricing]}44`,
+                          }}
+                        />
+                        <FavoriteButton toolId={tool.id} size="small" />
+                      </Stack>
                     </Stack>
 
                     <Box>

@@ -12,6 +12,7 @@ import {
 } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import FavoriteButton from './FavoriteButton'
 import { Tool } from '@/types/tool'
 import { parentCategories } from '@/data/mockData'
 
@@ -207,6 +208,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
               }}>
               Visit {tool.name}
             </Button>
+            <FavoriteButton toolId={tool.id} size="large" />
           </Box>
 
           <Box
