@@ -9,13 +9,13 @@ import {
   Card,
   CardActionArea,
   Stack,
-  Chip,
   Button,
 } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { allTools } from '@/data/mockData'
 import { ParentCategory } from '@/types/tool'
+import ToolCard from '@/components/tool/ToolCard'
 
 interface Props {
   cat: ParentCategory
@@ -170,83 +170,7 @@ export default function CategoryPageClient({ cat }: Props) {
             <Grid container spacing={2}>
               {toolsInCategory.slice(0, 8).map((tool) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={tool.id}>
-                  <Card
-                    sx={{
-                      background: (theme) => theme.customColors.lightBg,
-                      border: (theme) =>
-                        `1px solid ${theme.customColors.lightBorder}`,
-                      borderRadius: '16px',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-                      transition: 'all 0.2s',
-                      '&:hover': {
-                        borderColor: (theme) => theme.palette.primary.main,
-                        transform: 'translateY(-4px)',
-                        boxShadow: (theme) =>
-                          `0 8px 32px ${theme.palette.primary.main}22`,
-                      },
-                    }}>
-                    <CardActionArea
-                      component={Link}
-                      href={`/tool/${tool.slug}`}
-                      sx={{ p: 3 }}>
-                      <Stack
-                        direction="row"
-                        sx={{
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          mb: 1.5,
-                        }}>
-                        <Chip
-                          label={tool.subcategory}
-                          size="small"
-                          sx={{
-                            fontSize: '0.7rem',
-                            background: (theme) =>
-                              theme.customColors.lightChipBg,
-                            border: (theme) =>
-                              `1px solid ${theme.customColors.lightBorder}`,
-                            color: (theme) =>
-                              theme.customColors.lightTextSecondary,
-                          }}
-                        />
-                        <Chip
-                          label={tool.pricing}
-                          size="small"
-                          sx={{
-                            fontSize: '0.7rem',
-                            fontWeight: 600,
-                            background: (theme) =>
-                              `${theme.palette.primary.main}22`,
-                            color: 'primary.main',
-                            border: (theme) =>
-                              `1px solid ${theme.palette.primary.main}44`,
-                          }}
-                        />
-                      </Stack>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: 700,
-                          color: (theme) => theme.customColors.lightText,
-                          mb: 0.5,
-                        }}>
-                        {tool.name}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          color: (theme) =>
-                            theme.customColors.lightTextSecondary,
-                          lineHeight: 1.6,
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}>
-                        {tool.description}
-                      </Typography>
-                    </CardActionArea>
-                  </Card>
+                  <ToolCard tool={tool} />
                 </Grid>
               ))}
             </Grid>
