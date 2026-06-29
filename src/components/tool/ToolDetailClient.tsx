@@ -74,6 +74,7 @@ export default function ToolDetailClient({
               />
 
               <ToolReviews
+                toolId={tool.id}
                 reviews={reviews}
                 averageRating={averageRating}
                 reviewCount={reviews.length}

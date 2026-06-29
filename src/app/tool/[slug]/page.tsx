@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { getToolBySlug, getReviews, getTools } from '@/lib/api'
@@ -31,6 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ToolDetailPage({ params }: Props) {
   const { slug } = await params
+  const session = await auth()
 
   let tool: Tool | null = null
   try {
@@ -43,7 +45,24 @@ export default async function ToolDetailPage({ params }: Props) {
 
   let reviews: Review[] = []
   try {
-    reviews = await getReviews({ tool: slug })
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'X-API-Key': process.env.API_KEY ?? '',
+    }
+    if (session?.backendToken) {
+      headers['Authorization'] =
+        `${session.backendTokenType ?? 'Bearer'} ${session.backendToken}`
+    }
+
+    const res = await fetch(
+      `${process.env.BACKEND_URL ?? 'https://api.fedal.xyz'}/api/reviews/?tool=${tool.id}`,
+      { headers, cache: 'no-store' },
+    )
+
+    if (res.ok) {
+      const data = await res.json()
+      reviews = Array.isArray(data) ? data : (data.results ?? [])
+    }
   } catch {
     reviews = []
   }
