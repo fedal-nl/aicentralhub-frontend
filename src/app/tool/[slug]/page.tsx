@@ -43,7 +43,14 @@ export default async function ToolDetailPage({ params }: Props) {
 
   let reviews: Review[] = []
   try {
-    reviews = await getReviews({ tool: slug })
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'}/api/reviews?tool=${tool.id}`,
+      {
+        cache: 'no-store',
+      },
+    )
+    const data = await res.json()
+    reviews = data.results ?? data
   } catch {
     reviews = []
   }

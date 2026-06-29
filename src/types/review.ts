@@ -1,9 +1,11 @@
 export interface Review {
   id: number
-  toolSlug: string
-  author: string
+  username: string
+  tool: number
+  tool_name: string
   rating: number
-  date: string
   title: string
   body: string
+  created_at: string
+  updated_at: string
 }

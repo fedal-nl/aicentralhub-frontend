@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import {
   Box,
   Typography,
@@ -15,20 +17,27 @@ import {
 import { Review } from '@/types/review'
 
 interface ToolReviewsProps {
+  toolId: number
   reviews: Review[]
   averageRating: number
   reviewCount: number
 }
 
 export default function ToolReviews({
+  toolId,
   reviews,
   averageRating,
   reviewCount,
 }: ToolReviewsProps) {
+  const { status } = useSession()
+  const router = useRouter()
+
   const [userRating, setUserRating] = useState<number | null>(null)
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   const ratingBreakdown = [5, 4, 3, 2, 1].map((star) => ({
     star,
@@ -40,9 +49,39 @@ export default function ToolReviews({
         : 0,
   }))
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!userRating || !title || !body) return
-    setSubmitted(true)
+
+    if (status !== 'authenticated') {
+      router.push('/login')
+      return
+    }
+
+    setSubmitting(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tool: toolId,
+          rating: userRating,
+          title,
+          body,
+        }),
+      })
+
+      if (!res.ok) {
+        throw new Error('Failed to submit review')
+      }
+
+      setSubmitted(true)
+    } catch {
+      setError('Something went wrong submitting your review. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -181,8 +220,8 @@ export default function ToolReviews({
                       sx={{
                         color: (theme) => theme.customColors.lightTextSecondary,
                       }}>
-                      by {review.author} ·{' '}
-                      {new Date(review.date).toLocaleDateString('en-GB', {
+                      by {review.username} ·{' '}
+                      {new Date(review.created_at).toLocaleDateString('en-GB', {
                         day: 'numeric',
                         month: 'short',
                         year: 'numeric',
@@ -297,7 +336,7 @@ export default function ToolReviews({
             <Button
               onClick={handleSubmit}
               variant="contained"
-              disabled={!userRating || !title || !body}
+              disabled={!userRating || !title || !body || submitting}
               sx={{
                 fontWeight: 700,
                 borderRadius: '10px',
@@ -315,8 +354,22 @@ export default function ToolReviews({
                   color: (theme) => theme.customColors.lightTextSecondary,
                 },
               }}>
-              Submit Review
+              {submitting ? 'Submitting...' : 'Submit Review'}
             </Button>
+            {error && (
+              <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
+                {error}
+              </Typography>
+            )}
+            {status !== 'authenticated' && (
+              <Typography
+                variant="body2"
+                sx={{
+                  color: (theme) => theme.customColors.lightTextSecondary,
+                }}>
+                You&apos;ll be asked to log in before submitting.
+              </Typography>
+            )}
           </Stack>
         )}
       </Box>
