@@ -3,7 +3,7 @@ import { auth } from '@/auth'
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth
-  const protectedPaths = ['/submit-tool', '/dashboard']
+  const protectedPaths = ['/dashboard']
   const isProtected = protectedPaths.some((path) =>
     req.nextUrl.pathname.startsWith(path),
   )
@@ -16,5 +16,5 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ['/submit-tool', '/dashboard'],
+  matcher: ['/dashboard'],
 }

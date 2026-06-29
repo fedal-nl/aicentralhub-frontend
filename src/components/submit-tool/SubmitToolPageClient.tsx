@@ -23,6 +23,7 @@ import SendIcon from '@mui/icons-material/Send'
 import LockIcon from '@mui/icons-material/Lock'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { parentCategories } from '@/data/mockData'
+import { useSession } from 'next-auth/react'
 
 const pricingOptions = [
   'free',
@@ -41,7 +42,8 @@ const isValidEmail = (email: string) =>
 export default function SubmitToolPageClient() {
   const [activeStep, setActiveStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
-  const isLoggedIn = false // replace with real auth check when auth is implemented
+  const { status } = useSession()
+  const isLoggedIn = status === 'authenticated'
 
   // Step 1
   const [name, setName] = useState('')
@@ -110,6 +112,11 @@ export default function SubmitToolPageClient() {
     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
       borderColor: 'primary.main',
     },
+  }
+
+  // Wait for session to resolve before deciding what to show
+  if (status === 'loading') {
+    return null
   }
 
   // Not logged in state
