@@ -29,17 +29,9 @@ export interface Subcategory {
   count: number
 }
 
-export interface ParentCategory {
-  name: string
-  slug: string
-  description: string
-  subcategories: Subcategory[]
-}
-
 export interface Category {
-  id: number
   name: string
   slug: string
   count: number
-  icon?: string
+  subcategories: Subcategory[]
 }

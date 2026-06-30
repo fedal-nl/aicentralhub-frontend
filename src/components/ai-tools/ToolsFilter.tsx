@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import {
   Box,
   InputBase,
@@ -16,7 +17,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import ClearIcon from '@mui/icons-material/Clear'
 import GridViewIcon from '@mui/icons-material/GridView'
 import ViewListIcon from '@mui/icons-material/ViewList'
-import { parentCategories } from '@/data/mockData'
+import { Category } from '@/types/tool'
 
 interface ToolsFilterProps {
   search: string
@@ -54,8 +55,23 @@ export default function ToolsFilter({
   onPricingChange,
   onViewChange,
 }: ToolsFilterProps) {
-  const selectedParent = parentCategories.find((c) => c.name === category)
-  const subcategories = selectedParent?.subcategories ?? []
+  const [categories, setCategories] = useState<Category[]>([])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/categories')
+        const data = await res.json()
+        setCategories(Array.isArray(data) ? data : (data.results ?? []))
+      } catch {
+        // silently fail — filter still works without categories
+      }
+    }
+    fetchCategories()
+  }, [])
+
+  const selectedCat = categories.find((c) => c.name === category)
+  const subcategories = selectedCat?.subcategories ?? []
 
   return (
     <Box
@@ -71,12 +87,11 @@ export default function ToolsFilter({
         overflowX: 'hidden',
       }}>
       <Stack spacing={1.5}>
-        {/* Row 1: Search + Category (stacks on mobile, inline on desktop) */}
+        {/* Row 1: Search + Category */}
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           spacing={1.5}
           sx={{ width: '100%' }}>
-          {/* Search */}
           <Box
             sx={{
               display: 'flex',
@@ -118,14 +133,12 @@ export default function ToolsFilter({
                 sx={{
                   color: (theme) => theme.customColors.lightTextSecondary,
                   flexShrink: 0,
-                  '&:hover': { color: (theme) => theme.customColors.lightText },
                 }}>
                 <ClearIcon fontSize="small" />
               </IconButton>
             )}
           </Box>
 
-          {/* Category filter */}
           <Select
             value={category}
             onChange={(e) => {
@@ -147,7 +160,7 @@ export default function ToolsFilter({
               '.MuiOutlinedInput-notchedOutline': { border: 'none' },
             }}>
             <MenuItem value="">All Categories</MenuItem>
-            {parentCategories.map((cat) => (
+            {categories.map((cat) => (
               <MenuItem key={cat.slug} value={cat.name}>
                 {cat.name}
               </MenuItem>
@@ -155,15 +168,11 @@ export default function ToolsFilter({
           </Select>
         </Stack>
 
-        {/* Row 2: Pricing chips — wraps freely, never overflows */}
+        {/* Row 2: Pricing chips */}
         <Stack
           direction="row"
           spacing={1}
-          sx={{
-            flexWrap: 'wrap',
-            gap: 1,
-            rowGap: 1,
-          }}>
+          sx={{ flexWrap: 'wrap', gap: 1, rowGap: 1 }}>
           {pricingOptions.map((option) => (
             <Chip
               key={option}
@@ -238,7 +247,7 @@ export default function ToolsFilter({
           </Typography>
         </Stack>
 
-        {/* Subcategory chips — only show when a parent category is selected */}
+        {/* Row 4: Subcategory chips */}
         {subcategories.length > 0 && (
           <Stack
             direction="row"

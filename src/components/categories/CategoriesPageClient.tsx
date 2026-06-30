@@ -7,35 +7,26 @@ import {
   Typography,
   Grid,
   Card,
-  CardActionArea,
-  Stack,
+  CardContent,
   Chip,
+  Stack,
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { parentCategories } from '@/data/mockData'
+import { Category } from '@/types/tool'
+import { getCategoryIcon } from '@/lib/categoryIcons'
 
-const categoryIcons: Record<string, string> = {
-  productivity: '⚡',
-  'content-writing': '✍️',
-  'image-design': '🎨',
-  video: '🎬',
-  audio: '🎵',
-  'code-developer': '💻',
-  'marketing-seo': '📈',
-  business: '💼',
-  'ai-chatbots': '🤖',
-  education: '🎓',
-  'fun-creative': '🎭',
-  'health-life': '❤️',
+interface Props {
+  categories: Category[]
 }
 
-export default function CategoriesPageClient() {
+export default function CategoriesPageClient({ categories }: Props) {
   return (
     <Box
       sx={{
         background: (theme) => theme.customColors.lightBgAlt,
         minHeight: '100vh',
       }}>
+      {/* Header */}
       <Box
         sx={{
           background: (theme) => theme.customColors.lightBg,
@@ -60,7 +51,7 @@ export default function CategoriesPageClient() {
               color: (theme) => theme.customColors.lightText,
               mt: 0.5,
             }}>
-            All Categories
+            AI Tool Categories
           </Typography>
           <Typography
             variant="body1"
@@ -68,144 +59,155 @@ export default function CategoriesPageClient() {
               color: (theme) => theme.customColors.lightTextSecondary,
               mt: 1,
               maxWidth: 560,
-              lineHeight: 1.8,
             }}>
-            Browse 7,000+ AI tools organised across 12 parent categories and 50+
+            Explore{' '}
+            {categories.reduce((sum, c) => sum + c.count, 0).toLocaleString()}{' '}
+            AI tools across {categories.length} categories and{' '}
+            {categories.reduce((sum, c) => sum + c.subcategories.length, 0)}{' '}
             subcategories.
           </Typography>
         </Container>
       </Box>
 
       <Container maxWidth="xl" sx={{ py: 8 }}>
-        <Grid container spacing={3}>
-          {parentCategories.map((cat, index) => {
-            const totalTools = cat.subcategories.reduce(
-              (sum, sub) => sum + sub.count,
-              0,
-            )
-            return (
-              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={cat.slug}>
+        {categories.length === 0 ? (
+          <Typography
+            variant="body2"
+            sx={{
+              color: (theme) => theme.customColors.lightTextSecondary,
+              textAlign: 'center',
+              py: 6,
+            }}>
+            Unable to load categories right now. Please try again later.
+          </Typography>
+        ) : (
+          <Grid container spacing={3}>
+            {categories.map((cat) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={cat.slug}>
                 <Card
+                  component={Link}
+                  href={`/ai-tools/${cat.slug}`}
                   sx={{
                     height: '100%',
+                    display: 'block',
+                    textDecoration: 'none',
                     background: (theme) => theme.customColors.lightBg,
                     border: (theme) =>
                       `1px solid ${theme.customColors.lightBorder}`,
                     borderRadius: '16px',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-                    transition: 'all 0.2s',
+                    transition:
+                      'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
                     '&:hover': {
-                      borderColor: (theme) => theme.palette.primary.main,
                       transform: 'translateY(-4px)',
+                      borderColor: (theme) => theme.palette.primary.main,
                       boxShadow: (theme) =>
                         `0 8px 32px ${theme.palette.primary.main}22`,
                     },
                   }}>
-                  <CardActionArea
-                    component={Link}
-                    href={`/ai-tools/${cat.slug}`}
-                    sx={{
-                      p: 3,
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                    }}>
+                  <CardContent sx={{ p: 3 }}>
                     <Box
                       sx={{
                         width: 56,
                         height: 56,
                         borderRadius: '14px',
                         background: (theme) =>
-                          index % 2 === 0
-                            ? `${theme.palette.primary.main}22`
-                            : `${theme.palette.secondary.main}22`,
+                          `${theme.palette.primary.main}11`,
+                        border: (theme) =>
+                          `1px solid ${theme.palette.primary.main}22`,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '1.6rem',
-                        mb: 2,
+                        fontSize: '28px',
+                        mb: 1,
                       }}>
-                      {categoryIcons[cat.slug] ?? '🔧'}
+                      {getCategoryIcon(cat.slug)}
                     </Box>
-
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontWeight: 700,
-                        color: (theme) => theme.customColors.lightText,
-                        mb: 0.5,
-                      }}>
-                      {cat.name}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: (theme) => theme.customColors.lightTextSecondary,
-                        lineHeight: 1.6,
-                        mb: 2,
-                        flex: 1,
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                      }}>
-                      {cat.description}
-                    </Typography>
-
-                    <Stack
-                      direction="row"
-                      sx={{
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        width: '100%',
-                        mt: 'auto',
-                      }}>
+                    <Stack spacing={2}>
                       <Stack
                         direction="row"
-                        spacing={1}
-                        sx={{ flexWrap: 'wrap', gap: 0.5 }}>
-                        <Chip
-                          label={`${totalTools.toLocaleString()} tools`}
-                          size="small"
-                          sx={{
-                            fontSize: '0.7rem',
-                            fontWeight: 600,
-                            background: (theme) =>
-                              `${theme.palette.primary.main}22`,
-                            color: 'primary.main',
-                            border: (theme) =>
-                              `1px solid ${theme.palette.primary.main}44`,
-                          }}
-                        />
-                        <Chip
-                          label={`${cat.subcategories.length} subcategories`}
-                          size="small"
-                          sx={{
-                            fontSize: '0.7rem',
-                            background: (theme) =>
-                              theme.customColors.lightChipBg,
-                            border: (theme) =>
-                              `1px solid ${theme.customColors.lightBorder}`,
-                            color: (theme) =>
-                              theme.customColors.lightTextSecondary,
-                          }}
-                        />
-                      </Stack>
-                      <ArrowForwardIcon
                         sx={{
-                          fontSize: 18,
-                          color: (theme) =>
-                            theme.customColors.lightTextSecondary,
-                        }}
-                      />
+                          justifyContent: 'space-between',
+                          alignItems: 'flex-start',
+                        }}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontWeight: 700,
+                            color: (theme) => theme.customColors.lightText,
+                          }}>
+                          {cat.name}
+                        </Typography>
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          sx={{ alignItems: 'center', flexShrink: 0 }}>
+                          <Chip
+                            label={`${cat.count.toLocaleString()} tools`}
+                            size="small"
+                            sx={{
+                              fontWeight: 600,
+                              background: (theme) =>
+                                `${theme.palette.primary.main}11`,
+                              color: 'primary.main',
+                              border: (theme) =>
+                                `1px solid ${theme.palette.primary.main}44`,
+                            }}
+                          />
+                        </Stack>
+                      </Stack>
+
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8 }}>
+                        {cat.subcategories.slice(0, 5).map((sub) => (
+                          <Chip
+                            key={sub.slug}
+                            label={`${sub.name} (${sub.count})`}
+                            size="small"
+                            sx={{
+                              fontSize: '0.7rem',
+                              background: (theme) =>
+                                theme.customColors.lightChipBg,
+                              border: (theme) =>
+                                `1px solid ${theme.customColors.lightBorder}`,
+                              color: (theme) =>
+                                theme.customColors.lightTextSecondary,
+                            }}
+                          />
+                        ))}
+                        {cat.subcategories.length > 5 && (
+                          <Chip
+                            label={`+${cat.subcategories.length - 5} more`}
+                            size="small"
+                            sx={{
+                              fontSize: '0.7rem',
+                              background: (theme) =>
+                                theme.customColors.lightChipBg,
+                              border: (theme) =>
+                                `1px solid ${theme.customColors.lightBorder}`,
+                              color: (theme) =>
+                                theme.customColors.lightTextSecondary,
+                            }}
+                          />
+                        )}
+                      </Box>
+
+                      <Stack
+                        direction="row"
+                        sx={{ alignItems: 'center', color: 'primary.main' }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ fontWeight: 600, color: 'primary.main' }}>
+                          Browse {cat.name}
+                        </Typography>
+                        <ArrowForwardIcon sx={{ fontSize: 16, ml: 0.5 }} />
+                      </Stack>
                     </Stack>
-                  </CardActionArea>
+                  </CardContent>
                 </Card>
               </Grid>
-            )
-          })}
-        </Grid>
+            ))}
+          </Grid>
+        )}
       </Container>
     </Box>
   )

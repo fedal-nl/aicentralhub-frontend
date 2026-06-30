@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og'
-import { parentCategories } from '@/data/mockData'
+import { getCategories } from '@/lib/api'
 
 export const runtime = 'nodejs'
 export const alt = 'AI Tools Category'
@@ -13,7 +13,8 @@ interface Props {
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
 
 export default async function OGImage({ params }: Props) {
-  const cat = parentCategories.find((c) => c.slug === params.category)
+  const categories = await getCategories()
+  const cat = categories.find((c) => c.slug === params.category)
 
   if (!cat) {
     return new ImageResponse(
@@ -49,7 +50,6 @@ export default async function OGImage({ params }: Props) {
         overflow: 'hidden',
         padding: '60px',
       }}>
-      {/* Grid background */}
       <div
         style={{
           position: 'absolute',
@@ -60,8 +60,6 @@ export default async function OGImage({ params }: Props) {
           display: 'flex',
         }}
       />
-
-      {/* Gradient blobs */}
       <div
         style={{
           position: 'absolute',
@@ -89,20 +87,17 @@ export default async function OGImage({ params }: Props) {
         }}
       />
 
-      {/* Logo */}
       <div style={{ display: 'flex', marginBottom: 'auto' }}>
         <img
           src={`${BASE_URL}/assets/ai-centralhub-logo-dark-version.png`}
           width={180}
           height={45}
+          alt=""
           style={{ objectFit: 'contain' }}
-          alt="ai-centralhub-logo"
         />
       </div>
 
-      {/* Content */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {/* Overline */}
         <div
           style={{
             display: 'flex',
@@ -113,8 +108,6 @@ export default async function OGImage({ params }: Props) {
           }}>
           CATEGORY
         </div>
-
-        {/* Category name */}
         <div
           style={{
             display: 'flex',
@@ -125,8 +118,6 @@ export default async function OGImage({ params }: Props) {
           }}>
           {cat.name}
         </div>
-
-        {/* Description */}
         <div
           style={{
             display: 'flex',
@@ -135,10 +126,8 @@ export default async function OGImage({ params }: Props) {
             lineHeight: 1.5,
             maxWidth: '800px',
           }}>
-          {cat.description}
+          {`Browse ${cat.count.toLocaleString()} AI tools in the ${cat.name} category.`}
         </div>
-
-        {/* Stats */}
         <div style={{ display: 'flex', gap: '24px', marginTop: '8px' }}>
           <div
             style={{
@@ -168,7 +157,6 @@ export default async function OGImage({ params }: Props) {
         </div>
       </div>
 
-      {/* Bottom URL */}
       <div
         style={{
           display: 'flex',
