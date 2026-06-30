@@ -13,6 +13,7 @@ import {
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Category } from '@/types/tool'
+import { getCategoryIcon } from '@/lib/categoryIcons'
 
 interface Props {
   categories: Category[]
@@ -105,6 +106,23 @@ export default function CategoriesPageClient({ categories }: Props) {
                     },
                   }}>
                   <CardContent sx={{ p: 3 }}>
+                    <Box
+                      sx={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: '14px',
+                        background: (theme) =>
+                          `${theme.palette.primary.main}11`,
+                        border: (theme) =>
+                          `1px solid ${theme.palette.primary.main}22`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '28px',
+                        mb: 1,
+                      }}>
+                      {getCategoryIcon(cat.slug)}
+                    </Box>
                     <Stack spacing={2}>
                       <Stack
                         direction="row"

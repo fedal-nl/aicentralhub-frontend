@@ -15,6 +15,8 @@ import {
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Category } from '@/types/tool'
+import { getCategoryIcon } from '@/lib/categoryIcons'
+import GridViewIcon from '@mui/icons-material/GridView'
 
 export default function CategoriesGrid() {
   const [categories, setCategories] = useState<Category[]>([])
@@ -83,7 +85,7 @@ export default function CategoriesGrid() {
         </Stack>
 
         <Grid container spacing={2}>
-          {categories.slice(0, 12).map((cat) => (
+          {categories.slice(0, 12).map((cat, index) => (
             <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={cat.slug}>
               <Card
                 component={Link}
@@ -102,7 +104,31 @@ export default function CategoriesGrid() {
                     borderColor: (theme) => theme.palette.primary.main,
                   },
                 }}>
-                <CardContent sx={{ p: 2.5, textAlign: 'center' }}>
+                <CardContent sx={{ p: 2.5 }}>
+                  <Box
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: '10px',
+                      background: (theme) =>
+                        index % 2 === 0
+                          ? `${theme.palette.primary.main}22`
+                          : `${theme.palette.secondary.main}22`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      mb: 1.5,
+                    }}>
+                    <GridViewIcon
+                      sx={{
+                        fontSize: 20,
+                        color: (theme) =>
+                          index % 2 === 0
+                            ? theme.palette.primary.main
+                            : theme.palette.secondary.main,
+                      }}
+                    />
+                  </Box>
                   <Typography
                     variant="subtitle2"
                     sx={{
@@ -116,7 +142,7 @@ export default function CategoriesGrid() {
                     label={`${cat.count.toLocaleString()} tools`}
                     size="small"
                     sx={{
-                      fontSize: '0.65rem',
+                      fontSize: '0.75rem',
                       fontWeight: 600,
                       background: (theme) => `${theme.palette.primary.main}11`,
                       color: 'primary.main',
