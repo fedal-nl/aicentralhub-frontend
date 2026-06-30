@@ -16,6 +16,7 @@ declare module 'next-auth' {
     backendToken?: string
     backendTokenType?: string
     backendProfile?: BackendProfile
+    error?: string
     user: {
       id?: string
     } & DefaultSession['user']
@@ -27,6 +28,9 @@ declare module 'next-auth/jwt' {
     backendToken?: string
     backendTokenType?: string
     backendTokenExpires?: number
+    backendRefreshToken?: string
+    backendRefreshExpires?: number
     backendProfile?: BackendProfile
+    error?: string
   }
 }

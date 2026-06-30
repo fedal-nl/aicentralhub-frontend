@@ -5,6 +5,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import { SessionProvider } from 'next-auth/react'
 import theme from './theme'
+import SessionErrorHandler from '@/components/auth/SessionErrorHandler'
 
 export default function ThemeRegistry({ children }: { children: ReactNode }) {
   return (
@@ -12,6 +13,7 @@ export default function ThemeRegistry({ children }: { children: ReactNode }) {
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <SessionErrorHandler />
           {children}
         </ThemeProvider>
       </AppRouterCacheProvider>
