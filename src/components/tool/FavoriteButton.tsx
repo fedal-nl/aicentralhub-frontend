@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function FavoriteButton({ toolId, size = 'medium' }: Props) {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
   const [isFavorited, setIsFavorited] = useState(false)
   const [favoriteId, setFavoriteId] = useState<number | null>(null)

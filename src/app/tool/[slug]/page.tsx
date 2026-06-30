@@ -1,7 +1,7 @@
 import { auth } from '@/auth'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import { getToolBySlug, getReviews, getTools } from '@/lib/api'
+import { getToolBySlug, getTools } from '@/lib/api'
 import ToolHero from '@/components/tool/ToolHero'
 import ToolDetailClient from '@/components/tool/ToolDetailClient'
 import ToolStructuredData from '@/components/structured-data/ToolStructuredData'
