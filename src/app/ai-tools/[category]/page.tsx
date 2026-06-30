@@ -1,36 +1,48 @@
-import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import { parentCategories } from '@/data/mockData'
+import { notFound } from 'next/navigation'
+import { getCategories, getTools } from '@/lib/api'
 import CategoryPageClient from '@/components/ai-tools/CategoryPageClient'
-import CategoryStructuredData from '@/components/structured-data/CategoryStructuredData'
 
 interface Props {
   params: Promise<{ category: string }>
 }
 
-export async function generateStaticParams() {
-  return parentCategories.map((cat) => ({ category: cat.slug }))
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { category: slug } = await params
-  const cat = parentCategories.find((c) => c.slug === slug)
-  if (!cat) return {}
+  const { category } = await params
+  const categories = await getCategories()
+  const cat = categories.find((c) => c.slug === category)
+  if (!cat) return { title: 'Category' }
   return {
     title: `${cat.name} AI Tools`,
-    description: cat.description,
+    description: `Browse ${cat.count} AI tools in the ${cat.name} category.`,
   }
 }
 
 export default async function CategoryPage({ params }: Props) {
-  const { category: slug } = await params
-  const cat = parentCategories.find((c) => c.slug === slug)
+  const { category } = await params
+
+  let categories = []
+  try {
+    categories = await getCategories()
+  } catch {
+    notFound()
+  }
+
+  const cat = categories.find((c) => c.slug === category)
   if (!cat) notFound()
 
+  let tools = { results: [], count: 0 }
+  try {
+    tools = await getTools({ category: cat.name, page_size: 12 })
+  } catch {
+    tools = { results: [], count: 0 }
+  }
+
   return (
-    <>
-      <CategoryStructuredData cat={cat} />
-      <CategoryPageClient cat={cat} />
-    </>
+    <CategoryPageClient
+      category={cat}
+      initialTools={tools.results}
+      totalCount={tools.count}
+    />
   )
 }

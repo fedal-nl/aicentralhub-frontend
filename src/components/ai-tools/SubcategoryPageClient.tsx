@@ -4,15 +4,20 @@ import Link from 'next/link'
 import { Box, Container, Typography, Button } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ToolsGrid from './ToolsGrid'
-import { ParentCategory, Subcategory, Tool } from '@/types/tool'
+import { Category, Subcategory, Tool } from '@/types/tool'
 
 interface Props {
-  cat: ParentCategory
-  sub: Subcategory
-  tools: Tool[]
+  cat: Category
+  subcategory: Subcategory
+  initialTools: Tool[]
+  totalCount: number
 }
 
-export default function SubcategoryPageClient({ cat, sub, tools }: Props) {
+export default function SubcategoryPageClient({
+  cat,
+  subcategory,
+  initialTools,
+}: Props) {
   return (
     <Box
       sx={{
@@ -50,7 +55,7 @@ export default function SubcategoryPageClient({ cat, sub, tools }: Props) {
               color: (theme) => theme.customColors.lightText,
               mt: 0.5,
             }}>
-            {sub.name} AI Tools
+            {subcategory.name} AI Tools
           </Typography>
           <Typography
             variant="body1"
@@ -58,11 +63,11 @@ export default function SubcategoryPageClient({ cat, sub, tools }: Props) {
               color: (theme) => theme.customColors.lightTextSecondary,
               mt: 1,
             }}>
-            {sub.count.toLocaleString()} tools in this subcategory
+            {subcategory.count.toLocaleString()} tools in this subcategory
           </Typography>
         </Box>
 
-        <ToolsGrid tools={tools} />
+        <ToolsGrid tools={initialTools} />
       </Container>
     </Box>
   )

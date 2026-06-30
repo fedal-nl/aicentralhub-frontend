@@ -1,4 +1,4 @@
-import { Tool } from '@/types/tool'
+import { Tool, Category } from '@/types/tool'
 
 const BASE_URL = process.env.BACKEND_URL ?? 'https://api.fedal.xyz'
 const API_KEY = process.env.API_KEY ?? ''
@@ -127,4 +127,16 @@ export async function postReview(data: {
 
   if (!res.ok) throw new Error(`Failed to post review: ${res.status}`)
   return res.json()
+}
+
+// ___________ CATEGORIES _____________
+export async function getCategories(): Promise<Category[]> {
+  const res = await fetch(`${BASE_URL}/api/tools/categories/`, {
+    headers,
+    next: { revalidate: 3600 }, // revalidate hourly — categories don't change often
+  })
+
+  if (!res.ok) throw new Error(`Failed to fetch categories: ${res.status}`)
+  const data = await res.json()
+  return Array.isArray(data) ? data : (data.results ?? [])
 }

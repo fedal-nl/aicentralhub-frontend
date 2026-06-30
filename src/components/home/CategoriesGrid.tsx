@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Box,
@@ -7,25 +8,37 @@ import {
   Typography,
   Grid,
   Card,
-  CardActionArea,
-  Stack,
+  CardContent,
+  Chip,
   Button,
+  Stack,
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import GridViewIcon from '@mui/icons-material/GridView'
-import { topCategories } from '@/data/mockData'
+import { Category } from '@/types/tool'
 
 export default function CategoriesGrid() {
+  const [categories, setCategories] = useState<Category[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/categories')
+        const data = await res.json()
+        setCategories(Array.isArray(data) ? data : (data.results ?? []))
+      } catch {
+        // silently fail
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchCategories()
+  }, [])
+
+  if (loading || categories.length === 0) return null
+
   return (
-    <Box
-      sx={{
-        py: 10,
-        background: (theme) => theme.customColors.lightBgAlt,
-        borderTop: (theme) =>
-          `1px solid ${theme.customColors.lightBorderSubtle}`,
-        borderBottom: (theme) =>
-          `1px solid ${theme.customColors.lightBorderSubtle}`,
-      }}>
+    <Box sx={{ py: 10, background: (theme) => theme.customColors.lightBgAlt }}>
       <Container maxWidth="xl">
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
@@ -42,7 +55,7 @@ export default function CategoriesGrid() {
                 fontWeight: 700,
                 letterSpacing: '0.15em',
               }}>
-              Browse by
+              Explore
             </Typography>
             <Typography
               variant="h4"
@@ -51,12 +64,12 @@ export default function CategoriesGrid() {
                 color: (theme) => theme.customColors.lightText,
                 mt: 0.5,
               }}>
-              Top Categories
+              Browse by Category
             </Typography>
           </Box>
           <Button
             component={Link}
-            href="/ai-tools"
+            href="/categories"
             endIcon={<ArrowForwardIcon />}
             sx={{
               color: 'primary.main',
@@ -65,75 +78,53 @@ export default function CategoriesGrid() {
                 background: (theme) => `${theme.palette.primary.main}11`,
               },
             }}>
-            All categories
+            View all categories
           </Button>
         </Stack>
 
         <Grid container spacing={2}>
-          {topCategories.map((category, index) => (
-            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={category.id}>
+          {categories.slice(0, 12).map((cat) => (
+            <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={cat.slug}>
               <Card
+                component={Link}
+                href={`/ai-tools/${cat.slug}`}
                 sx={{
+                  display: 'block',
+                  textDecoration: 'none',
                   background: (theme) => theme.customColors.lightBg,
                   border: (theme) =>
                     `1px solid ${theme.customColors.lightBorder}`,
                   borderRadius: '12px',
-                  boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-                  transition: 'all 0.2s',
+                  boxShadow: 'none',
+                  transition: 'transform 0.2s, border-color 0.2s',
                   '&:hover': {
-                    borderColor: (theme) => theme.palette.primary.main,
-                    background: (theme) => `${theme.palette.primary.main}08`,
                     transform: 'translateY(-2px)',
-                    boxShadow: (theme) =>
-                      `0 4px 20px ${theme.palette.primary.main}22`,
+                    borderColor: (theme) => theme.palette.primary.main,
                   },
                 }}>
-                <CardActionArea
-                  component={Link}
-                  href={`/ai-tools?category=${category.slug}`}
-                  sx={{ p: 2.5 }}>
-                  <Box
-                    sx={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: '10px',
-                      background: (theme) =>
-                        index % 2 === 0
-                          ? `${theme.palette.primary.main}22`
-                          : `${theme.palette.secondary.main}22`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      mb: 1.5,
-                    }}>
-                    <GridViewIcon
-                      sx={{
-                        fontSize: 20,
-                        color: (theme) =>
-                          index % 2 === 0
-                            ? theme.palette.primary.main
-                            : theme.palette.secondary.main,
-                      }}
-                    />
-                  </Box>
+                <CardContent sx={{ p: 2.5, textAlign: 'center' }}>
                   <Typography
-                    variant="body2"
+                    variant="subtitle2"
                     sx={{
-                      fontWeight: 600,
+                      fontWeight: 700,
                       color: (theme) => theme.customColors.lightText,
                       mb: 0.5,
-                      lineHeight: 1.3,
                     }}>
-                    {category.name}
+                    {cat.name}
                   </Typography>
-                  <Typography
-                    variant="caption"
+                  <Chip
+                    label={`${cat.count.toLocaleString()} tools`}
+                    size="small"
                     sx={{
-                      color: (theme) => theme.customColors.lightTextSecondary,
-                    }}>
-                    {category.count.toLocaleString()} tools
-                  </Typography>
-                </CardActionArea>
+                      fontSize: '0.65rem',
+                      fontWeight: 600,
+                      background: (theme) => `${theme.palette.primary.main}11`,
+                      color: 'primary.main',
+                      border: (theme) =>
+                        `1px solid ${theme.palette.primary.main}33`,
+                    }}
+                  />
+                </CardContent>
               </Card>
             </Grid>
           ))}
