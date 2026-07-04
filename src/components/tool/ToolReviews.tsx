@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
+import Link from 'next/link'
 import {
   Box,
   Typography,
@@ -17,8 +18,8 @@ import {
   IconButton,
 } from '@mui/material'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import LockIcon from '@mui/icons-material/Lock'
 import { Review } from '@/types/review'
-
 interface ToolReviewsProps {
   toolId: number
   reviews: Review[]
@@ -34,6 +35,7 @@ export default function ToolReviews({
 }: ToolReviewsProps) {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const pathname = usePathname()
 
   const [userRating, setUserRating] = useState<number | null>(null)
   const [title, setTitle] = useState('')
@@ -329,23 +331,30 @@ export default function ToolReviews({
               </Typography>
               <Rating
                 value={userRating}
-                onChange={(_, val) => setUserRating(val)}
+                onChange={(_, val) =>
+                  status === 'authenticated' ? setUserRating(val) : null
+                }
+                readOnly={status !== 'authenticated'}
                 sx={{
                   color: 'primary.main',
                   '& .MuiRating-iconEmpty': {
                     color: (theme) => theme.customColors.lightBorder,
                   },
+                  opacity: status !== 'authenticated' ? 0.4 : 1,
                 }}
               />
             </Box>
+
             <TextField
               label="Review title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               fullWidth
               size="small"
+              disabled={status !== 'authenticated'}
               sx={textFieldSx}
             />
+
             <TextField
               label="Your review"
               value={body}
@@ -353,44 +362,71 @@ export default function ToolReviews({
               fullWidth
               multiline
               rows={4}
+              disabled={status !== 'authenticated'}
               sx={textFieldSx}
             />
-            <Button
-              onClick={handleSubmit}
-              variant="contained"
-              disabled={!userRating || !title || !body || submitting}
-              sx={{
-                fontWeight: 700,
-                borderRadius: '10px',
-                alignSelf: 'flex-start',
-                px: 4,
-                background: (theme) =>
-                  `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                color: '#fff',
-                '&:hover': {
-                  background: (theme) =>
-                    `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
-                },
-                '&.Mui-disabled': {
-                  background: (theme) => theme.customColors.lightChipBg,
-                  color: (theme) => theme.customColors.lightTextSecondary,
-                },
-              }}>
-              {submitting ? 'Submitting...' : 'Submit Review'}
-            </Button>
-            {error && (
-              <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
-                {error}
-              </Typography>
-            )}
-            {status !== 'authenticated' && (
-              <Typography
-                variant="body2"
-                sx={{
-                  color: (theme) => theme.customColors.lightTextSecondary,
-                }}>
-                You&apos;ll be asked to log in before submitting.
-              </Typography>
+
+            {status === 'authenticated' ? (
+              <>
+                <Button
+                  onClick={handleSubmit}
+                  variant="contained"
+                  disabled={!userRating || !title || !body || submitting}
+                  sx={{
+                    fontWeight: 700,
+                    borderRadius: '10px',
+                    alignSelf: 'flex-start',
+                    px: 4,
+                    background: (theme) =>
+                      `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                    color: '#fff',
+                    '&:hover': {
+                      background: (theme) =>
+                        `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
+                    },
+                    '&.Mui-disabled': {
+                      background: (theme) => theme.customColors.lightChipBg,
+                      color: (theme) => theme.customColors.lightTextSecondary,
+                    },
+                  }}>
+                  {submitting ? 'Submitting...' : 'Submit Review'}
+                </Button>
+                {error && (
+                  <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
+                    {error}
+                  </Typography>
+                )}
+              </>
+            ) : (
+              <Stack spacing={1}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: (theme) => theme.customColors.lightTextSecondary,
+                  }}>
+                  You need to be logged in to write a review.
+                </Typography>
+                <Button
+                  component={Link}
+                  href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
+                  variant="contained"
+                  startIcon={<LockIcon />}
+                  sx={{
+                    alignSelf: 'flex-start',
+                    fontWeight: 700,
+                    borderRadius: '10px',
+                    px: 3,
+                    background: (theme) =>
+                      `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                    color: '#fff',
+                    '&:hover': {
+                      background: (theme) =>
+                        `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
+                    },
+                  }}>
+                  Log in to write a review
+                </Button>
+              </Stack>
             )}
           </Stack>
         )}
