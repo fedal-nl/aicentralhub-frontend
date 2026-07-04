@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import {
   Box,
   Typography,
@@ -8,15 +9,18 @@ import {
   IconButton,
   Divider,
   CircularProgress,
+  Chip,
 } from '@mui/material'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
 interface Favorite {
   id: number
   username: string
   tool: number
   tool_name: string
+  tool_slug: string
   created_at: string
 }
 
@@ -31,6 +35,7 @@ export default function FavoritesList() {
       try {
         const res = await fetch('/api/favorites')
         const data = await res.json()
+        // Handle both paginated and flat array responses
         setFavorites(data.results ?? data)
       } catch {
         setError('Failed to load favorites')
@@ -48,7 +53,7 @@ export default function FavoritesList() {
       if (res.ok) {
         setFavorites((prev) => prev.filter((f) => f.id !== id))
       } else {
-        setError('Removing favorites isn&apos;t supported by the backend yet.')
+        setError('Failed to remove favorite. Please try again.')
       }
     } catch {
       setError('Something went wrong removing this favorite.')
@@ -66,15 +71,30 @@ export default function FavoritesList() {
         boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
         p: 4,
       }}>
-      <Typography
-        variant="h6"
-        sx={{
-          fontWeight: 700,
-          color: (theme) => theme.customColors.lightText,
-          mb: 3,
-        }}>
-        Favorite Tools
-      </Typography>
+      <Stack
+        direction="row"
+        sx={{ justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 700,
+            color: (theme) => theme.customColors.lightText,
+          }}>
+          Favorite Tools
+        </Typography>
+        {favorites.length > 0 && (
+          <Chip
+            label={`${favorites.length} saved`}
+            size="small"
+            sx={{
+              fontWeight: 600,
+              background: (theme) => `${theme.palette.primary.main}11`,
+              color: 'primary.main',
+              border: (theme) => `1px solid ${theme.palette.primary.main}44`,
+            }}
+          />
+        )}
+      </Stack>
 
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
@@ -101,16 +121,32 @@ export default function FavoritesList() {
                 <Stack
                   direction="row"
                   spacing={1.5}
-                  sx={{ alignItems: 'center' }}>
-                  <FavoriteIcon sx={{ color: '#FF6B6B', fontSize: 18 }} />
+                  sx={{ alignItems: 'center', flex: 1, minWidth: 0 }}>
+                  <FavoriteIcon
+                    sx={{ color: '#FF6B6B', fontSize: 18, flexShrink: 0 }}
+                  />
                   <Typography
                     variant="body2"
+                    component={Link}
+                    href={`/tool/${fav.tool_slug}`}
                     sx={{
                       fontWeight: 600,
                       color: (theme) => theme.customColors.lightText,
+                      textDecoration: 'none',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      '&:hover': { color: 'primary.main' },
                     }}>
                     {fav.tool_name}
                   </Typography>
+                  <OpenInNewIcon
+                    sx={{
+                      fontSize: 14,
+                      color: (theme) => theme.customColors.lightTextSecondary,
+                      flexShrink: 0,
+                    }}
+                  />
                 </Stack>
                 <IconButton
                   size="small"
@@ -118,6 +154,7 @@ export default function FavoritesList() {
                   disabled={removingId === fav.id}
                   sx={{
                     color: (theme) => theme.customColors.lightTextSecondary,
+                    flexShrink: 0,
                     '&:hover': { color: '#FF6B6B' },
                   }}>
                   <DeleteOutlinedIcon fontSize="small" />

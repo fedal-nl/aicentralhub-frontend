@@ -122,7 +122,16 @@ export default function Navbar() {
                   gap: 1.5,
                   alignItems: 'center',
                 }}>
-                {status === 'authenticated' && session?.user ? (
+                {status === 'loading' ? (
+                  <Avatar
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      background: 'rgba(255,255,255,0.08)',
+                      border: '2px solid rgba(255,255,255,0.1)',
+                    }}
+                  />
+                ) : status === 'authenticated' && session?.user ? (
                   <>
                     <IconButton onClick={handleUserMenuOpen} size="small">
                       <Avatar
@@ -255,38 +264,40 @@ export default function Navbar() {
           </IconButton>
         </Box>
 
-        {status === 'authenticated' && session?.user && (
-          <>
-            <Box
-              sx={{
-                px: 3,
-                py: 2,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1.5,
-              }}>
-              <Avatar
-                src={session.user.image ?? undefined}
-                alt={session.user.name ?? 'User'}
-                sx={{ width: 40, height: 40 }}
-              />
-              <Box>
-                <Box
-                  sx={{
-                    color: 'text.primary',
-                    fontWeight: 700,
-                    fontSize: '0.9rem',
-                  }}>
-                  {session.user.name}
-                </Box>
-                <Box sx={{ color: 'text.secondary', fontSize: '0.75rem' }}>
-                  {session.user.email}
+        {status !== 'loading' &&
+          status === 'authenticated' &&
+          session?.user && (
+            <>
+              <Box
+                sx={{
+                  px: 3,
+                  py: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1.5,
+                }}>
+                <Avatar
+                  src={session.user.image ?? undefined}
+                  alt={session.user.name ?? 'User'}
+                  sx={{ width: 40, height: 40 }}
+                />
+                <Box>
+                  <Box
+                    sx={{
+                      color: 'text.primary',
+                      fontWeight: 700,
+                      fontSize: '0.9rem',
+                    }}>
+                    {session.user.name}
+                  </Box>
+                  <Box sx={{ color: 'text.secondary', fontSize: '0.75rem' }}>
+                    {session.user.email}
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-            <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)' }} />
-          </>
-        )}
+              <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)' }} />
+            </>
+          )}
 
         <List>
           {navLinks.map((link) => (
@@ -324,70 +335,77 @@ export default function Navbar() {
 
           <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)', my: 1 }} />
 
-          {status === 'authenticated' ? (
-            <>
-              <ListItem disablePadding>
-                <ListItemButton
-                  component={Link}
-                  href="/dashboard"
-                  onClick={() => setMobileOpen(false)}>
-                  <DashboardIcon
-                    fontSize="small"
-                    sx={{ mr: 1.5, color: 'text.secondary' }}
-                  />
-                  <ListItemText
-                    primary="Dashboard"
-                    slotProps={{ primary: { sx: { color: 'text.secondary' } } }}
-                  />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton
-                  onClick={() => {
-                    setMobileOpen(false)
-                    signOut({ callbackUrl: '/' })
-                  }}>
-                  <LogoutIcon
-                    fontSize="small"
-                    sx={{ mr: 1.5, color: 'text.secondary' }}
-                  />
-                  <ListItemText
-                    primary="Sign Out"
-                    slotProps={{ primary: { sx: { color: 'text.secondary' } } }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </>
-          ) : (
-            <>
-              <ListItem disablePadding>
-                <ListItemButton
-                  component={Link}
-                  href="/login"
-                  onClick={() => setMobileOpen(false)}>
-                  <ListItemText
-                    primary="Login"
-                    slotProps={{ primary: { sx: { color: 'text.secondary' } } }}
-                  />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton
-                  component={Link}
-                  href="/signup"
-                  onClick={() => setMobileOpen(false)}>
-                  <ListItemText
-                    primary="Sign Up"
-                    slotProps={{
-                      primary: {
-                        sx: { color: 'primary.main', fontWeight: 700 },
-                      },
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </>
-          )}
+          {status !== 'loading' &&
+            (status === 'authenticated' ? (
+              <>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    href="/dashboard"
+                    onClick={() => setMobileOpen(false)}>
+                    <DashboardIcon
+                      fontSize="small"
+                      sx={{ mr: 1.5, color: 'text.secondary' }}
+                    />
+                    <ListItemText
+                      primary="Dashboard"
+                      slotProps={{
+                        primary: { sx: { color: 'text.secondary' } },
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    onClick={() => {
+                      setMobileOpen(false)
+                      signOut({ callbackUrl: '/' })
+                    }}>
+                    <LogoutIcon
+                      fontSize="small"
+                      sx={{ mr: 1.5, color: 'text.secondary' }}
+                    />
+                    <ListItemText
+                      primary="Sign Out"
+                      slotProps={{
+                        primary: { sx: { color: 'text.secondary' } },
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </>
+            ) : (
+              <>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    href="/login"
+                    onClick={() => setMobileOpen(false)}>
+                    <ListItemText
+                      primary="Login"
+                      slotProps={{
+                        primary: { sx: { color: 'text.secondary' } },
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton
+                    component={Link}
+                    href="/signup"
+                    onClick={() => setMobileOpen(false)}>
+                    <ListItemText
+                      primary="Sign Up"
+                      slotProps={{
+                        primary: {
+                          sx: { color: 'primary.main', fontWeight: 700 },
+                        },
+                      }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </>
+            ))}
         </List>
       </Drawer>
 

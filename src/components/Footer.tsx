@@ -53,12 +53,14 @@ export default function Footer() {
   const { status } = useSession()
 
   const accountLinks =
-    status === 'authenticated'
-      ? [{ label: 'Dashboard', href: '/dashboard' }]
-      : [
-          { label: 'Login', href: '/login' },
-          { label: 'Sign Up', href: '/signup' },
-        ]
+    status === 'loading'
+      ? [] // Show nothing while checking session
+      : status === 'authenticated'
+        ? [{ label: 'Dashboard', href: '/dashboard' }]
+        : [
+            { label: 'Login', href: '/login' },
+            { label: 'Sign Up', href: '/signup' },
+          ]
 
   const footerLinks = {
     ...baseFooterLinks,
