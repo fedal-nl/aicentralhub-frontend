@@ -1,6 +1,7 @@
 'use client'
 
 import { signIn } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 import { Button, Stack } from '@mui/material'
 import GoogleIcon from '@mui/icons-material/Google'
 import GitHubIcon from '@mui/icons-material/GitHub'
@@ -10,10 +11,13 @@ interface Props {
 }
 
 export default function AuthButtons({ callbackUrl = '/' }: Props) {
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get('callbackUrl') ?? callbackUrl
+
   return (
     <Stack spacing={2}>
       <Button
-        onClick={() => signIn('google', { callbackUrl })}
+        onClick={() => signIn('google', { callbackUrl: redirectUrl })}
         variant="outlined"
         fullWidth
         startIcon={<GoogleIcon />}
@@ -31,7 +35,7 @@ export default function AuthButtons({ callbackUrl = '/' }: Props) {
         Continue with Google
       </Button>
       <Button
-        onClick={() => signIn('github', { callbackUrl })}
+        onClick={() => signIn('github', { callbackUrl: redirectUrl })}
         variant="outlined"
         fullWidth
         startIcon={<GitHubIcon />}
