@@ -12,8 +12,11 @@ import {
   Button,
   TextField,
   Card,
+  CardContent,
   LinearProgress,
+  IconButton,
 } from '@mui/material'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import { Review } from '@/types/review'
 
 interface ToolReviewsProps {
@@ -29,7 +32,7 @@ export default function ToolReviews({
   averageRating,
   reviewCount,
 }: ToolReviewsProps) {
-  const { status } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
 
   const [userRating, setUserRating] = useState<number | null>(null)
@@ -72,16 +75,47 @@ export default function ToolReviews({
         }),
       })
 
-      if (!res.ok) {
-        throw new Error('Failed to submit review')
-      }
+      if (!res.ok) throw new Error('Failed to submit review')
 
       setSubmitted(true)
+      router.refresh()
     } catch {
       setError('Something went wrong submitting your review. Please try again.')
     } finally {
       setSubmitting(false)
     }
+  }
+
+  const handleDeleteReview = async (reviewId: number) => {
+    try {
+      const res = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' })
+      if (res.ok) {
+        router.refresh()
+      }
+    } catch {
+      // silently fail
+    }
+  }
+
+  const textFieldSx = {
+    '& .MuiOutlinedInput-root': {
+      color: (theme: import('@mui/material/styles').Theme) =>
+        theme.customColors.lightText,
+      borderRadius: '10px',
+      '& fieldset': {
+        borderColor: (theme: import('@mui/material/styles').Theme) =>
+          theme.customColors.lightBorder,
+      },
+      '&:hover fieldset': {
+        borderColor: (theme: import('@mui/material/styles').Theme) =>
+          theme.customColors.lightTextSecondary,
+      },
+      '&.Mui-focused fieldset': { borderColor: 'primary.main' },
+    },
+    '& .MuiInputLabel-root': {
+      color: (theme: import('@mui/material/styles').Theme) =>
+        theme.customColors.lightTextSecondary,
+    },
   }
 
   return (
@@ -96,6 +130,7 @@ export default function ToolReviews({
         Ratings & Reviews
       </Typography>
 
+      {/* Rating summary */}
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4} sx={{ mb: 5 }}>
         <Box sx={{ textAlign: 'center', minWidth: 120 }}>
           <Typography
@@ -176,6 +211,7 @@ export default function ToolReviews({
         }}
       />
 
+      {/* Review list */}
       {reviews.length > 0 && (
         <Stack spacing={3} sx={{ mb: 5 }}>
           {reviews.map((review) => (
@@ -186,63 +222,76 @@ export default function ToolReviews({
                 border: (theme) =>
                   `1px solid ${theme.customColors.lightBorder}`,
                 borderRadius: '12px',
-                p: 3,
                 boxShadow: 'none',
               }}>
-              <Stack
-                direction="row"
-                sx={{
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  mb: 1,
-                }}>
-                <Box>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      fontWeight: 700,
-                      color: (theme) => theme.customColors.lightText,
-                    }}>
-                    {review.title}
-                  </Typography>
-                  <Stack
-                    direction="row"
-                    spacing={1}
-                    sx={{ alignItems: 'center', mt: 0.5 }}>
-                    <Rating
-                      value={review.rating}
-                      readOnly
-                      size="small"
-                      sx={{ color: 'primary.main' }}
-                    />
+              <CardContent sx={{ p: 3 }}>
+                <Stack
+                  direction="row"
+                  sx={{
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    mb: 1,
+                  }}>
+                  <Box>
                     <Typography
-                      variant="caption"
+                      variant="subtitle1"
+                      sx={{
+                        fontWeight: 700,
+                        color: (theme) => theme.customColors.lightText,
+                      }}>
+                      {review.title}
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      sx={{ alignItems: 'center', mt: 0.5 }}>
+                      <Rating
+                        value={review.rating}
+                        readOnly
+                        size="small"
+                        sx={{ color: 'primary.main' }}
+                      />
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: (theme) =>
+                            theme.customColors.lightTextSecondary,
+                        }}>
+                        by {review.username} ·{' '}
+                        {new Date(review.created_at).toLocaleDateString(
+                          'en-GB',
+                          { day: 'numeric', month: 'short', year: 'numeric' },
+                        )}
+                      </Typography>
+                    </Stack>
+                  </Box>
+                  {session?.backendProfile?.username === review.username && (
+                    <IconButton
+                      size="small"
+                      onClick={() => handleDeleteReview(review.id)}
                       sx={{
                         color: (theme) => theme.customColors.lightTextSecondary,
+                        '&:hover': { color: '#FF6B6B' },
                       }}>
-                      by {review.username} ·{' '}
-                      {new Date(review.created_at).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
-                    </Typography>
-                  </Stack>
-                </Box>
-              </Stack>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: (theme) => theme.customColors.lightTextSecondary,
-                  lineHeight: 1.7,
-                }}>
-                {review.body}
-              </Typography>
+                      <DeleteOutlinedIcon fontSize="small" />
+                    </IconButton>
+                  )}
+                </Stack>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: (theme) => theme.customColors.lightTextSecondary,
+                    lineHeight: 1.7,
+                  }}>
+                  {review.body}
+                </Typography>
+              </CardContent>
             </Card>
           ))}
         </Stack>
       )}
 
+      {/* Review form */}
       <Box
         sx={{
           background: (theme) => theme.customColors.lightBg,
@@ -281,7 +330,12 @@ export default function ToolReviews({
               <Rating
                 value={userRating}
                 onChange={(_, val) => setUserRating(val)}
-                sx={{ color: 'primary.main' }}
+                sx={{
+                  color: 'primary.main',
+                  '& .MuiRating-iconEmpty': {
+                    color: (theme) => theme.customColors.lightBorder,
+                  },
+                }}
               />
             </Box>
             <TextField
@@ -290,23 +344,7 @@ export default function ToolReviews({
               onChange={(e) => setTitle(e.target.value)}
               fullWidth
               size="small"
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: (theme) => theme.customColors.lightText,
-                  borderRadius: '10px',
-                  '& fieldset': {
-                    borderColor: (theme) => theme.customColors.lightBorder,
-                  },
-                  '&:hover fieldset': {
-                    borderColor: (theme) =>
-                      theme.customColors.lightTextSecondary,
-                  },
-                  '&.Mui-focused fieldset': { borderColor: 'primary.main' },
-                },
-                '& .MuiInputLabel-root': {
-                  color: (theme) => theme.customColors.lightTextSecondary,
-                },
-              }}
+              sx={textFieldSx}
             />
             <TextField
               label="Your review"
@@ -315,23 +353,7 @@ export default function ToolReviews({
               fullWidth
               multiline
               rows={4}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: (theme) => theme.customColors.lightText,
-                  borderRadius: '10px',
-                  '& fieldset': {
-                    borderColor: (theme) => theme.customColors.lightBorder,
-                  },
-                  '&:hover fieldset': {
-                    borderColor: (theme) =>
-                      theme.customColors.lightTextSecondary,
-                  },
-                  '&.Mui-focused fieldset': { borderColor: 'primary.main' },
-                },
-                '& .MuiInputLabel-root': {
-                  color: (theme) => theme.customColors.lightTextSecondary,
-                },
-              }}
+              sx={textFieldSx}
             />
             <Button
               onClick={handleSubmit}
