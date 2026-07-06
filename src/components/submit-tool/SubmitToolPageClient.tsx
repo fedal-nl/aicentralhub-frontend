@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Box,
@@ -22,8 +22,8 @@ import { Theme } from '@mui/material/styles'
 import SendIcon from '@mui/icons-material/Send'
 import LockIcon from '@mui/icons-material/Lock'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import { parentCategories } from '@/data/mockData'
 import { useSession } from 'next-auth/react'
+import { Category } from '@/types/tool'
 
 const pricingOptions = [
   'free',
@@ -34,16 +34,39 @@ const pricingOptions = [
 ]
 const appTypeOptions = ['website', 'app', 'chrome-extension', 'api']
 const steps = ['Tool Information', 'Details & Pricing', 'SEO & Submit']
-const isValidEmail = (email: string) =>
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(
-    email.trim(),
-  )
+
+const isValidUrl = (url: string) => {
+  try {
+    new URL(url)
+    return true
+  } catch {
+    return false
+  }
+}
 
 export default function SubmitToolPageClient() {
   const [activeStep, setActiveStep] = useState(0)
   const [submitted, setSubmitted] = useState(false)
-  const { status } = useSession()
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
+  const { status, data: session } = useSession()
   const isLoggedIn = status === 'authenticated'
+
+  // Categories from backend
+  const [categories, setCategories] = useState<Category[]>([])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/categories')
+        const data = await res.json()
+        setCategories(Array.isArray(data) ? data : (data.results ?? []))
+      } catch {
+        // silently fail
+      }
+    }
+    fetchCategories()
+  }, [])
 
   // Step 1
   const [name, setName] = useState('')
@@ -60,25 +83,57 @@ export default function SubmitToolPageClient() {
 
   // Step 3
   const [metaDescription, setMetaDescription] = useState('')
-  const [submitterEmail, setSubmitterEmail] = useState('')
-  const [submitterName, setSubmitterName] = useState('')
 
-  const selectedParent = parentCategories.find((c) => c.name === category)
-  const subcategories = selectedParent?.subcategories ?? []
+  const selectedCat = categories.find((c) => c.name === category)
+  const subcategories = selectedCat?.subcategories ?? []
 
-  const step1Valid = name && url && category && shortDescription
+  const step1Valid =
+    name &&
+    url &&
+    isValidUrl(url) &&
+    category &&
+    subcategory &&
+    shortDescription &&
+    longDescription
   const step2Valid = pricing && appType
-  const step3Valid =
-    metaDescription &&
-    submitterName &&
-    submitterEmail &&
-    isValidEmail(submitterEmail)
+  const step3Valid = metaDescription
 
   const handleNext = () => setActiveStep((prev) => prev + 1)
   const handleBack = () => setActiveStep((prev) => prev - 1)
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
     if (!step3Valid) return
-    setSubmitted(true)
+
+    setSubmitting(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/submit-tool', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          url,
+          category,
+          subcategory,
+          shortDescription,
+          longDescription,
+          pricing,
+          appType,
+          logoUrl,
+          metaDescription,
+          submitterEmail: session?.user?.email,
+          submitterName: session?.user?.name,
+        }),
+      })
+
+      if (!res.ok) throw new Error('Failed to submit')
+      setSubmitted(true)
+    } catch {
+      setError('Something went wrong. Please try again or contact us directly.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const textFieldSx = {
@@ -114,12 +169,8 @@ export default function SubmitToolPageClient() {
     },
   }
 
-  // Wait for session to resolve before deciding what to show
-  if (status === 'loading') {
-    return null
-  }
+  if (status === 'loading') return null
 
-  // Not logged in state
   if (!isLoggedIn) {
     return (
       <Box
@@ -165,7 +216,6 @@ export default function SubmitToolPageClient() {
             </Typography>
           </Container>
         </Box>
-
         <Container maxWidth="sm" sx={{ py: 10 }}>
           <Box
             sx={{
@@ -242,10 +292,6 @@ export default function SubmitToolPageClient() {
                   background: (theme) =>
                     `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                   color: '#fff',
-                  '&:hover': {
-                    background: (theme) =>
-                      `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
-                  },
                 }}>
                 Sign Up Free
               </Button>
@@ -256,7 +302,6 @@ export default function SubmitToolPageClient() {
     )
   }
 
-  // Submitted state
   if (submitted) {
     return (
       <Box
@@ -296,8 +341,8 @@ export default function SubmitToolPageClient() {
                 lineHeight: 1.8,
               }}>
               Thank you for submitting <strong>{name}</strong>. Our team will
-              review it and get back to you at {submitterEmail} within 3-5
-              business days.
+              review it and get back to you at{' '}
+              <strong>{session?.user?.email}</strong> within 3-5 business days.
             </Typography>
             <Button
               component={Link}
@@ -325,7 +370,6 @@ export default function SubmitToolPageClient() {
         background: (theme) => theme.customColors.lightBgAlt,
         minHeight: '100vh',
       }}>
-      {/* Header */}
       <Box
         sx={{
           background: (theme) => theme.customColors.lightBg,
@@ -367,7 +411,6 @@ export default function SubmitToolPageClient() {
       </Box>
 
       <Container maxWidth="md" sx={{ py: 8 }}>
-        {/* Stepper */}
         <Stepper activeStep={activeStep} sx={{ mb: 6 }}>
           {steps.map((label) => (
             <Step key={label}>
@@ -400,7 +443,7 @@ export default function SubmitToolPageClient() {
             boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
             p: 4,
           }}>
-          {/* Step 1 — Tool Information */}
+          {/* Step 1 */}
           {activeStep === 0 && (
             <Stack spacing={3}>
               <Typography
@@ -430,6 +473,12 @@ export default function SubmitToolPageClient() {
                     fullWidth
                     size="small"
                     placeholder="https://"
+                    error={url !== '' && !isValidUrl(url)}
+                    helperText={
+                      url !== '' && !isValidUrl(url)
+                        ? 'Please enter a valid URL including https://'
+                        : ''
+                    }
                     sx={textFieldSx}
                   />
                 </Grid>
@@ -448,7 +497,7 @@ export default function SubmitToolPageClient() {
                     size="small"
                     sx={selectSx}>
                     <MenuItem value="">Select Category *</MenuItem>
-                    {parentCategories.map((cat) => (
+                    {categories.map((cat) => (
                       <MenuItem key={cat.slug} value={cat.name}>
                         {cat.name}
                       </MenuItem>
@@ -464,7 +513,7 @@ export default function SubmitToolPageClient() {
                     size="small"
                     disabled={!category}
                     sx={selectSx}>
-                    <MenuItem value="">Select Subcategory</MenuItem>
+                    <MenuItem value="">Select Subcategory *</MenuItem>
                     {subcategories.map((sub) => (
                       <MenuItem key={sub.slug} value={sub.name}>
                         {sub.name}
@@ -486,7 +535,7 @@ export default function SubmitToolPageClient() {
               />
 
               <TextField
-                label="Full Description"
+                label="Full Description *"
                 value={longDescription}
                 onChange={(e) => setLongDescription(e.target.value)}
                 fullWidth
@@ -498,7 +547,7 @@ export default function SubmitToolPageClient() {
             </Stack>
           )}
 
-          {/* Step 2 — Details & Pricing */}
+          {/* Step 2 */}
           {activeStep === 1 && (
             <Stack spacing={3}>
               <Typography
@@ -509,7 +558,6 @@ export default function SubmitToolPageClient() {
                 }}>
                 Details & Pricing
               </Typography>
-
               <Grid container spacing={2}>
                 <Grid size={{ xs: 12, sm: 6 }}>
                   <Select
@@ -578,7 +626,7 @@ export default function SubmitToolPageClient() {
             </Stack>
           )}
 
-          {/* Step 3 — SEO & Submit */}
+          {/* Step 3 */}
           {activeStep === 2 && (
             <Stack spacing={3}>
               <Typography
@@ -587,7 +635,7 @@ export default function SubmitToolPageClient() {
                   fontWeight: 700,
                   color: (theme) => theme.customColors.lightText,
                 }}>
-                SEO & Contact Details
+                SEO & Submit
               </Typography>
 
               <TextField
@@ -607,48 +655,7 @@ export default function SubmitToolPageClient() {
                 }}
               />
 
-              <Typography
-                variant="body2"
-                sx={{
-                  color: (theme) => theme.customColors.lightTextSecondary,
-                }}>
-                Your contact details — so we can reach you about your
-                submission.
-              </Typography>
-
-              <Grid container spacing={2}>
-                <Grid size={{ xs: 12, sm: 6 }}>
-                  <TextField
-                    label="Your Name *"
-                    value={submitterName}
-                    onChange={(e) => setSubmitterName(e.target.value)}
-                    fullWidth
-                    size="small"
-                    sx={textFieldSx}
-                  />
-                </Grid>
-                <Grid size={{ xs: 12, sm: 6 }}>
-                  <TextField
-                    label="Your Email *"
-                    type="email"
-                    value={submitterEmail}
-                    onChange={(e) => setSubmitterEmail(e.target.value)}
-                    fullWidth
-                    size="small"
-                    error={
-                      submitterEmail !== '' && !isValidEmail(submitterEmail)
-                    }
-                    helperText={
-                      submitterEmail !== '' && !isValidEmail(submitterEmail)
-                        ? 'Please enter a valid email address'
-                        : ''
-                    }
-                    sx={textFieldSx}
-                  />
-                </Grid>
-              </Grid>
-
-              {/* Summary */}
+              {/* Submission summary */}
               <Box
                 sx={{
                   background: (theme) => theme.customColors.lightBgAlt,
@@ -688,6 +695,10 @@ export default function SubmitToolPageClient() {
                         .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
                         .join(' '),
                     },
+                    {
+                      label: 'Submitted by',
+                      value: `${session?.user?.name} (${session?.user?.email})`,
+                    },
                   ].map((item) => (
                     <Stack key={item.label} direction="row" spacing={2}>
                       <Typography
@@ -695,7 +706,7 @@ export default function SubmitToolPageClient() {
                         sx={{
                           color: (theme) =>
                             theme.customColors.lightTextSecondary,
-                          minWidth: 80,
+                          minWidth: 100,
                         }}>
                         {item.label}
                       </Typography>
@@ -711,10 +722,16 @@ export default function SubmitToolPageClient() {
                   ))}
                 </Stack>
               </Box>
+
+              {error && (
+                <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
+                  {error}
+                </Typography>
+              )}
             </Stack>
           )}
 
-          {/* Navigation buttons */}
+          {/* Navigation */}
           <Stack
             direction="row"
             sx={{
@@ -766,10 +783,6 @@ export default function SubmitToolPageClient() {
                   background: (theme) =>
                     `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                   color: '#fff',
-                  '&:hover': {
-                    background: (theme) =>
-                      `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
-                  },
                   '&.Mui-disabled': {
                     background: (theme) => theme.customColors.lightChipBg,
                     color: (theme) => theme.customColors.lightTextSecondary,
@@ -781,7 +794,7 @@ export default function SubmitToolPageClient() {
               <Button
                 onClick={handleSubmit}
                 variant="contained"
-                disabled={!step3Valid}
+                disabled={!step3Valid || submitting}
                 endIcon={<SendIcon />}
                 sx={{
                   fontWeight: 700,
@@ -790,16 +803,12 @@ export default function SubmitToolPageClient() {
                   background: (theme) =>
                     `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                   color: '#fff',
-                  '&:hover': {
-                    background: (theme) =>
-                      `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
-                  },
                   '&.Mui-disabled': {
                     background: (theme) => theme.customColors.lightChipBg,
                     color: (theme) => theme.customColors.lightTextSecondary,
                   },
                 }}>
-                Submit Tool
+                {submitting ? 'Submitting...' : 'Submit Tool'}
               </Button>
             )}
           </Stack>
