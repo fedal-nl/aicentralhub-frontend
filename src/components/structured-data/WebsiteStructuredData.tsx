@@ -1,11 +1,14 @@
-export default function WebsiteStructuredData() {
+interface Props {
+  toolCountLabel: string
+}
+
+export default function WebsiteStructuredData({ toolCountLabel }: Props) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'AI CentralHub',
     url: 'https://ai-centralhub.com',
-    description:
-      'Free AI tools directory with 7,000+ tools across 50+ categories.',
+    description: `Free AI tools directory with ${toolCountLabel} tools across 12 categories & 50+ subcategories.`,
     publisher: {
       '@type': 'Organization',
       name: 'The Webdux Hub',

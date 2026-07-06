@@ -2,14 +2,18 @@ import { Tool } from '@/types/tool'
 
 interface Props {
   tools: Tool[]
+  toolCountLabel: string
 }
 
-export default function ToolsListStructuredData({ tools }: Props) {
+export default function ToolsListStructuredData({
+  tools,
+  toolCountLabel,
+}: Props) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'AI Tools Directory',
-    description: 'Browse 7,000+ AI tools across 50+ categories.',
+    description: `Browse ${toolCountLabel} AI tools across 12 categories & 50+ subcategories.`,
     url: 'https://ai-centralhub.com/ai-tools',
     numberOfItems: tools.length,
     itemListElement: tools.map((tool, index) => ({

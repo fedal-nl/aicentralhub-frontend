@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { getTotalToolCount, formatToolCount } from '@/lib/toolCount'
 import ContactPageClient from '@/components/contact/ContactPageClient'
 
 export const metadata: Metadata = {
@@ -7,6 +8,9 @@ export const metadata: Metadata = {
     "Get in touch with the AI CentralHub team. We'd love to hear from you.",
 }
 
-export default function ContactPage() {
-  return <ContactPageClient />
+export default async function ContactPage() {
+  const count = await getTotalToolCount()
+  const toolCountLabel = formatToolCount(count)
+
+  return <ContactPageClient toolCountLabel={toolCountLabel} />
 }

@@ -18,6 +18,10 @@ import ClearIcon from '@mui/icons-material/Clear'
 import HomeIcon from '@mui/icons-material/Home'
 import GridViewIcon from '@mui/icons-material/GridView'
 
+interface NotFoundClientProps {
+  toolCountLabel: string
+}
+
 const suggestions = [
   'ChatGPT',
   'Image Generator',
@@ -26,7 +30,9 @@ const suggestions = [
   'Text to Speech',
 ]
 
-export default function NotFoundClient() {
+export default function NotFoundClient({
+  toolCountLabel,
+}: NotFoundClientProps) {
   const [query, setQuery] = useState('')
   const router = useRouter()
 
@@ -139,7 +145,7 @@ export default function NotFoundClient() {
             <SearchIcon sx={{ color: 'text.secondary', flexShrink: 0 }} />
             <InputBase
               fullWidth
-              placeholder="Search 7,000+ AI tools..."
+              placeholder={`Search ${toolCountLabel} AI tools...`}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}

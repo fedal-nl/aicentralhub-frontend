@@ -19,44 +19,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SendIcon from '@mui/icons-material/Send'
 import EmailIcon from '@mui/icons-material/Email'
 
-const faqs = [
-  {
-    question: 'How do I submit my AI tool to the directory?',
-    answer:
-      'You can submit your AI tool by visiting our Submit a Tool page. Our team reviews every submission and will get back to you within 3-5 business days.',
-  },
-  {
-    question: 'Is AI CentralHub free to use?',
-    answer:
-      'Yes, AI CentralHub is completely free to browse and use. You can search, filter and explore all 7,000+ tools without any cost or sign-up required.',
-  },
-  {
-    question: 'How do I report incorrect information about a tool?',
-    answer:
-      'If you notice incorrect or outdated information about a tool, please use the contact form on this page and include the tool name and the correct information.',
-  },
-  {
-    question: 'Can I advertise on AI CentralHub?',
-    answer:
-      "We offer featured placements and sponsored listings for AI tools. Please reach out via the contact form with your requirements and we'll send you our media kit.",
-  },
-  {
-    question: 'How often is the directory updated?',
-    answer:
-      'We update our directory regularly with new tools and updated information. Our team reviews submissions and monitors the AI landscape to keep listings accurate.',
-  },
-  {
-    question: 'How do I request a tool to be added?',
-    answer:
-      "If you'd like to see a specific tool added to our directory, use the contact form and include the tool name and URL. We'll review and add it if it meets our quality standards.",
-  },
-]
+interface ContactPageClientProps {
+  toolCountLabel: string
+}
+
 const isValidEmail = (email: string) =>
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(
     email.trim(),
   )
 
-export default function ContactPageClient() {
+export default function ContactPageClient({
+  toolCountLabel,
+}: ContactPageClientProps) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [subject, setSubject] = useState('')
@@ -66,6 +40,37 @@ export default function ContactPageClient() {
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
 
+  const faqs = [
+    {
+      question: 'How do I submit my AI tool to the directory?',
+      answer:
+        'You can submit your AI tool by visiting our Submit a Tool page. Our team reviews every submission and will get back to you within 3-5 business days.',
+    },
+    {
+      question: 'Is AI CentralHub free to use?',
+      answer: `Yes, AI CentralHub is completely free to browse and use. You can search, filter and explore all ${toolCountLabel} tools without any cost or sign-up required.`,
+    },
+    {
+      question: 'How do I report incorrect information about a tool?',
+      answer:
+        'If you notice incorrect or outdated information about a tool, please use the contact form on this page and include the tool name and the correct information.',
+    },
+    {
+      question: 'Can I advertise on AI CentralHub?',
+      answer:
+        "We offer featured placements and sponsored listings for AI tools. Please reach out via the contact form with your requirements and we'll send you our media kit.",
+    },
+    {
+      question: 'How often is the directory updated?',
+      answer:
+        'We update our directory regularly with new tools and updated information. Our team reviews submissions and monitors the AI landscape to keep listings accurate.',
+    },
+    {
+      question: 'How do I request a tool to be added?',
+      answer:
+        "If you'd like to see a specific tool added to our directory, use the contact form and include the tool name and URL. We'll review and add it if it meets our quality standards.",
+    },
+  ]
   const handleSubmit = async () => {
     if (!name || !email || !message || !isValidEmail(email)) return
 
