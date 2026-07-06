@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { authenticatedFetch } from '@/lib/backendAuth'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -38,6 +39,35 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Submit to backend — creates tool with is_active=false pending review
+    const res = await authenticatedFetch('/api/tools/', {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        website_url: url,
+        description: shortDescription,
+        long_description: longDescription,
+        category,
+        subcategory,
+        pricing_model: pricing,
+        app_type: appType,
+        logo_url: logoUrl ?? '',
+        meta_description: metaDescription,
+      }),
+    })
+
+    if (!res.ok) {
+      const error = await res.json()
+      console.error('Backend tool submission error:', error)
+      return NextResponse.json(
+        { error: 'Failed to submit tool' },
+        { status: res.status },
+      )
+    }
+
+    const tool = await res.json()
+
+    // Notify admin
     await resend.emails.send({
       from: 'AI CentralHub <noreply@info.ai-centralhub.com>',
       to: process.env.CONTACT_EMAIL!,
@@ -45,6 +75,7 @@ export async function POST(request: NextRequest) {
       html: `
         <h2>New Tool Submission</h2>
         <p><strong>Submitted by:</strong> ${submitterName} (${submitterEmail})</p>
+        <p><strong>Tool ID in Django:</strong> ${tool.id}</p>
         <hr/>
         <p><strong>Tool Name:</strong> ${name}</p>
         <p><strong>URL:</strong> <a href="${url}">${url}</a></p>
@@ -57,11 +88,12 @@ export async function POST(request: NextRequest) {
         <p><strong>Full Description:</strong><br/>${longDescription}</p>
         <p><strong>Meta Description:</strong><br/>${metaDescription}</p>
         <hr/>
-        <p><em>Review and approve in Django admin by setting is_active = true</em></p>
+        <p><em>Review in Django admin and set is_active = true to publish.</em></p>
+        <p><a href="https://api.fedal.xyz/admin/api/aitool/${tool.id}/change/">Open in Django Admin</a></p>
       `,
     })
 
-    // Confirmation to submitter
+    // Confirm to submitter
     await resend.emails.send({
       from: 'AI CentralHub <noreply@info.ai-centralhub.com>',
       to: submitterEmail,
