@@ -64,7 +64,7 @@ export default function ToolsFilter({
         const data = await res.json()
         setCategories(Array.isArray(data) ? data : (data.results ?? []))
       } catch {
-        // silently fail — filter still works without categories
+        // silently fail
       }
     }
     fetchCategories()
@@ -87,11 +87,16 @@ export default function ToolsFilter({
         overflowX: 'hidden',
       }}>
       <Stack spacing={1.5}>
-        {/* Row 1: Search + Category */}
+        {/* Row 1: Search + Category + Pricing chips + View toggle + Count
+            On desktop: all in one row
+            On mobile: search/category stack, pricing chips wrap, toggle/count on own row */}
+
+        {/* Search + Category dropdown */}
         <Stack
           direction={{ xs: 'column', md: 'row' }}
           spacing={1.5}
-          sx={{ width: '100%' }}>
+          sx={{ width: '100%', alignItems: { md: 'center' } }}>
+          {/* Search */}
           <Box
             sx={{
               display: 'flex',
@@ -103,7 +108,8 @@ export default function ToolsFilter({
               py: 0.8,
               gap: 1,
               width: '100%',
-              maxWidth: { md: 340 },
+              maxWidth: { md: 280 },
+              flexShrink: 0,
               '&:focus-within': {
                 borderColor: (theme) => theme.palette.primary.main,
               },
@@ -139,6 +145,7 @@ export default function ToolsFilter({
             )}
           </Box>
 
+          {/* Category dropdown */}
           <Select
             value={category}
             onChange={(e) => {
@@ -147,14 +154,12 @@ export default function ToolsFilter({
             }}
             size="small"
             displayEmpty
-            fullWidth
             sx={{
               fontSize: '0.9rem',
               color: (theme) => theme.customColors.lightText,
               background: (theme) => theme.customColors.lightBg,
               border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
               borderRadius: '10px',
-              width: { xs: '100%', md: 'auto' },
               minWidth: { md: 180 },
               flexShrink: 0,
               '.MuiOutlinedInput-notchedOutline': { border: 'none' },
@@ -166,13 +171,106 @@ export default function ToolsFilter({
               </MenuItem>
             ))}
           </Select>
+
+          {/* Pricing chips — inline on desktop, own row on mobile */}
+          <Stack
+            direction="row"
+            sx={{
+              flexWrap: 'wrap',
+              gap: 1,
+              flex: 1,
+              display: { xs: 'none', md: 'flex' },
+            }}>
+            {pricingOptions.map((option) => (
+              <Chip
+                key={option}
+                label={
+                  option === 'all'
+                    ? 'All'
+                    : option
+                        .split('-')
+                        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                        .join(' ')
+                }
+                size="small"
+                onClick={() => onPricingChange(option)}
+                sx={{
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  background:
+                    pricing === option
+                      ? (theme) => `${theme.palette.primary.main}22`
+                      : (theme) => theme.customColors.lightChipBg,
+                  color:
+                    pricing === option
+                      ? 'primary.main'
+                      : (theme) => theme.customColors.lightTextSecondary,
+                  border:
+                    pricing === option
+                      ? (theme) => `1px solid ${theme.palette.primary.main}66`
+                      : (theme) =>
+                          `1px solid ${theme.customColors.lightBorder}`,
+                }}
+              />
+            ))}
+          </Stack>
+
+          {/* View toggle + count — inline on desktop */}
+          <Stack
+            direction="row"
+            spacing={1.5}
+            sx={{
+              alignItems: 'center',
+              flexShrink: 0,
+              display: { xs: 'none', md: 'flex' },
+            }}>
+            <ToggleButtonGroup
+              value={view}
+              exclusive
+              onChange={(_, val) => val && onViewChange(val)}
+              size="small"
+              sx={{
+                background: (theme) => theme.customColors.lightBg,
+                border: (theme) =>
+                  `1px solid ${theme.customColors.lightBorder}`,
+                borderRadius: '10px',
+                '.MuiToggleButton-root': {
+                  border: 'none',
+                  color: (theme) => theme.customColors.lightTextSecondary,
+                  px: 1.5,
+                  '&.Mui-selected': {
+                    background: (theme) => `${theme.palette.primary.main}22`,
+                    color: 'primary.main',
+                  },
+                },
+              }}>
+              <ToggleButton value="grid">
+                <GridViewIcon fontSize="small" />
+              </ToggleButton>
+              <ToggleButton value="list">
+                <ViewListIcon fontSize="small" />
+              </ToggleButton>
+            </ToggleButtonGroup>
+            <Typography
+              variant="body2"
+              sx={{
+                color: (theme) => theme.customColors.lightTextSecondary,
+                whiteSpace: 'nowrap',
+              }}>
+              {totalCount.toLocaleString()} tools
+            </Typography>
+          </Stack>
         </Stack>
 
-        {/* Row 2: Pricing chips */}
+        {/* Mobile only: Pricing chips row */}
         <Stack
           direction="row"
-          spacing={1}
-          sx={{ flexWrap: 'wrap', gap: 1, rowGap: 1 }}>
+          sx={{
+            flexWrap: 'wrap',
+            gap: 1,
+            rowGap: 1,
+            display: { xs: 'flex', md: 'none' },
+          }}>
           {pricingOptions.map((option) => (
             <Chip
               key={option}
@@ -206,10 +304,14 @@ export default function ToolsFilter({
           ))}
         </Stack>
 
-        {/* Row 3: View toggle + count */}
+        {/* Mobile only: View toggle + count row */}
         <Stack
           direction="row"
-          sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+          sx={{
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            display: { xs: 'flex', md: 'none' },
+          }}>
           <ToggleButtonGroup
             value={view}
             exclusive
@@ -236,7 +338,6 @@ export default function ToolsFilter({
               <ViewListIcon fontSize="small" />
             </ToggleButton>
           </ToggleButtonGroup>
-
           <Typography
             variant="body2"
             sx={{
@@ -247,7 +348,7 @@ export default function ToolsFilter({
           </Typography>
         </Stack>
 
-        {/* Row 4: Subcategory chips */}
+        {/* Subcategory chips — always visible when a category is selected */}
         {subcategories.length > 0 && (
           <Stack
             direction="row"
