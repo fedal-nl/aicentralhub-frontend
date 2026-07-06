@@ -13,6 +13,11 @@ import {
   AccordionSummary,
   AccordionDetails,
   Chip,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  FormHelperText,
 } from '@mui/material'
 import { Theme } from '@mui/material/styles'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -23,22 +28,40 @@ interface ContactPageClientProps {
   toolCountLabel: string
 }
 
+const contactReasons = [
+  'General Inquiry',
+  'Feedback',
+  'Tool Submission Request',
+  'Report an Issue',
+  'Partnership / Collaboration',
+  'Press & Media',
+  'Other',
+]
+
 const isValidEmail = (email: string) =>
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(
     email.trim(),
   )
+
+const RequiredMark = () => (
+  <Box component="span" sx={{ color: '#FF6B6B', ml: 0.3, fontWeight: 700 }}>
+    *
+  </Box>
+)
 
 export default function ContactPageClient({
   toolCountLabel,
 }: ContactPageClientProps) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [subject, setSubject] = useState('')
+  const [company, setCompany] = useState('')
+  const [reason, setReason] = useState('')
   const [message, setMessage] = useState('')
   const [submitted, setSubmitted] = useState(false)
-
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
+
+  const isFormValid = name && isValidEmail(email) && reason && message
 
   const faqs = [
     {
@@ -71,8 +94,9 @@ export default function ContactPageClient({
         "If you'd like to see a specific tool added to our directory, use the contact form and include the tool name and URL. We'll review and add it if it meets our quality standards.",
     },
   ]
+
   const handleSubmit = async () => {
-    if (!name || !email || !message || !isValidEmail(email)) return
+    if (!isFormValid) return
 
     setSending(true)
     setError('')
@@ -81,13 +105,16 @@ export default function ContactPageClient({
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, subject, message }),
+        body: JSON.stringify({
+          name,
+          email,
+          company,
+          reason,
+          message,
+        }),
       })
 
-      if (!res.ok) {
-        throw new Error('Failed to send')
-      }
-
+      if (!res.ok) throw new Error('Failed to send')
       setSubmitted(true)
     } catch {
       setError('Something went wrong. Please try again or email us directly.')
@@ -158,6 +185,19 @@ export default function ContactPageClient({
             Have a question, suggestion or want to submit your tool? We&apos;d
             love to hear from you.
           </Typography>
+          <Typography
+            variant="caption"
+            sx={{
+              color: (theme) => theme.customColors.lightTextSecondary,
+              mt: 1.5,
+              display: 'block',
+            }}>
+            Fields marked with{' '}
+            <Box component="span" sx={{ color: '#FF6B6B', fontWeight: 700 }}>
+              *
+            </Box>{' '}
+            are required.
+          </Typography>
         </Container>
       </Box>
 
@@ -202,11 +242,7 @@ export default function ContactPageClient({
               </Stack>
 
               {submitted ? (
-                <Box
-                  sx={{
-                    textAlign: 'center',
-                    py: 6,
-                  }}>
+                <Box sx={{ textAlign: 'center', py: 6 }}>
                   <Chip
                     label="Message sent!"
                     sx={{
@@ -231,10 +267,15 @@ export default function ContactPageClient({
                 </Box>
               ) : (
                 <Stack spacing={2.5}>
+                  {/* Name + Email */}
                   <Grid container spacing={2}>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <TextField
-                        label="Your name"
+                        label={
+                          <>
+                            Your name <RequiredMark />
+                          </>
+                        }
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         fullWidth
@@ -244,7 +285,11 @@ export default function ContactPageClient({
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <TextField
-                        label="Email address"
+                        label={
+                          <>
+                            Email address <RequiredMark />
+                          </>
+                        }
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -260,16 +305,76 @@ export default function ContactPageClient({
                       />
                     </Grid>
                   </Grid>
+
+                  {/* Company + Reason */}
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                      <TextField
+                        label="Company name"
+                        value={company}
+                        onChange={(e) => setCompany(e.target.value)}
+                        fullWidth
+                        size="small"
+                        sx={textFieldSx}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                      <FormControl fullWidth size="small">
+                        <InputLabel
+                          sx={{
+                            color: (theme) =>
+                              theme.customColors.lightTextSecondary,
+                          }}>
+                          <>
+                            Reason for contact <RequiredMark />
+                          </>
+                        </InputLabel>
+                        <Select
+                          value={reason}
+                          onChange={(e) => setReason(e.target.value)}
+                          label="Reason for contact *"
+                          sx={{
+                            color: (theme) => theme.customColors.lightText,
+                            borderRadius: '10px',
+                            background: (theme) => theme.customColors.lightBg,
+                            '& fieldset': {
+                              borderColor: (theme) =>
+                                theme.customColors.lightBorder,
+                            },
+                            '&:hover fieldset': {
+                              borderColor: (theme) =>
+                                theme.customColors.lightTextSecondary,
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: 'primary.main',
+                            },
+                          }}>
+                          {contactReasons.map((r) => (
+                            <MenuItem key={r} value={r}>
+                              {r}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {!reason && (
+                          <FormHelperText
+                            sx={{
+                              color: (theme) =>
+                                theme.customColors.lightTextSecondary,
+                            }}>
+                            Please select a reason
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+
+                  {/* Message */}
                   <TextField
-                    label="Subject"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    fullWidth
-                    size="small"
-                    sx={textFieldSx}
-                  />
-                  <TextField
-                    label="Message"
+                    label={
+                      <>
+                        Message <RequiredMark />
+                      </>
+                    }
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     fullWidth
@@ -277,16 +382,11 @@ export default function ContactPageClient({
                     rows={6}
                     sx={textFieldSx}
                   />
+
                   <Button
                     onClick={handleSubmit}
                     variant="contained"
-                    disabled={
-                      !name ||
-                      !email ||
-                      !message ||
-                      !isValidEmail(email) ||
-                      sending
-                    }
+                    disabled={!isFormValid || sending}
                     endIcon={<SendIcon />}
                     sx={{
                       fontWeight: 700,
@@ -307,6 +407,7 @@ export default function ContactPageClient({
                     }}>
                     {sending ? 'Sending...' : 'Send Message'}
                   </Button>
+
                   {error && (
                     <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
                       {error}

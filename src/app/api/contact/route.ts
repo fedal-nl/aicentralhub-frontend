@@ -11,9 +11,9 @@ const isValidEmail = (email: string) =>
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, email, subject, message } = body
+    const { name, email, company, reason, message } = body
 
-    if (!name || !email || !message) {
+    if (!name || !email || !reason || !message) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 },
@@ -28,20 +28,19 @@ export async function POST(request: NextRequest) {
     }
 
     await resend.emails.send({
-      from: 'AI CentralHub <noreply@info.ai-centralhub.com>', // change to your verified domain once set up
+      from: 'AI CentralHub Contact Form <noreply@info.ai-centralhub.com>',
       to: process.env.CONTACT_EMAIL!,
       replyTo: email,
-      subject: subject
-        ? `New contact form: ${subject}`
-        : 'New contact form submission',
+      subject: `[${reason}] New message from ${name}`,
       html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        ${subject ? `<p><strong>Subject:</strong> ${subject}</p>` : ''}
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
+    <h2>New Contact Form Submission</h2>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
+    <p><strong>Reason:</strong> ${reason}</p>
+    <p><strong>Message:</strong></p>
+    <p>${message.replace(/\n/g, '<br>')}</p>
+  `,
     })
 
     return NextResponse.json({ success: true })
