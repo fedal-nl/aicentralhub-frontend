@@ -40,6 +40,9 @@ export async function generateMetadata(): Promise<Metadata> {
       site: '@AiCentralhub',
       creator: '@AiCentralhub',
     },
+    verification: {
+      google: 'tJwWC1yH6tCFoDVbJ5YwLEIi-5QmFlk2t08zhPEY5ro',
+    },
   }
 }
 

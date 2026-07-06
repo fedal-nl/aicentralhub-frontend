@@ -6,6 +6,7 @@ import WhySection from '@/components/home/WhySection'
 import CategoriesGrid from '@/components/home/CategoriesGrid'
 import RecentTools from '@/components/home/RecentTools'
 import WebsiteStructuredData from '@/components/structured-data/WebsiteStructuredData'
+import NewsletterSection from '@/components/home/NewsletterSection'
 
 export default async function HomePage() {
   const count = await getTotalToolCount()
@@ -19,6 +20,7 @@ export default async function HomePage() {
       <WhySection toolCountLabel={toolCountLabel} />
       <FeaturedTools />
       <CategoriesGrid />
+      <NewsletterSection />
       <RecentTools />
     </>
   )

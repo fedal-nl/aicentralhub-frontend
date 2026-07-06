@@ -30,7 +30,7 @@ export default function FeaturedTools() {
   }, [])
 
   return (
-    <Box sx={{ py: 10, background: (theme) => theme.customColors.lightBg }}>
+    <Box sx={{ py: 10, background: (theme) => theme.customColors.lightBgAlt }}>
       <Container maxWidth="xl">
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
