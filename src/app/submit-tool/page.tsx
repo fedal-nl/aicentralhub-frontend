@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 // Flip this to true once pricing plans are ready and this page should go live
-const SUBMIT_TOOL_LIVE = false
+const SUBMIT_TOOL_LIVE = true
 
 export default function SubmitToolPage() {
   if (!SUBMIT_TOOL_LIVE) {
