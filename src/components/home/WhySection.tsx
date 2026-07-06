@@ -6,34 +6,38 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import UpdateIcon from '@mui/icons-material/Update'
 import MoneyOffIcon from '@mui/icons-material/MoneyOff'
 
-const reasons = [
-  {
-    icon: <ExploreIcon sx={{ fontSize: 28 }} />,
-    title: '7,000+ AI Tools',
-    description:
-      'The largest free AI tools directory on the web. Every category, every use case — all in one place.',
-  },
-  {
-    icon: <MoneyOffIcon sx={{ fontSize: 28 }} />,
-    title: '100% Free to Use',
-    description:
-      'No paywalls, no sign-up required. Browse, compare and discover AI tools completely free.',
-  },
-  {
-    icon: <AutoAwesomeIcon sx={{ fontSize: 28 }} />,
-    title: 'Curated & Unbiased',
-    description:
-      'Every tool is hand-reviewed by our team. No paid placements — just honest, quality listings.',
-  },
-  {
-    icon: <UpdateIcon sx={{ fontSize: 28 }} />,
-    title: 'Updated Regularly',
-    description:
-      'New AI tools are added regularly so you always have access to the latest innovations in AI.',
-  },
-]
+interface WhySectionProps {
+  toolCountLabel: string
+}
 
-export default function WhySection() {
+export default function WhySection({ toolCountLabel }: WhySectionProps) {
+  const reasons = [
+    {
+      icon: <ExploreIcon sx={{ fontSize: 28 }} />,
+      title: `${toolCountLabel} AI Tools`,
+      description:
+        'The largest free AI tools directory on the web. Every category, every use case — all in one place.',
+    },
+    {
+      icon: <MoneyOffIcon sx={{ fontSize: 28 }} />,
+      title: '100% Free to Use',
+      description:
+        'No paywalls, no sign-up required. Browse, compare and discover AI tools completely free.',
+    },
+    {
+      icon: <AutoAwesomeIcon sx={{ fontSize: 28 }} />,
+      title: 'Curated & Unbiased',
+      description:
+        'Every tool is hand-reviewed by our team. No paid placements — just honest, quality listings.',
+    },
+    {
+      icon: <UpdateIcon sx={{ fontSize: 28 }} />,
+      title: 'Updated Regularly',
+      description:
+        'New AI tools are added regularly so you always have access to the latest innovations in AI.',
+    },
+  ]
+
   return (
     <Box
       sx={{

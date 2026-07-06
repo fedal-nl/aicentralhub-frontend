@@ -2,16 +2,26 @@
 
 import { Box, Container, Stack, Typography } from '@mui/material'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
-import VerifiedIcon from '@mui/icons-material/Verified'
+import CategoryIcon from '@mui/icons-material/Category'
+import AccountTreeIcon from '@mui/icons-material/AccountTree'
 import UpdateIcon from '@mui/icons-material/Update'
 
-const stats = [
-  { icon: <TrendingUpIcon />, value: '7,000+', label: 'AI Tools Indexed' },
-  { icon: <VerifiedIcon />, value: '50+', label: 'Categories Covered' },
-  { icon: <UpdateIcon />, value: 'Regularly', label: 'New Tools Added' },
-]
+interface StatsBannerProps {
+  toolCountLabel: string
+}
 
-export default function StatsBanner() {
+export default function StatsBanner({ toolCountLabel }: StatsBannerProps) {
+  const stats = [
+    {
+      icon: <TrendingUpIcon />,
+      value: toolCountLabel,
+      label: 'AI Tools Indexed',
+    },
+    { icon: <CategoryIcon />, value: '12', label: 'Categories' },
+    { icon: <AccountTreeIcon />, value: '59', label: 'Subcategories' },
+    { icon: <UpdateIcon />, value: 'Regularly', label: 'New Tools Added' },
+  ]
+
   return (
     <Box
       sx={{
@@ -55,11 +65,7 @@ export default function StatsBanner() {
                   }}>
                   {stat.value}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'text.secondary',
-                  }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   {stat.label}
                 </Typography>
               </Box>

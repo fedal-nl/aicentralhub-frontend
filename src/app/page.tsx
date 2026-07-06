@@ -1,3 +1,4 @@
+import { getTotalToolCount, formatToolCount } from '@/lib/toolCount'
 import HeroSection from '@/components/home/HeroSection'
 import StatsBanner from '@/components/home/StatsBanner'
 import FeaturedTools from '@/components/home/FeaturedTools'
@@ -6,13 +7,16 @@ import CategoriesGrid from '@/components/home/CategoriesGrid'
 import RecentTools from '@/components/home/RecentTools'
 import WebsiteStructuredData from '@/components/structured-data/WebsiteStructuredData'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const count = await getTotalToolCount()
+  const toolCountLabel = formatToolCount(count)
+
   return (
     <>
-      <WebsiteStructuredData />
-      <HeroSection />
-      <StatsBanner />
-      <WhySection />
+      <WebsiteStructuredData toolCountLabel={toolCountLabel} />
+      <HeroSection toolCountLabel={toolCountLabel} />
+      <StatsBanner toolCountLabel={toolCountLabel} />
+      <WhySection toolCountLabel={toolCountLabel} />
       <FeaturedTools />
       <CategoriesGrid />
       <RecentTools />

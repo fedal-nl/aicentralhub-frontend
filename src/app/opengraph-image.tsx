@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import { getTotalToolCount, formatToolCount } from '@/lib/toolCount'
 
 export const runtime = 'edge'
 export const alt = 'AI CentralHub — Free AI Tools Directory'
@@ -6,6 +7,9 @@ export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 export default async function OGImage() {
+  const count = await getTotalToolCount()
+  const label = formatToolCount(count)
+
   return new ImageResponse(
     <div
       style={{
@@ -87,7 +91,8 @@ export default async function OGImage() {
           textAlign: 'center',
           maxWidth: '600px',
         }}>
-        7,000+ AI tools across 50+ categories — completely free
+        {label} AI tools across 12 categories & 50+ subcategories — completely
+        free
       </div>
 
       {/* Bottom badge */}

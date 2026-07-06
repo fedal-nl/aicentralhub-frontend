@@ -15,6 +15,10 @@ import XIcon from '@mui/icons-material/X'
 import FacebookIcon from '@mui/icons-material/Facebook'
 import InstagramIcon from '@mui/icons-material/Instagram'
 
+interface FooterProps {
+  toolCountLabel: string
+}
+
 const baseFooterLinks: Record<string, { label: string; href: string }[]> = {
   'AI CentralHub': [
     { label: 'Home', href: '/' },
@@ -24,6 +28,7 @@ const baseFooterLinks: Record<string, { label: string; href: string }[]> = {
     // { label: 'Submit a Tool', href: '/submit-tool' },
   ],
   Support: [
+    { label: 'About Us', href: '/about' },
     { label: 'Contact Us', href: '/contact' },
     { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Cookies Policy', href: '/cookies-policy' },
@@ -49,7 +54,7 @@ const socialLinks = [
   },
 ]
 
-export default function Footer() {
+export default function Footer({ toolCountLabel }: FooterProps) {
   const { status } = useSession()
 
   const accountLinks =
@@ -89,8 +94,9 @@ export default function Footer() {
               variant="body2"
               color="text.secondary"
               sx={{ maxWidth: 280, lineHeight: 1.8 }}>
-              Your free AI tools directory. Discover, compare and review 7,000+
-              AI tools across 50+ categories.
+              Your free AI tools directory. Discover, compare and review{' '}
+              {toolCountLabel}
+              AI tools across 12 categories & 50+ subcategories.
             </Typography>
             <Box sx={{ mt: 3, display: 'flex', gap: 1 }}>
               {socialLinks.map((s) => (

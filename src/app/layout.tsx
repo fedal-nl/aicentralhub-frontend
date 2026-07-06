@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import CookieConsent from '@/components/legal/CookieConsent'
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
+import { getTotalToolCount, formatToolCount } from '@/lib/toolCount'
 import './globals.scss'
 
 const spaceGrotesk = Space_Grotesk({
@@ -14,35 +15,42 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  title: {
-    default: 'AI CentralHub — Free AI Tools Directory with 7,000+ Tools',
-    template: '%s | AI CentralHub',
-  },
-  description:
-    'AI CentralHub is your free AI tools directory with 7,000+ tools across 50+ categories. Discover and compare the best AI tools — free to explore.',
-  metadataBase: new URL('https://ai-centralhub.com'),
-  icons: {
-    icon: '/favicon.png',
-    apple: '/favicon.png',
-  },
-  openGraph: {
-    siteName: 'AI CentralHub',
-    type: 'website',
-    locale: 'en_GB',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@AiCentralhub',
-    creator: '@AiCentralhub',
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const count = await getTotalToolCount()
+  const label = formatToolCount(count)
+
+  return {
+    title: {
+      default: `AI CentralHub — Free AI Tools Directory with ${label} Tools`,
+      template: '%s | AI CentralHub',
+    },
+    description: `AI CentralHub is your free AI tools directory with ${label} tools across 12 categories & 50+ subcategories. Discover and compare the best AI tools — free to explore.`,
+    metadataBase: new URL('https://ai-centralhub.com'),
+    icons: {
+      icon: '/favicon.png',
+      apple: '/favicon.png',
+    },
+    openGraph: {
+      siteName: 'AI CentralHub',
+      type: 'website',
+      locale: 'en_GB',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@AiCentralhub',
+      creator: '@AiCentralhub',
+    },
+  }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const count = await getTotalToolCount()
+  const label = formatToolCount(count)
+
   return (
     <html lang="en" className={spaceGrotesk.className}>
       <body
@@ -57,7 +65,7 @@ export default function RootLayout({
           <Box component="main" sx={{ flex: 1 }}>
             {children}
           </Box>
-          <Footer />
+          <Footer toolCountLabel={label} />
           <CookieConsent />
         </ThemeRegistry>
       </body>

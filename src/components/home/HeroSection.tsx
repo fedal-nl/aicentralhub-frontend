@@ -15,11 +15,9 @@ import SearchIcon from '@mui/icons-material/Search'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import ClearIcon from '@mui/icons-material/Clear'
 
-const stats = [
-  { value: '7,000+', label: 'AI Tools' },
-  { value: '50+', label: 'Categories' },
-  { value: '100%', label: 'Free to Explore' },
-]
+interface HeroSectionProps {
+  toolCountLabel: string
+}
 
 const trendingSearches = [
   'Image Generator',
@@ -29,9 +27,16 @@ const trendingSearches = [
   'SEO',
 ]
 
-export default function HeroSection() {
+export default function HeroSection({ toolCountLabel }: HeroSectionProps) {
   const [query, setQuery] = useState('')
   const router = useRouter()
+
+  const stats = [
+    { value: toolCountLabel, label: 'AI Tools' },
+    { value: '12', label: 'Categories' },
+    { value: '50+', label: 'Subcategories' },
+    { value: '100%', label: 'Free to Explore' },
+  ]
 
   const handleSearch = () => {
     if (query.trim()) {
@@ -163,8 +168,9 @@ export default function HeroSection() {
               lineHeight: 1.7,
               fontSize: { xs: '1rem', md: '1.15rem' },
             }}>
-            Browse, compare and review 7,000+ AI tools across 50+ categories.
-            Find exactly what you need — completely free.
+            Browse, compare and review {toolCountLabel} AI tools across 12
+            categories & 50+ subcategories. Find exactly what you need —
+            completely free.
           </Typography>
 
           {/* Search bar */}
@@ -191,7 +197,7 @@ export default function HeroSection() {
             <SearchIcon sx={{ color: 'text.secondary', flexShrink: 0 }} />
             <InputBase
               fullWidth
-              placeholder="Search 7,000+ AI tools..."
+              placeholder={`Search ${toolCountLabel} AI tools...`}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
