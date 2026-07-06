@@ -120,6 +120,10 @@ export default function ToolReviews({
     },
   }
 
+  const hasReviewed = reviews.some(
+    (r) => r.username === session?.backendProfile?.username,
+  )
+
   return (
     <Box>
       <Typography
@@ -294,143 +298,165 @@ export default function ToolReviews({
       )}
 
       {/* Review form */}
-      <Box
-        sx={{
-          background: (theme) => theme.customColors.lightBg,
-          border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
-          borderRadius: '16px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-          p: 4,
-        }}>
-        <Typography
-          variant="h6"
+      {hasReviewed ? (
+        <Box
           sx={{
-            fontWeight: 700,
-            color: (theme) => theme.customColors.lightText,
-            mb: 3,
+            p: 3,
+            background: (theme) => theme.customColors.lightBgAlt,
+            borderRadius: '12px',
+            border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
           }}>
-          Write a Review
-        </Typography>
-
-        {submitted ? (
           <Typography
-            variant="body1"
-            sx={{ color: 'primary.main', fontWeight: 600 }}>
-            Thank you for your review!
+            variant="body2"
+            sx={{ color: (theme) => theme.customColors.lightTextSecondary }}>
+            You&apos;ve already reviewed this tool. Thank you for your feedback!
           </Typography>
-        ) : (
-          <Stack spacing={3}>
-            <Box>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: (theme) => theme.customColors.lightTextSecondary,
-                  mb: 1,
-                }}>
-                Your rating
-              </Typography>
-              <Rating
-                value={userRating}
-                onChange={(_, val) =>
-                  status === 'authenticated' ? setUserRating(val) : null
-                }
-                readOnly={status !== 'authenticated'}
-                sx={{
-                  color: 'primary.main',
-                  '& .MuiRating-iconEmpty': {
-                    color: (theme) => theme.customColors.lightBorder,
-                  },
-                  opacity: status !== 'authenticated' ? 0.4 : 1,
-                }}
-              />
-            </Box>
+        </Box>
+      ) : submitted ? (
+        <Typography
+          variant="body1"
+          sx={{ color: 'primary.main', fontWeight: 600 }}>
+          Thank you for your review!
+        </Typography>
+      ) : (
+        <Box
+          sx={{
+            background: (theme) => theme.customColors.lightBg,
+            border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
+            borderRadius: '16px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            p: 4,
+          }}>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 700,
+              color: (theme) => theme.customColors.lightText,
+              mb: 3,
+            }}>
+            Write a Review
+          </Typography>
 
-            <TextField
-              label="Review title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              fullWidth
-              size="small"
-              disabled={status !== 'authenticated'}
-              sx={textFieldSx}
-            />
-
-            <TextField
-              label="Your review"
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              fullWidth
-              multiline
-              rows={4}
-              disabled={status !== 'authenticated'}
-              sx={textFieldSx}
-            />
-
-            {status === 'authenticated' ? (
-              <>
-                <Button
-                  onClick={handleSubmit}
-                  variant="contained"
-                  disabled={!userRating || !title || !body || submitting}
-                  sx={{
-                    fontWeight: 700,
-                    borderRadius: '10px',
-                    alignSelf: 'flex-start',
-                    px: 4,
-                    background: (theme) =>
-                      `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                    color: '#fff',
-                    '&:hover': {
-                      background: (theme) =>
-                        `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
-                    },
-                    '&.Mui-disabled': {
-                      background: (theme) => theme.customColors.lightChipBg,
-                      color: (theme) => theme.customColors.lightTextSecondary,
-                    },
-                  }}>
-                  {submitting ? 'Submitting...' : 'Submit Review'}
-                </Button>
-                {error && (
-                  <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
-                    {error}
-                  </Typography>
-                )}
-              </>
-            ) : (
-              <Stack spacing={1}>
+          {submitted ? (
+            <Typography
+              variant="body1"
+              sx={{ color: 'primary.main', fontWeight: 600 }}>
+              Thank you for your review!
+            </Typography>
+          ) : (
+            <Stack spacing={3}>
+              <Box>
                 <Typography
                   variant="body2"
                   sx={{
                     color: (theme) => theme.customColors.lightTextSecondary,
+                    mb: 1,
                   }}>
-                  You need to be logged in to write a review.
+                  Your rating
                 </Typography>
-                <Button
-                  component={Link}
-                  href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
-                  variant="contained"
-                  startIcon={<LockIcon />}
+                <Rating
+                  value={userRating}
+                  onChange={(_, val) =>
+                    status === 'authenticated' ? setUserRating(val) : null
+                  }
+                  readOnly={status !== 'authenticated'}
                   sx={{
-                    alignSelf: 'flex-start',
-                    fontWeight: 700,
-                    borderRadius: '10px',
-                    px: 3,
-                    background: (theme) =>
-                      `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                    color: '#fff',
-                    '&:hover': {
-                      background: (theme) =>
-                        `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
+                    color: 'primary.main',
+                    '& .MuiRating-iconEmpty': {
+                      color: (theme) => theme.customColors.lightBorder,
                     },
-                  }}>
-                  Log in to write a review
-                </Button>
-              </Stack>
-            )}
-          </Stack>
-        )}
-      </Box>
+                    opacity: status !== 'authenticated' ? 0.4 : 1,
+                  }}
+                />
+              </Box>
+
+              <TextField
+                label="Review title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                fullWidth
+                size="small"
+                disabled={status !== 'authenticated'}
+                sx={textFieldSx}
+              />
+
+              <TextField
+                label="Your review"
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                fullWidth
+                multiline
+                rows={4}
+                disabled={status !== 'authenticated'}
+                sx={textFieldSx}
+              />
+
+              {status === 'authenticated' ? (
+                <>
+                  <Button
+                    onClick={handleSubmit}
+                    variant="contained"
+                    disabled={!userRating || !title || !body || submitting}
+                    sx={{
+                      fontWeight: 700,
+                      borderRadius: '10px',
+                      alignSelf: 'flex-start',
+                      px: 4,
+                      background: (theme) =>
+                        `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      color: '#fff',
+                      '&:hover': {
+                        background: (theme) =>
+                          `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
+                      },
+                      '&.Mui-disabled': {
+                        background: (theme) => theme.customColors.lightChipBg,
+                        color: (theme) => theme.customColors.lightTextSecondary,
+                      },
+                    }}>
+                    {submitting ? 'Submitting...' : 'Submit Review'}
+                  </Button>
+                  {error && (
+                    <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
+                      {error}
+                    </Typography>
+                  )}
+                </>
+              ) : (
+                <Stack spacing={1}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: (theme) => theme.customColors.lightTextSecondary,
+                    }}>
+                    You need to be logged in to write a review.
+                  </Typography>
+                  <Button
+                    component={Link}
+                    href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
+                    variant="contained"
+                    startIcon={<LockIcon />}
+                    sx={{
+                      alignSelf: 'flex-start',
+                      fontWeight: 700,
+                      borderRadius: '10px',
+                      px: 3,
+                      background: (theme) =>
+                        `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      color: '#fff',
+                      '&:hover': {
+                        background: (theme) =>
+                          `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
+                      },
+                    }}>
+                    Log in to write a review
+                  </Button>
+                </Stack>
+              )}
+            </Stack>
+          )}
+        </Box>
+      )}
     </Box>
   )
 }
