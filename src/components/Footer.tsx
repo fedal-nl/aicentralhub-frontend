@@ -14,6 +14,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube'
 import XIcon from '@mui/icons-material/X'
 import FacebookIcon from '@mui/icons-material/Facebook'
 import InstagramIcon from '@mui/icons-material/Instagram'
+import MusicNoteIcon from '@mui/icons-material/MusicNote'
 
 interface FooterProps {
   toolCountLabel: string
@@ -51,6 +52,11 @@ const socialLinks = [
     icon: <InstagramIcon />,
     href: 'https://www.instagram.com/aicentralhub/',
     label: 'Instagram',
+  },
+  {
+    icon: <MusicNoteIcon />,
+    href: 'https://www.tiktok.com/@ai.centralhub',
+    label: 'TikTok',
   },
 ]
 

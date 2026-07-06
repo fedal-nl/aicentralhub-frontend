@@ -15,7 +15,6 @@ import {
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Category } from '@/types/tool'
-import { getCategoryIcon } from '@/lib/categoryIcons'
 import GridViewIcon from '@mui/icons-material/GridView'
 
 export default function CategoriesGrid() {
@@ -40,7 +39,7 @@ export default function CategoriesGrid() {
   if (loading || categories.length === 0) return null
 
   return (
-    <Box sx={{ py: 10, background: (theme) => theme.customColors.lightBgAlt }}>
+    <Box sx={{ py: 10, background: (theme) => theme.customColors.lightBg }}>
       <Container maxWidth="xl">
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
