@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { authenticatedFetch } from '@/lib/backendAuth'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -38,6 +36,16 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       )
     }
+
+    const resendApiKey = process.env.RESEND_API_KEY
+    if (!resendApiKey) {
+      console.error('Submit tool error: RESEND_API_KEY is not configured')
+      return NextResponse.json(
+        { error: 'Email service is unavailable' },
+        { status: 503 },
+      )
+    }
+    const resend = new Resend(resendApiKey)
 
     // Submit to backend — creates tool with is_active=false pending review
     const res = await authenticatedFetch('/api/tools/', {

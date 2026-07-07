@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const isValidEmail = (email: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
 
@@ -13,6 +11,15 @@ export async function POST(request: NextRequest) {
     if (!email || !isValidEmail(email)) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
     }
+    const resendApiKey = process.env.RESEND_API_KEY
+    if (!resendApiKey) {
+      console.error('Newsletter error: RESEND_API_KEY is not configured')
+      return NextResponse.json(
+        { error: 'Email service is unavailable' },
+        { status: 503 },
+      )
+    }
+    const resend = new Resend(resendApiKey)
 
     // For now: notify yourself of new subscribers
     // TODO: replace with Resend Audiences / Beehiiv API when newsletter is ready
