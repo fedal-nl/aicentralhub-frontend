@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const isValidEmail = (email: string) =>
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/.test(
     email.trim(),
@@ -26,6 +24,17 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       )
     }
+
+    const resendApiKey = process.env.RESEND_API_KEY
+    if (!resendApiKey) {
+      console.error('Contact form error: RESEND_API_KEY is not configured')
+      return NextResponse.json(
+        { error: 'Contact service is unavailable' },
+        { status: 503 },
+      )
+    }
+
+    const resend = new Resend(resendApiKey)
 
     await resend.emails.send({
       from: 'AI CentralHub Contact Form <noreply@info.ai-centralhub.com>',
