@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
 
     const resendApiKey = process.env.RESEND_API_KEY
     if (!resendApiKey) {
+      console.error('Contact form error: RESEND_API_KEY is not configured')
       return NextResponse.json(
         { error: 'Contact service is unavailable' },
         { status: 503 },
