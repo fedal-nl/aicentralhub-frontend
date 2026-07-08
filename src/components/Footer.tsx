@@ -167,7 +167,7 @@ export default function Footer({ toolCountLabel }: FooterProps) {
         <Typography
           variant="body2"
           sx={{ color: 'text.secondary', textAlign: 'center' }}>
-          © {new Date().getFullYear()} AI CentralHub by The Webdux Hub
+          © {new Date().getFullYear()} AI CentralHub by The Webdux
         </Typography>
       </Container>
     </Box>

@@ -2,13 +2,13 @@ export const privacyPolicyContent = {
   title: 'Privacy Policy',
   lastUpdated: 'July 2026',
   introduction:
-    'AI CentralHub ("we", "us", or "our") is operated by The Webdux Hub, based in the Netherlands. This Privacy Policy explains how we collect, use, store and protect your personal data when you use our website at ai-centralhub.com. We are committed to protecting your privacy and complying with the General Data Protection Regulation (GDPR) and applicable Dutch data protection laws.',
+    'AI CentralHub ("we", "us", or "our") is operated by The Webdux, based in the Netherlands. This Privacy Policy explains how we collect, use, store and protect your personal data when you use our website at ai-centralhub.com. We are committed to protecting your privacy and complying with the General Data Protection Regulation (GDPR) and applicable Dutch data protection laws.',
 
   sections: [
     {
       title: 'Who We Are',
       content: [
-        'AI CentralHub is a free AI tools directory operated by The Webdux Hub, registered in the Netherlands. We act as the data controller for all personal data collected through this website.',
+        'AI CentralHub is a free AI tools directory operated by The Webdux, registered in the Netherlands. We act as the data controller for all personal data collected through this website.',
         'If you have any questions about this Privacy Policy or how we handle your personal data, please contact us via our contact form at ai-centralhub.com/contact or by email at info@ai-centralhub.com.',
       ],
     },
@@ -130,7 +130,7 @@ export const cookiesPolicyContent = {
   title: 'Cookies Policy',
   lastUpdated: 'July 2026',
   introduction:
-    'This Cookies Policy explains how AI CentralHub, operated by The Webdux Hub (Netherlands), uses cookies and similar technologies on our website at ai-centralhub.com. By using our website, you consent to the use of cookies as described in this policy. You can manage your cookie preferences at any time.',
+    'This Cookies Policy explains how AI CentralHub, operated by The Webdux (Netherlands), uses cookies and similar technologies on our website at ai-centralhub.com. By using our website, you consent to the use of cookies as described in this policy. You can manage your cookie preferences at any time.',
 
   sections: [
     {

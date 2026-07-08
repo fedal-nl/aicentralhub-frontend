@@ -11,7 +11,7 @@ export default function WebsiteStructuredData({ toolCountLabel }: Props) {
     description: `Free AI tools directory with ${toolCountLabel} tools across 12 categories & 50+ subcategories.`,
     publisher: {
       '@type': 'Organization',
-      name: 'The Webdux Hub',
+      name: 'The Webdux',
       url: 'https://ai-centralhub.com',
     },
     potentialAction: {

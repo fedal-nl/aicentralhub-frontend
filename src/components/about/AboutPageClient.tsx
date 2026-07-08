@@ -170,7 +170,7 @@ export default function AboutPageClient({
             mb: 3,
           }}>
           AI CentralHub is built and maintained by{' '}
-          <strong style={{ color: 'inherit' }}>The Webdux Hub</strong> — an
+          <strong style={{ color: 'inherit' }}>The Webdux</strong> — an
           independent software studio focused on building useful, AI-first
           products. We&apos;re a small team of builders who believe AI tools
           should be accessible to everyone, not just those who know where to
