@@ -46,6 +46,7 @@ export async function GET(request: NextRequest) {
     query.set('page_size', searchParams.get('page_size')!)
   if (searchParams.get('ordering'))
     query.set('ordering', searchParams.get('ordering')!)
+  if (searchParams.get('sort')) query.set('sort', searchParams.get('sort')!)
 
   try {
     const res = await fetch(`${BASE_URL}/api/tools/?${query.toString()}`, {
@@ -65,12 +66,19 @@ export async function GET(request: NextRequest) {
 
     const data = await res.json()
 
-    return NextResponse.json({
-      count: data.count,
-      next: data.next,
-      previous: data.previous,
-      results: (data.results ?? []).map(mapTool),
-    })
+    return NextResponse.json(
+      {
+        count: data.count,
+        next: data.next,
+        previous: data.previous,
+        results: (data.results ?? []).map(mapTool),
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+        },
+      },
+    )
   } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
