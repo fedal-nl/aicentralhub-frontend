@@ -13,7 +13,6 @@ import {
 } from '@mui/material'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import FavoriteIcon from '@mui/icons-material/Favorite'
-import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Favorite } from '@/types/favorite'
 
 export default function FavoritesList() {
@@ -132,13 +131,6 @@ export default function FavoritesList() {
                     }}>
                     {fav.tool_name}
                   </Typography>
-                  <OpenInNewIcon
-                    sx={{
-                      fontSize: 14,
-                      color: (theme) => theme.customColors.lightTextSecondary,
-                      flexShrink: 0,
-                    }}
-                  />
                 </Stack>
                 <IconButton
                   size="small"
