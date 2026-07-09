@@ -24,7 +24,7 @@ export default function RecentTools() {
     const fetchRecent = async () => {
       try {
         const res = await fetch(
-          '/api/tools-proxy?page_size=8&ordering=-created_at',
+          '/api/tools-proxy?page_size=8&ordering=-approval_date',
         )
         if (!res.ok) throw new Error('Failed to fetch')
         const data = await res.json()

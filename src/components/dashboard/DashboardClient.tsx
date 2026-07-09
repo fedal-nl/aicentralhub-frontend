@@ -4,17 +4,7 @@ import { Box, Container, Typography, Grid } from '@mui/material'
 import type { Session } from 'next-auth'
 import ProfileCard from './ProfileCard'
 import FavoritesList from './FavoritesList'
-
-interface BackendProfile {
-  id: number
-  username: string
-  social_provider: string
-  social_uid: string
-  display_name: string
-  avatar_url: string
-  subscribed_at: string
-  updated_at: string
-}
+import { BackendProfile } from '@/types/auth'
 
 interface Props {
   profile: BackendProfile
