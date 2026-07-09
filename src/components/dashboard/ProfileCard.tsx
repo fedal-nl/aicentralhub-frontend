@@ -3,17 +3,7 @@
 import { Box, Typography, Avatar, Stack, Chip, Divider } from '@mui/material'
 import GoogleIcon from '@mui/icons-material/Google'
 import GitHubIcon from '@mui/icons-material/GitHub'
-
-interface BackendProfile {
-  id: number
-  username: string
-  social_provider: string
-  social_uid: string
-  display_name: string
-  avatar_url: string
-  subscribed_at: string
-  updated_at: string
-}
+import { BackendProfile } from '@/types/auth'
 
 interface Props {
   profile: BackendProfile

@@ -1,29 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { Tool, BackendTool } from '@/types/tool'
 
 const BASE_URL = process.env.BACKEND_URL ?? 'https://api.fedal.xyz'
 const API_KEY = process.env.API_KEY ?? ''
 
-interface BackendTool {
-  id: number
-  name: string
-  slug: string
-  website_url: string
-  description: string
-  long_description?: string
-  category: string
-  subcategory: string
-  pricing_model: string
-  app_type: string
-  tags?: string
-  logo_url?: string
-  is_featured: boolean
-  meta_description?: string
-  rating?: string
-  review_count?: number
-  is_active: boolean
-}
-
-function mapTool(tool: BackendTool) {
+function mapTool(tool: BackendTool): Tool {
   return {
     id: tool.id,
     name: tool.name,
@@ -33,8 +14,8 @@ function mapTool(tool: BackendTool) {
     longDescription: tool.long_description,
     category: tool.category,
     subcategory: tool.subcategory,
-    pricing: tool.pricing_model,
-    appType: tool.app_type,
+    pricing: tool.pricing_model as Tool['pricing'],
+    appType: tool.app_type as Tool['appType'],
     tags: tool.tags,
     logo: tool.logo_url,
     isFeatured: tool.is_featured,
@@ -42,6 +23,7 @@ function mapTool(tool: BackendTool) {
     rating: tool.rating ? parseFloat(tool.rating) : 0,
     reviewCount: tool.review_count,
     isActive: tool.is_active,
+    approvalDate: tool.approval_date,
   }
 }
 

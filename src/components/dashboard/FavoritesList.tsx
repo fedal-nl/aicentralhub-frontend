@@ -14,15 +14,7 @@ import {
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
-
-interface Favorite {
-  id: number
-  username: string
-  tool: number
-  tool_name: string
-  tool_slug: string
-  created_at: string
-}
+import { Favorite } from '@/types/favorite'
 
 export default function FavoritesList() {
   const [favorites, setFavorites] = useState<Favorite[]>([])

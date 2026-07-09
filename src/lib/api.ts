@@ -1,4 +1,4 @@
-import { Tool, Category } from '@/types/tool'
+import { Tool, BackendTool, Category } from '@/types/tool'
 
 const BASE_URL = process.env.BACKEND_URL ?? 'https://api.fedal.xyz'
 const API_KEY = process.env.API_KEY ?? ''
@@ -6,27 +6,6 @@ const API_KEY = process.env.API_KEY ?? ''
 const headers = {
   'Content-Type': 'application/json',
   'X-API-Key': API_KEY,
-}
-
-// Maps backend snake_case fields to frontend camelCase
-interface BackendTool {
-  id: number
-  name: string
-  slug: string
-  website_url: string
-  description: string
-  long_description?: string
-  category: string
-  subcategory: string
-  pricing_model: string
-  app_type: string
-  tags?: string
-  logo_url?: string
-  is_featured: boolean
-  meta_description?: string
-  rating?: string
-  review_count?: number
-  is_active: boolean
 }
 
 function mapTool(tool: BackendTool): Tool {
@@ -41,11 +20,14 @@ function mapTool(tool: BackendTool): Tool {
     subcategory: tool.subcategory,
     pricing: tool.pricing_model as Tool['pricing'],
     appType: tool.app_type as Tool['appType'],
+    tags: tool.tags,
     logo: tool.logo_url,
     isFeatured: tool.is_featured,
     metaDescription: tool.meta_description,
     rating: tool.rating ? parseFloat(tool.rating) : 0,
     reviewCount: tool.review_count,
+    isActive: tool.is_active,
+    approvalDate: tool.approval_date,
   }
 }
 
@@ -129,11 +111,12 @@ export async function postReview(data: {
   return res.json()
 }
 
-// ___________ CATEGORIES _____________
+// ─── Categories ──────────────────────────────────────────────────────────────
+
 export async function getCategories(): Promise<Category[]> {
   const res = await fetch(`${BASE_URL}/api/tools/categories/`, {
     headers,
-    next: { revalidate: 3600 }, // revalidate hourly — categories don't change often
+    next: { revalidate: 3600 },
   })
 
   if (!res.ok) throw new Error(`Failed to fetch categories: ${res.status}`)
