@@ -67,10 +67,25 @@ export async function POST(request: NextRequest) {
     if (!res.ok) {
       const error = await res.json()
       console.error('Backend tool submission error:', error)
-      return NextResponse.json(
-        { error: 'Failed to submit tool' },
-        { status: res.status },
-      )
+
+      let errorMessage =
+        'Failed to submit tool. Please check your details and try again.'
+
+      if (error.website_url) {
+        errorMessage = 'A tool with this URL already exists in our directory.'
+      } else if (error.name) {
+        errorMessage = 'A tool with this name already exists in our directory.'
+      } else if (error.category) {
+        errorMessage =
+          'Invalid category selected. Please choose a valid category.'
+      } else if (error.subcategory) {
+        errorMessage =
+          'Invalid subcategory selected. Please choose a valid subcategory.'
+      } else if (error.detail) {
+        errorMessage = error.detail
+      }
+
+      return NextResponse.json({ error: errorMessage }, { status: res.status })
     }
 
     const tool = await res.json()

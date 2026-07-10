@@ -127,7 +127,16 @@ export default function SubmitToolPageClient() {
         }),
       })
 
-      if (!res.ok) throw new Error('Failed to submit')
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(
+          data.error ??
+            'Something went wrong. Please try again or contact us directly.',
+        )
+        return
+      }
+
       setSubmitted(true)
     } catch {
       setError('Something went wrong. Please try again or contact us directly.')
