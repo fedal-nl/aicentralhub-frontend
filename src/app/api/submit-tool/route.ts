@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
         <p><strong>Meta Description:</strong><br/>${metaDescription}</p>
         <hr/>
         <p><em>Review in Django admin and set is_active = true to publish.</em></p>
-        <p><a href="https://api.fedal.xyz/admin/api/aitool/${tool.id}/change/">Open in Django Admin</a></p>
+        ${process.env.DJANGO_ADMIN_URL ? `<p><a href="${process.env.DJANGO_ADMIN_URL}api/aitool/${tool.id}/change/">Open in Django Admin</a></p>` : ''}
       `,
     })
 
