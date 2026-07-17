@@ -67,7 +67,7 @@ export default function ContactPageClient({
     {
       question: 'How do I submit my AI tool to the directory?',
       answer:
-        'You can submit your AI tool by visiting our Submit a Tool page. Our team reviews every submission and will get back to you within 3-5 business days.',
+        'You can submit your AI tool directly via our Submit a Tool page at ai-centralhub.com/submit-tool. Simply fill in the details about your tool and our team will review it within 3-5 business days.',
     },
     {
       question: 'Is AI CentralHub free to use?',
