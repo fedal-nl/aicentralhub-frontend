@@ -35,6 +35,7 @@ jobs:
         env:
           BACKEND_URL: ${{ secrets.BACKEND_URL }}
           API_KEY: ${{ secrets.API_KEY }}
+          FALLBACK_TOOL_COUNT: '5000'
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
