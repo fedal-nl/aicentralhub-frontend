@@ -215,7 +215,7 @@ export default function ToolDetailClient({
                   </Typography>
                   <Typography variant="body2" sx={{ mt: 0.5 }}>
                     <Link
-                      href={tool.url}
+                      href={addUtmParams(tool.url)}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ color: '#00D4FF' }}>
