@@ -15,6 +15,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import { Tool } from '@/types/tool'
 import { pricingColor, pricingLabel } from '@/lib/pricingColors'
 import FavoriteButton from './FavoriteButton'
+import { addUtmParams } from '@/lib/utm'
 
 interface ToolCardProps {
   tool: Tool
@@ -139,7 +140,7 @@ export default function ToolCard({ tool, topPick = false }: ToolCardProps) {
             </Button>
             <Button
               component="a"
-              href={tool.url}
+              href={addUtmParams(tool.url)}
               target="_blank"
               rel="noopener noreferrer"
               variant="contained"

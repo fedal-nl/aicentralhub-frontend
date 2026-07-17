@@ -16,6 +16,7 @@ import { Tool } from '@/types/tool'
 import { Review } from '@/types/review'
 import ToolReviews from './ToolReviews'
 import RelatedTools from './RelatedTools'
+import { addUtmParams } from '@/lib/utm'
 
 interface Props {
   tool: Tool
@@ -232,7 +233,7 @@ export default function ToolDetailClient({
 
                 <Button
                   component="a"
-                  href={tool.url}
+                  href={addUtmParams(tool.url)}
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="contained"
