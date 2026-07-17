@@ -8,6 +8,7 @@ import FiberNewIcon from '@mui/icons-material/FiberNew'
 import { Tool } from '@/types/tool'
 import { pricingColor, pricingLabel } from '@/lib/pricingColors'
 import FavoriteButton from './FavoriteButton'
+import { addUtmParams } from '@/lib/utm'
 
 interface ToolListRowProps {
   tool: Tool
@@ -126,7 +127,7 @@ export default function ToolListRow({
         </Button>
         <Button
           component="a"
-          href={tool.url}
+          href={addUtmParams(tool.url)}
           target="_blank"
           rel="noopener noreferrer"
           variant="contained"
