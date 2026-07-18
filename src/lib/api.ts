@@ -71,7 +71,7 @@ export async function getTools(params?: {
 export async function getToolBySlug(slug: string) {
   const res = await fetch(`${BASE_URL}/api/tools/${slug}/`, {
     headers,
-    next: { revalidate: 60 },
+    cache: 'no-store',
   })
 
   if (!res.ok) throw new Error(`Failed to fetch tool: ${res.status}`)
