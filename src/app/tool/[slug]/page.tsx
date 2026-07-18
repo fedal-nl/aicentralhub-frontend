@@ -1,4 +1,3 @@
-import { auth } from '@/auth'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { getToolBySlug, getTools, getReviews } from '@/lib/api'
