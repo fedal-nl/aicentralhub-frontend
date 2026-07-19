@@ -6,7 +6,7 @@ import { parseRssXml } from '@/lib/parseRss'
 export const metadata: Metadata = {
   title: 'AI News',
   description:
-    'Stay up to date with the latest AI news from TechCrunch, VentureBeat, The Verge and MIT Technology Review.',
+    'Stay up to date with the latest AI news from TechCrunch, VentureBeat, The Verge, MIT Technology Review, The Decoder and Ars Technica AI.',
 }
 
 export const revalidate = 3600
@@ -40,12 +40,12 @@ export default async function NewsPage() {
           'X-API-Key': API_KEY,
         }
 
-        // Try today, yesterday, day before — use first successful response
+        // Try today, yesterday, 2 days ago, 3 days ago
+        // Use first successful response
         let data = null
         for (const daysAgo of [0, 1, 2, 3]) {
-          const date = getDateString(daysAgo)
           const res = await fetch(
-            `${BASE_URL}/api/scraped-pages/${source.slug}/?date=${date}&scraped_type=content`,
+            `${BASE_URL}/api/scraped-pages/${source.slug}/?date=${getDateString(daysAgo)}&scraped_type=content`,
             { headers, next: { revalidate: 3600 } },
           )
           if (res.ok) {
@@ -55,8 +55,7 @@ export default async function NewsPage() {
         }
 
         if (!data) return []
-        const parsed = parseRssXml(data.content, source.name)
-        return parsed
+        return parseRssXml(data.content, source.name)
       }),
     )
 
@@ -64,6 +63,7 @@ export default async function NewsPage() {
       .filter((r) => r.status === 'fulfilled')
       .flatMap((r) => (r as PromiseFulfilledResult<NewsArticle[]>).value)
 
+    // Sort by newest first
     articles.sort(
       (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime(),
     )
