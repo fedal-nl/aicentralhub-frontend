@@ -26,6 +26,7 @@ const baseFooterLinks: Record<string, { label: string; href: string }[]> = {
     { label: 'Featured Tools', href: '/featured-tools' },
     { label: 'AI Tools', href: '/ai-tools' },
     { label: 'Categories', href: '/categories' },
+    { label: 'AI News', href: '/news' },
     { label: 'Submit a Tool', href: '/submit-tool' },
   ],
   Support: [
