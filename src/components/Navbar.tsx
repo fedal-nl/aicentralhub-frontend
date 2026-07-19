@@ -408,7 +408,7 @@ export default function Navbar() {
       </Drawer>
 
       {/* Toolbar spacer */}
-      <Toolbar sx={{ height: 70 }} />
+      <Toolbar sx={{ height: 90 }} />
     </>
   )
 }

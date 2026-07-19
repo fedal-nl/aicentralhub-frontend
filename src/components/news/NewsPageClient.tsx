@@ -37,6 +37,19 @@ const SOURCE_COLORS: Record<string, string> = {
   'ars-technica-ai': '#8a427d',
 }
 
+const SOURCE_FAVICONS: Record<string, string> = {
+  techcrunch: 'https://www.google.com/s2/favicons?domain=techcrunch.com&sz=32',
+  venturebeat:
+    'https://www.google.com/s2/favicons?domain=venturebeat.com&sz=32',
+  'the-verge': 'https://www.google.com/s2/favicons?domain=theverge.com&sz=32',
+  'mit-tech-review':
+    'https://www.google.com/s2/favicons?domain=technologyreview.com&sz=32',
+  'the-decoder':
+    'https://www.google.com/s2/favicons?domain=the-decoder.com&sz=32',
+  'ars-technica-ai':
+    'https://www.google.com/s2/favicons?domain=arstechnica.com&sz=32',
+}
+
 const SOURCES = [
   'All',
   'TechCrunch',
@@ -57,6 +70,37 @@ function formatDate(dateStr: string): string {
   } catch {
     return dateStr
   }
+}
+
+function SourceLabel({
+  source,
+  sourceName,
+}: {
+  source: string
+  sourceName: string
+}) {
+  return (
+    <Stack direction="row" spacing={0.8} sx={{ alignItems: 'center' }}>
+      <Box
+        component="img"
+        src={
+          SOURCE_FAVICONS[source] ??
+          `https://www.google.com/s2/favicons?domain=${source}.com&sz=32`
+        }
+        alt={sourceName}
+        sx={{ width: 16, height: 16, borderRadius: '3px' }}
+      />
+      <Typography
+        variant="caption"
+        sx={{
+          fontWeight: 700,
+          color: SOURCE_COLORS[source] ?? '#00D4FF',
+          fontSize: '1rem',
+        }}>
+        {sourceName}
+      </Typography>
+    </Stack>
+  )
 }
 
 export default function NewsPageClient({ articles }: Props) {
@@ -132,10 +176,32 @@ export default function NewsPageClient({ articles }: Props) {
             <Stack
               direction="row"
               spacing={1}
-              sx={{ flexWrap: 'wrap', gap: 1 }}>
+              sx={{ flexWrap: 'wrap', gap: 2 }}>
               {SOURCES.map((source) => (
                 <Chip
                   key={source}
+                  icon={
+                    source !== 'All' ? (
+                      <Box
+                        component="img"
+                        src={
+                          SOURCE_FAVICONS[
+                            source
+                              .toLowerCase()
+                              .replace(/\s+/g, '-')
+                              .replace(/&/g, '')
+                          ]
+                        }
+                        alt={source}
+                        sx={{
+                          width: 14,
+                          height: 14,
+                          borderRadius: '2px',
+                          ml: '8px !important',
+                        }}
+                      />
+                    ) : undefined
+                  }
                   label={source}
                   onClick={() => handleSourceChange(source)}
                   sx={{
@@ -143,6 +209,7 @@ export default function NewsPageClient({ articles }: Props) {
                     fontSize: '0.8rem',
                     height: 36,
                     px: 1,
+                    ml: '0 !important',
                     cursor: 'pointer',
                     background:
                       activeSource === source
@@ -165,12 +232,24 @@ export default function NewsPageClient({ articles }: Props) {
                 />
               ))}
             </Stack>
-
+            <Typography
+              variant="body2"
+              sx={{
+                color: (theme) => theme.customColors.lightTextSecondary,
+                display: { xs: 'block', md: 'none' },
+                mt: 1,
+              }}>
+              {filtered.length} articles
+            </Typography>
             {/* View toggle + count */}
             <Stack
               direction="row"
               spacing={1.5}
-              sx={{ alignItems: 'center', flexShrink: 0 }}>
+              sx={{
+                alignItems: 'center',
+                flexShrink: 0,
+                display: { xs: 'none', md: 'flex' },
+              }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -262,16 +341,9 @@ export default function NewsPageClient({ articles }: Props) {
                             justifyContent: 'space-between',
                             alignItems: 'center',
                           }}>
-                          <Chip
-                            label={article.sourceName}
-                            size="small"
-                            sx={{
-                              fontWeight: 700,
-                              fontSize: '0.7rem',
-                              background: `${SOURCE_COLORS[article.source] ?? '#00D4FF'}22`,
-                              color: SOURCE_COLORS[article.source] ?? '#00D4FF',
-                              border: `1px solid ${SOURCE_COLORS[article.source] ?? '#00D4FF'}44`,
-                            }}
+                          <SourceLabel
+                            source={article.source}
+                            sourceName={article.sourceName}
                           />
                           <Typography
                             variant="caption"
@@ -438,17 +510,9 @@ export default function NewsPageClient({ articles }: Props) {
                         direction={{ xs: 'column', sm: 'row' }}
                         spacing={1}
                         sx={{ alignItems: { sm: 'center' }, mb: 1 }}>
-                        <Chip
-                          label={article.sourceName}
-                          size="small"
-                          sx={{
-                            fontWeight: 700,
-                            fontSize: '0.7rem',
-                            background: `${SOURCE_COLORS[article.source] ?? '#00D4FF'}22`,
-                            color: SOURCE_COLORS[article.source] ?? '#00D4FF',
-                            border: `1px solid ${SOURCE_COLORS[article.source] ?? '#00D4FF'}44`,
-                            alignSelf: 'flex-start',
-                          }}
+                        <SourceLabel
+                          source={article.source}
+                          sourceName={article.sourceName}
                         />
                         <Typography
                           variant="caption"
