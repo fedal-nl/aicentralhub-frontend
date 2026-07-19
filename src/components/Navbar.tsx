@@ -33,6 +33,7 @@ const navLinks = [
   { label: 'Featured Tools', href: '/featured-tools' },
   { label: 'AI Tools', href: '/ai-tools' },
   { label: 'Categories', href: '/categories' },
+  { label: 'AI News', href: '/news' },
   { label: 'Submit a Tool', href: '/submit-tool' },
   { label: 'Contact', href: '/contact' },
 ]

@@ -6,8 +6,6 @@ const API_KEY = process.env.API_KEY ?? ''
 export async function GET() {
   try {
     const url = `${BASE_URL}/api/tools/categories/`
-    console.log('Fetching categories from:', url)
-    console.log('API_KEY present:', !!API_KEY)
 
     const res = await fetch(url, {
       headers: {
@@ -16,8 +14,6 @@ export async function GET() {
       },
       next: { revalidate: 3600 },
     })
-
-    console.log('Categories response status:', res.status)
 
     if (!res.ok) {
       return NextResponse.json(
