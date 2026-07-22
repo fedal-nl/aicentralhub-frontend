@@ -1,9 +1,10 @@
 const BASE_URL = process.env.BACKEND_URL ?? 'https://api.fedal.xyz'
 const API_KEY = process.env.API_KEY ?? ''
 
-// Used only if the backend errors out or the fetch fails. Bump this via env
-// var as the real tool count grows, no code change/deploy needed.
-const FALLBACK_TOOL_COUNT = Number(process.env.FALLBACK_TOOL_COUNT ?? 5000)
+// Conservative fallback used only if the live count fetch fails.
+// Sourced from env so it can be tuned without a code deploy — keep it
+// at or slightly below the current live figure, never above it.
+const FALLBACK_TOOL_COUNT = Number(process.env.FALLBACK_TOOL_COUNT) || 5000
 
 export async function getTotalToolCount(): Promise<number> {
   try {
