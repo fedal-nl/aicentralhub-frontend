@@ -50,11 +50,9 @@ export async function getTools(params?: {
   if (params?.page) query.set('page', String(params.page))
   if (params?.page_size) query.set('page_size', String(params.page_size))
 
-  const fullUrl = `${BASE_URL}/api/tools/?${query.toString()}`
-
-  const res = await fetch(fullUrl, {
+  const res = await fetch(`${BASE_URL}/api/tools/?${query.toString()}`, {
     headers,
-    cache: 'no-store',
+    next: { revalidate: 300 }, // 5 minutes
   })
 
   if (!res.ok) throw new Error(`Failed to fetch tools: ${res.status}`)
@@ -68,13 +66,18 @@ export async function getTools(params?: {
   }
 }
 
-export async function getToolBySlug(slug: string) {
+export async function getToolBySlug(slug: string): Promise<Tool | null> {
   const res = await fetch(`${BASE_URL}/api/tools/${slug}/`, {
     headers,
-    cache: 'no-store',
+    next: { revalidate: 300 }, // 5 minutes
   })
 
+  // Real 404 — tool doesn't exist
+  if (res.status === 404) return null
+
+  // Any other error — throw so it propagates to error boundary
   if (!res.ok) throw new Error(`Failed to fetch tool: ${res.status}`)
+
   const data = await res.json()
   return mapTool(data)
 }
@@ -87,7 +90,7 @@ export async function getReviews(params?: { tool?: string }) {
 
   const res = await fetch(`${BASE_URL}/api/reviews/?${query.toString()}`, {
     headers,
-    cache: 'no-store',
+    next: { revalidate: 60 }, // 1 minute
   })
 
   if (!res.ok) throw new Error(`Failed to fetch reviews: ${res.status}`)

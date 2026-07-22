@@ -49,12 +49,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily' as const,
       priority: 0.8,
     },
-    {
-      url: `${baseUrl}/submit-tool`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
+    // {
+    //   url: `${baseUrl}/submit-tool`,
+    //   lastModified: new Date(),
+    //   changeFrequency: 'monthly',
+    //   priority: 0.5,
+    // },
     {
       url: `${baseUrl}/privacy-policy`,
       lastModified: new Date(),

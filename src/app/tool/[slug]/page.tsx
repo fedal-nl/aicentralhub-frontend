@@ -11,34 +11,26 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-export const dynamic = 'force-dynamic'
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  try {
-    const tool = await getToolBySlug(slug)
-    return {
-      title: `${tool.name} — AI Tool Review`,
-      description: tool.metaDescription ?? tool.description,
-    }
-  } catch {
+  const tool = await getToolBySlug(slug)
+  if (!tool) {
     return {
       title: 'AI Tool — AI CentralHub',
       description: 'Discover AI tools on AI CentralHub.',
     }
+  }
+  return {
+    title: `${tool.name} — AI Tool Review`,
+    description: tool.metaDescription ?? tool.description,
   }
 }
 
 export default async function ToolDetailPage({ params }: Props) {
   const { slug } = await params
 
-  let tool: Tool | null = null
-  try {
-    tool = await getToolBySlug(slug)
-  } catch {
-    notFound()
-  }
-
+  // Returns null on real 404, throws on transient errors
+  const tool: Tool | null = await getToolBySlug(slug)
   if (!tool) notFound()
 
   let reviews: Review[] = []
