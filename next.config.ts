@@ -70,6 +70,20 @@ const nextConfig: NextConfig = {
       { source: '/date/:year/:month', destination: '/', permanent: true },
       { source: '/date/:year/', destination: '/', permanent: true },
       { source: '/date/:year', destination: '/', permanent: true },
+
+      // WordPress tag URLs → ai-tools
+      { source: '/tag/:slug/', destination: '/ai-tools', permanent: true },
+      { source: '/tag/:slug', destination: '/ai-tools', permanent: true },
+      {
+        source: '/tag/:slug/page/:page/',
+        destination: '/ai-tools',
+        permanent: true,
+      },
+      {
+        source: '/tag/:slug/page/:page',
+        destination: '/ai-tools',
+        permanent: true,
+      },
     ]
   },
   images: {
