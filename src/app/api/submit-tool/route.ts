@@ -37,6 +37,58 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Validate URL is reachable and not a known spam domain
+    const BLOCKED_DOMAINS = [
+      'bit.ly',
+      'tinyurl.com',
+      'shorturl.at',
+      't.co',
+      'goo.gl',
+      'ow.ly',
+      'buff.ly',
+      'adf.ly',
+      'shorte.st',
+    ]
+
+    // Check for URL shorteners / redirect services
+    const urlObj = new URL(url)
+    if (BLOCKED_DOMAINS.includes(urlObj.hostname)) {
+      return NextResponse.json(
+        {
+          error:
+            'URL shorteners are not allowed. Please provide the direct URL to your tool.',
+        },
+        { status: 400 },
+      )
+    }
+
+    // Check if URL is reachable
+    try {
+      const urlCheck = await fetch(url, {
+        method: 'HEAD',
+        signal: AbortSignal.timeout(5000),
+        redirect: 'manual', // don't follow redirects
+      })
+      // 200 = ok, 3xx = redirect (also acceptable for real sites)
+      if (!urlCheck.ok && urlCheck.status >= 400) {
+        return NextResponse.json(
+          {
+            error:
+              'The tool URL appears to be unreachable. Please check the URL and try again.',
+          },
+          { status: 400 },
+        )
+      }
+    } catch {
+      return NextResponse.json(
+        {
+          error:
+            'The tool URL could not be reached. Please check the URL and try again.',
+        },
+        { status: 400 },
+      )
+    }
+
     const resendApiKey = process.env.RESEND_API_KEY
     if (!resendApiKey) {
       console.error('Submit tool error: RESEND_API_KEY is not configured')
@@ -101,7 +153,7 @@ export async function POST(request: NextRequest) {
         <p><strong>Tool ID in Django:</strong> ${tool.id}</p>
         <hr/>
         <p><strong>Tool Name:</strong> ${name}</p>
-        <p><strong>URL:</strong> <a href="${url}">${url}</a></p>
+        <p><strong>URL:</strong> ${url} (do not click — verify in Django admin first)</p>
         <p><strong>Category:</strong> ${category} → ${subcategory}</p>
         <p><strong>Pricing:</strong> ${pricing}</p>
         <p><strong>App Type:</strong> ${appType}</p>
