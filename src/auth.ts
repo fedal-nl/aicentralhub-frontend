@@ -2,6 +2,7 @@ import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
 import GitHub from 'next-auth/providers/github'
 import type {} from 'next-auth/jwt'
+import { sendNewUserEmails } from '@/lib/authEmails'
 
 const BACKEND_URL = process.env.BACKEND_URL ?? 'https://api.fedal.xyz'
 const API_KEY = process.env.API_KEY ?? ''
@@ -87,6 +88,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.backendProfile = data.profile
             token.isNewUser = Boolean(data.is_new_user)
             delete token.error
+
+            if (token.isNewUser) {
+              await sendNewUserEmails({
+                name: user.name,
+                email: user.email,
+                provider: account.provider,
+              })
+            }
           } else {
             console.error('Backend social login failed:', res.status)
             token.error = 'BackendLoginFailed'
