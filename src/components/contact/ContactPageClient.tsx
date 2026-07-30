@@ -31,6 +31,7 @@ interface ContactPageClientProps {
 const contactReasons = [
   'General Inquiry',
   'Feedback',
+  'Existing Tool Update Request',
   'Report an Issue',
   'Partnership / Collaboration',
   'Press & Media',
