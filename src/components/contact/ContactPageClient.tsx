@@ -31,7 +31,6 @@ interface ContactPageClientProps {
 const contactReasons = [
   'General Inquiry',
   'Feedback',
-  'Tool Submission Request',
   'Report an Issue',
   'Partnership / Collaboration',
   'Press & Media',
@@ -74,9 +73,9 @@ export default function ContactPageClient({
       answer: `Yes, AI CentralHub is completely free to browse and use. You can search, filter and explore all ${toolCountLabel} tools without any cost or sign-up required.`,
     },
     {
-      question: 'How do I report incorrect information about a tool?',
+      question: 'How do you select which tools get listed?',
       answer:
-        'If you notice incorrect or outdated information about a tool, please use the contact form on this page and include the tool name and the correct information.',
+        'Our team reviews each submission for quality, functionality and relevance before adding it to the directory. We look for tools that are actively maintained, provide real value, and have a clear use case within their category.',
     },
     {
       question: 'Can I advertise on AI CentralHub?',
@@ -89,9 +88,9 @@ export default function ContactPageClient({
         'We update our directory regularly with new tools and updated information. Our team reviews submissions and monitors the AI landscape to keep listings accurate.',
     },
     {
-      question: 'How do I request a tool to be added?',
+      question: "How do I update information for a tool that's already listed?",
       answer:
-        "If you'd like to see a specific tool added to our directory, use the contact form and include the tool name and URL. We'll review and add it if it meets our quality standards.",
+        "If a tool you own or manage is already listed and needs updated details (pricing, description, features, etc.), use the contact form and select 'Existing Tool Update Request' as your reason. Include the tool name and what needs to change, and our team will review and update it.",
     },
   ]
 
