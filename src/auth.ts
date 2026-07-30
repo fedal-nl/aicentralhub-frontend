@@ -12,6 +12,7 @@ interface BackendAuthResponse {
   expires_in: number
   refresh_token: string
   refresh_expires_in: number
+  is_new_user?: boolean
   profile: {
     id: number
     username: string
@@ -84,6 +85,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.backendRefreshExpires =
               Date.now() + data.refresh_expires_in * 1000
             token.backendProfile = data.profile
+            token.isNewUser = Boolean(data.is_new_user)
             delete token.error
           } else {
             console.error('Backend social login failed:', res.status)
@@ -135,6 +137,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.backendToken = token.backendToken
       session.backendTokenType = token.backendTokenType
       session.backendProfile = token.backendProfile
+      session.isNewUser = token.isNewUser
       session.error = token.error
       return session
     },

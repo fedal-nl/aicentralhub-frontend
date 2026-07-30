@@ -17,6 +17,8 @@ export interface Tool {
   reviewCount?: number
   isActive?: boolean
   approvalDate?: string
+  creationSource?: string
+  isCreatedByCurrentUser?: boolean
 }
 
 export interface BackendTool {
@@ -41,6 +43,8 @@ export interface BackendTool {
   is_active: boolean
   created_at?: string
   updated_at?: string
+  creation_source?: string
+  is_created_by_current_user?: boolean
 }
 
 export interface PaginatedResponse<T> {

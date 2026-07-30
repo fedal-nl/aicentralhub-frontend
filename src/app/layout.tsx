@@ -5,6 +5,7 @@ import ThemeRegistry from '@/theme/ThemeRegistry'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import CookieConsent from '@/components/legal/CookieConsent'
+import WelcomeNewUserDialog from '@/components/auth/WelcomeNewUserDialog'
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 import { getTotalToolCount, formatToolCount } from '@/lib/toolCount'
 import './globals.scss'
@@ -70,6 +71,7 @@ export default async function RootLayout({
           </Box>
           <Footer toolCountLabel={label} />
           <CookieConsent />
+          <WelcomeNewUserDialog />
         </ThemeRegistry>
       </body>
     </html>

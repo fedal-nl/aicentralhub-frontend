@@ -62,7 +62,11 @@ export default function Navbar() {
         <>
           <IconButton onClick={handleUserMenuOpen} size="small">
             <Avatar
-              src={session.user.image ?? undefined}
+              src={
+                session.backendProfile?.avatar_url ??
+                session.user.image ??
+                undefined
+              }
               alt={session.user.name ?? 'User'}
               sx={{
                 width: 36,
@@ -345,7 +349,11 @@ export default function Navbar() {
                 gap: 1.5,
               }}>
               <Avatar
-                src={session.user.image ?? undefined}
+                src={
+                  session.backendProfile?.avatar_url ??
+                  session.user.image ??
+                  undefined
+                }
                 alt={session.user.name ?? 'User'}
                 sx={{ width: 40, height: 40 }}
               />

@@ -6,6 +6,7 @@ declare module 'next-auth' {
     backendToken?: string
     backendTokenType?: string
     backendProfile?: BackendProfile
+    isNewUser?: boolean
     error?: string
     user: {
       id?: string
@@ -21,6 +22,7 @@ declare module 'next-auth/jwt' {
     backendRefreshToken?: string
     backendRefreshExpires?: number
     backendProfile?: BackendProfile
+    isNewUser?: boolean
     error?: string
   }
 }
