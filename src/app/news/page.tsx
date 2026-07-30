@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'AI News',
   description:
     'Stay up to date with the latest AI news from TechCrunch, VentureBeat, The Verge, MIT Technology Review, The Decoder and Ars Technica AI.',
+  alternates: { canonical: '/news' },
 }
 
 export const revalidate = 3600

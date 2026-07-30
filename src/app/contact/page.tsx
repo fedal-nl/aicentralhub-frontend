@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Contact Us',
   description:
     "Get in touch with the AI CentralHub team. We'd love to hear from you.",
+  alternates: { canonical: '/contact' },
 }
 
 export default async function ContactPage() {

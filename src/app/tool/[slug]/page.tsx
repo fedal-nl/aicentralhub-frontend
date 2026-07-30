@@ -18,11 +18,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: 'AI Tool — AI CentralHub',
       description: 'Discover AI tools on AI CentralHub.',
+      alternates: { canonical: `/tool/${slug}` },
     }
   }
   return {
     title: `${tool.name} — AI Tool Review`,
     description: tool.metaDescription ?? tool.description,
+    alternates: { canonical: `/tool/${slug}` },
   }
 }
 
