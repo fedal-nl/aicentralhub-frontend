@@ -13,6 +13,7 @@ import {
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import FavoriteButton from './FavoriteButton'
+import SubmittedByBadge from './SubmittedByBadge'
 import { Tool } from '@/types/tool'
 import { parentCategories } from '@/data/mockData'
 
@@ -132,6 +133,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                   border: `1px solid ${pricingColor[tool.pricing]}44`,
                 }}
               />
+              <SubmittedByBadge slug={tool.slug} />
             </Stack>
 
             <Typography

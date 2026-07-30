@@ -28,6 +28,8 @@ function mapTool(tool: BackendTool): Tool {
     reviewCount: tool.review_count,
     isActive: tool.is_active,
     approvalDate: tool.approval_date,
+    creationSource: tool.creation_source,
+    isCreatedByCurrentUser: tool.is_created_by_current_user,
   }
 }
 
