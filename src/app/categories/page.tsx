@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'AI Tool Categories',
   description:
     'Browse AI tools by category. Explore 12 categories and 50+ subcategories of AI tools.',
+  alternates: { canonical: '/categories' },
 }
 
 export default async function CategoriesPage() {

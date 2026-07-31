@@ -13,6 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'AI Tools',
     description: `Browse ${formatToolCount(count)} AI tools across 12 categories & 50+ subcategories. Filter by pricing, category and more.`,
+    alternates: { canonical: '/ai-tools' },
   }
 }
 
