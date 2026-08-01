@@ -66,7 +66,7 @@ export default function ToolLogo({
         overflow: 'hidden',
         flexShrink: 0,
         position: 'relative',
-        background: (theme) => theme.customColors.lightChipBg,
+        border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
       }}>
       <Image
         src={logo}
