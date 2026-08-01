@@ -16,6 +16,7 @@ import { Tool } from '@/types/tool'
 import { pricingColor, pricingLabel } from '@/lib/pricingColors'
 import FavoriteButton from './FavoriteButton'
 import { addUtmParams } from '@/lib/utm'
+import ToolLogo from './ToolLogo'
 
 interface ToolCardProps {
   tool: Tool
@@ -96,15 +97,20 @@ export default function ToolCard({ tool, topPick = false }: ToolCardProps) {
           </Stack>
 
           <Box sx={{ flex: 1 }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 700,
-                color: (theme) => theme.customColors.lightText,
-                mb: 0.5,
-              }}>
-              {tool.name}
-            </Typography>
+            <Stack
+              direction="row"
+              spacing={1.5}
+              sx={{ alignItems: 'center', mb: 0.5 }}>
+              <ToolLogo logo={tool.logo} name={tool.name} size={36} />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 700,
+                  color: (theme) => theme.customColors.lightText,
+                }}>
+                {tool.name}
+              </Typography>
+            </Stack>
             <Typography
               variant="body2"
               sx={{

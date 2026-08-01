@@ -9,6 +9,7 @@ import { Tool } from '@/types/tool'
 import { pricingColor, pricingLabel } from '@/lib/pricingColors'
 import FavoriteButton from './FavoriteButton'
 import { addUtmParams } from '@/lib/utm'
+import ToolLogo from './ToolLogo'
 
 interface ToolListRowProps {
   tool: Tool
@@ -47,6 +48,7 @@ export default function ToolListRow({
             {String(index + 1).padStart(2, '0')}
           </Typography>
         )}
+        <ToolLogo logo={tool.logo} name={tool.name} size={44} />
         <Box sx={{ flex: 1 }}>
           <Stack
             direction="row"
