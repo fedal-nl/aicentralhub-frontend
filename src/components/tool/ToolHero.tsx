@@ -16,6 +16,7 @@ import FavoriteButton from './FavoriteButton'
 import SubmittedByBadge from './SubmittedByBadge'
 import { Tool } from '@/types/tool'
 import { parentCategories } from '@/data/mockData'
+import ToolLogo from './ToolLogo'
 
 interface ToolHeroProps {
   tool: Tool
@@ -213,32 +214,12 @@ export default function ToolHero({ tool }: ToolHeroProps) {
             <FavoriteButton toolId={tool.id} size="large" />
           </Box>
 
-          <Box
-            sx={{
-              width: { xs: 100, md: 160 },
-              height: { xs: 100, md: 160 },
-              borderRadius: '24px',
-              background: (theme) =>
-                `linear-gradient(135deg, ${theme.palette.primary.main}22, ${theme.palette.secondary.main}22)`,
-              border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}>
-            <Typography
-              variant="h3"
-              sx={{
-                fontWeight: 800,
-                background: (theme) =>
-                  `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}>
-              {tool.name.charAt(0)}
-            </Typography>
-          </Box>
+          <ToolLogo
+            logo={tool.logo}
+            name={tool.name}
+            size={160}
+            borderRadius={24}
+          />
         </Stack>
       </Container>
     </Box>
