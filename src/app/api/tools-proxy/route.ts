@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
         'Content-Type': 'application/json',
         'X-API-Key': API_KEY,
       },
-      cache: 'no-store',
+      next: { revalidate: 60 },
     })
 
     if (!res.ok) {
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
       },
       {
         headers: {
-          'Cache-Control': 'no-store, no-cache, must-revalidate',
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
         },
       },
     )
