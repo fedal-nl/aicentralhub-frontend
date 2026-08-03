@@ -7,6 +7,8 @@ import ToolStructuredData from '@/components/structured-data/ToolStructuredData'
 import { Review } from '@/types/review'
 import { Tool } from '@/types/tool'
 
+export const revalidate = 300
+
 interface Props {
   params: Promise<{ slug: string }>
 }
