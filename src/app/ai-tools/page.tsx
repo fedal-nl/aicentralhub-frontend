@@ -5,8 +5,6 @@ import ToolsListStructuredData from '@/components/structured-data/ToolsListStruc
 import { getTools } from '@/lib/api'
 import { getTotalToolCount, formatToolCount } from '@/lib/toolCount'
 
-export const dynamic = 'force-dynamic'
-
 export async function generateMetadata(): Promise<Metadata> {
   const count = await getTotalToolCount()
 
