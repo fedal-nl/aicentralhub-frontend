@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og'
-import { allTools } from '@/data/mockData'
+import { getToolBySlug } from '@/lib/api'
 
 export const runtime = 'nodejs'
 export const alt = 'AI Tool'
@@ -21,7 +21,7 @@ const pricingColor: Record<string, string> = {
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
 
 export default async function OGImage({ params }: Props) {
-  const tool = allTools.find((t) => t.slug === params.slug)
+  const tool = await getToolBySlug(params.slug)
 
   if (!tool) {
     return new ImageResponse(
@@ -61,7 +61,6 @@ export default async function OGImage({ params }: Props) {
         overflow: 'hidden',
         padding: '60px',
       }}>
-      {/* Grid background */}
       <div
         style={{
           position: 'absolute',
@@ -73,7 +72,6 @@ export default async function OGImage({ params }: Props) {
         }}
       />
 
-      {/* Gradient blob */}
       <div
         style={{
           position: 'absolute',
@@ -87,7 +85,6 @@ export default async function OGImage({ params }: Props) {
         }}
       />
 
-      {/* Logo */}
       <div style={{ display: 'flex', marginBottom: 'auto' }}>
         <img
           src={`${BASE_URL}/assets/ai-centralhub-logo-dark-version.png`}
@@ -98,14 +95,12 @@ export default async function OGImage({ params }: Props) {
         />
       </div>
 
-      {/* Content */}
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           gap: '16px',
         }}>
-        {/* Chips */}
         <div style={{ display: 'flex', gap: '12px' }}>
           <div
             style={{
@@ -134,7 +129,6 @@ export default async function OGImage({ params }: Props) {
           </div>
         </div>
 
-        {/* Tool name */}
         <div
           style={{
             display: 'flex',
@@ -146,7 +140,6 @@ export default async function OGImage({ params }: Props) {
           {tool.name}
         </div>
 
-        {/* Description */}
         <div
           style={{
             display: 'flex',
@@ -158,7 +151,6 @@ export default async function OGImage({ params }: Props) {
           {tool.description}
         </div>
 
-        {/* Rating */}
         {tool.rating && tool.reviewCount && tool.reviewCount > 0 && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div
@@ -178,7 +170,6 @@ export default async function OGImage({ params }: Props) {
         )}
       </div>
 
-      {/* Bottom URL */}
       <div
         style={{
           display: 'flex',
