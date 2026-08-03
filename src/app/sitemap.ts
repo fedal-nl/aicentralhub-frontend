@@ -1,11 +1,12 @@
 import { MetadataRoute } from 'next'
 import { getTools, getCategories } from '@/lib/api'
 
+export const revalidate = 86400 // 24 hours
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL ?? 'https://ai-centralhub.com'
 
-  // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
@@ -21,25 +22,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/featured-tools`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-08-03'),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/categories`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-08-03'),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-08-03'),
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-08-03'),
       changeFrequency: 'monthly',
       priority: 0.5,
     },
@@ -49,21 +50,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily' as const,
       priority: 0.8,
     },
-    // {
-    //   url: `${baseUrl}/submit-tool`,
-    //   lastModified: new Date(),
-    //   changeFrequency: 'monthly',
-    //   priority: 0.5,
-    // },
     {
       url: `${baseUrl}/privacy-policy`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-08-03'),
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
       url: `${baseUrl}/cookies-policy`,
-      lastModified: new Date(),
+      lastModified: new Date('2026-08-03'),
       changeFrequency: 'yearly',
       priority: 0.3,
     },
@@ -101,7 +96,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const allResults = [...firstPage.results]
 
-    // Fetch remaining pages in parallel
     if (totalPages > 1) {
       const remainingPages = await Promise.all(
         Array.from({ length: totalPages - 1 }, (_, i) =>
