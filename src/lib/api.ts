@@ -54,7 +54,7 @@ export async function getTools(params?: {
 
   const res = await fetch(`${BASE_URL}/api/tools/?${query.toString()}`, {
     headers,
-    next: { revalidate: 300 }, // 5 minutes
+    next: { revalidate: 3600 }, // 5 min → 1 hour
   })
 
   if (!res.ok) throw new Error(`Failed to fetch tools: ${res.status}`)
