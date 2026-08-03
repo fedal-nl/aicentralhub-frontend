@@ -89,7 +89,7 @@ export async function getReviews(params?: { tool?: string }) {
 
   const res = await fetch(`${BASE_URL}/api/reviews/?${query.toString()}`, {
     headers,
-    next: { revalidate: 60 }, // 1 minute
+    next: { revalidate: 300 }, // 1 min → 5 min, matches page-level revalidate
   })
 
   if (!res.ok) throw new Error(`Failed to fetch reviews: ${res.status}`)
