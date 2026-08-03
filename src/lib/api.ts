@@ -71,13 +71,10 @@ export async function getTools(params?: {
 export async function getToolBySlug(slug: string): Promise<Tool | null> {
   const res = await fetch(`${BASE_URL}/api/tools/${slug}/`, {
     headers,
-    next: { revalidate: 300 }, // 5 minutes
+    next: { revalidate: 3600 }, // 5 min → 1 hour
   })
 
-  // Real 404 — tool doesn't exist
   if (res.status === 404) return null
-
-  // Any other error — throw so it propagates to error boundary
   if (!res.ok) throw new Error(`Failed to fetch tool: ${res.status}`)
 
   const data = await res.json()
