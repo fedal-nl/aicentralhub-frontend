@@ -9,6 +9,15 @@ import { Tool } from '@/types/tool'
 
 export const revalidate = 300
 
+export async function generateStaticParams() {
+  try {
+    const { results } = await getTools({ featured: true, page_size: 12 })
+    return results.map((tool: Tool) => ({ slug: tool.slug }))
+  } catch {
+    return []
+  }
+}
+
 interface Props {
   params: Promise<{ slug: string }>
 }
