@@ -25,17 +25,20 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const tool = await getToolBySlug(slug)
+
   if (!tool) {
     return {
       title: 'AI Tool — AI CentralHub',
       description: 'Discover AI tools on AI CentralHub.',
-      alternates: { canonical: `/tool/${slug}` },
     }
   }
+
   return {
     title: `${tool.name} — AI Tool Review`,
     description: tool.metaDescription ?? tool.description,
-    alternates: { canonical: `/tool/${slug}` },
+    alternates: {
+      canonical: `/tool/${tool.slug}`,
+    },
   }
 }
 

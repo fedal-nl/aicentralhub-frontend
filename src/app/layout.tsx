@@ -27,6 +27,9 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: `AI CentralHub is your free AI tools directory with ${label} tools across 12 categories & 50+ subcategories. Discover and compare the best AI tools — free to explore.`,
     metadataBase: new URL('https://ai-centralhub.com'),
+    alternates: {
+      canonical: '/',
+    },
     icons: {
       icon: '/favicon.png',
       apple: '/favicon.png',

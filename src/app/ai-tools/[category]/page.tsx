@@ -11,15 +11,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params
   const categories = await getCategories()
   const cat = categories.find((c) => c.slug === category)
-  if (!cat)
-    return {
-      title: 'Category',
-      alternates: { canonical: `/ai-tools/${category}` },
-    }
+
+  if (!cat) return { title: 'Category' }
   return {
     title: `${cat.name} AI Tools`,
     description: `Browse ${cat.count} AI tools in the ${cat.name} category.`,
-    alternates: { canonical: `/ai-tools/${category}` },
+    alternates: {
+      canonical: `/ai-tools/${cat.slug}`,
+    },
   }
 }
 
