@@ -12,15 +12,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const categories = await getCategories()
   const cat = categories.find((c) => c.slug === category)
   const sub = cat?.subcategories.find((s) => s.slug === subcategory)
-  if (!cat || !sub)
-    return {
-      title: 'Subcategory',
-      alternates: { canonical: `/ai-tools/${category}/${subcategory}` },
-    }
+
+  if (!cat || !sub) return { title: 'Subcategory' }
   return {
     title: `${sub.name} AI Tools — ${cat.name}`,
     description: `Browse ${sub.count} AI tools in ${sub.name}.`,
-    alternates: { canonical: `/ai-tools/${category}/${subcategory}` },
+    alternates: {
+      canonical: `/ai-tools/${cat.slug}/${sub.slug}`,
+    },
   }
 }
 
