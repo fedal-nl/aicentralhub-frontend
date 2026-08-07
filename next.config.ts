@@ -84,6 +84,19 @@ const nextConfig: NextConfig = {
         destination: '/ai-tools',
         permanent: true,
       },
+
+      // Redirect requests hitting the raw Vercel deployment URL to the canonical domain
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'aicentralhub-frontend.vercel.app',
+          },
+        ],
+        destination: 'https://ai-centralhub.com/:path*',
+        permanent: true,
+      },
     ]
   },
   images: {
