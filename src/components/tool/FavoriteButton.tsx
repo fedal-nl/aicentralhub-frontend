@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { IconButton, Tooltip } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import { useFavorites } from '@/context/FavoritesContext'
 
 interface Props {
   toolId: number
@@ -15,31 +16,18 @@ interface Props {
 export default function FavoriteButton({ toolId, size = 'medium' }: Props) {
   const { status } = useSession()
   const router = useRouter()
-  const [isFavorited, setIsFavorited] = useState(false)
-  const [favoriteId, setFavoriteId] = useState<number | null>(null)
+  const { favoritesMap, refetch } = useFavorites()
   const [loading, setLoading] = useState(false)
+  // Optimistic override so the icon flips instantly on click,
+  // before refetch() resolves. null = defer to favoritesMap.
+  const [override, setOverride] = useState<{
+    favorited: boolean
+    favoriteId: number | null
+  } | null>(null)
 
-  useEffect(() => {
-    if (status !== 'authenticated') return
-
-    const checkFavorite = async () => {
-      try {
-        const res = await fetch('/api/favorites')
-        const data = await res.json()
-        const favorites = data.results ?? data
-        const match = favorites.find(
-          (f: { tool: number; id: number }) => f.tool === toolId,
-        )
-        if (match) {
-          setIsFavorited(true)
-          setFavoriteId(match.id)
-        }
-      } catch {
-        // silently fail, button just stays unfavorited
-      }
-    }
-    checkFavorite()
-  }, [toolId, status])
+  const mapMatch = favoritesMap.get(toolId)
+  const isFavorited = override ? override.favorited : mapMatch !== undefined
+  const favoriteId = override ? override.favoriteId : (mapMatch ?? null)
 
   const handleToggle = async (e: React.MouseEvent) => {
     e.preventDefault()
@@ -57,8 +45,8 @@ export default function FavoriteButton({ toolId, size = 'medium' }: Props) {
           method: 'DELETE',
         })
         if (res.ok) {
-          setIsFavorited(false)
-          setFavoriteId(null)
+          setOverride({ favorited: false, favoriteId: null })
+          refetch()
         }
       } else {
         const res = await fetch('/api/favorites', {
@@ -68,8 +56,8 @@ export default function FavoriteButton({ toolId, size = 'medium' }: Props) {
         })
         if (res.ok) {
           const data = await res.json()
-          setIsFavorited(true)
-          setFavoriteId(data.id)
+          setOverride({ favorited: true, favoriteId: data.id })
+          refetch()
         }
       }
     } catch {
