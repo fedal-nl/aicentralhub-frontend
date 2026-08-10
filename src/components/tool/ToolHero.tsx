@@ -134,7 +134,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                   border: `1px solid ${pricingColor[tool.pricing]}44`,
                 }}
               />
-              <SubmittedByBadge slug={tool.slug} />
+              <SubmittedByBadge isOwner={tool.isCreatedByCurrentUser} />
             </Stack>
 
             <Typography
