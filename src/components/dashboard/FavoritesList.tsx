@@ -1,7 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import {
   Box,
   Typography,
@@ -13,36 +11,21 @@ import {
 } from '@mui/material'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import FavoriteIcon from '@mui/icons-material/Favorite'
-import { Favorite } from '@/types/favorite'
+import { useState } from 'react'
+import Link from 'next/link'
+import { useFavorites } from '@/context/FavoritesContext'
 
 export default function FavoritesList() {
-  const [favorites, setFavorites] = useState<Favorite[]>([])
-  const [loading, setLoading] = useState(true)
+  const { favorites, loading, removeFavorite } = useFavorites()
   const [removingId, setRemovingId] = useState<number | null>(null)
   const [error, setError] = useState('')
-
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const res = await fetch('/api/favorites')
-        const data = await res.json()
-        // Handle both paginated and flat array responses
-        setFavorites(data.results ?? data)
-      } catch {
-        setError('Failed to load favorites')
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchFavorites()
-  }, [])
 
   const handleRemove = async (id: number) => {
     setRemovingId(id)
     try {
       const res = await fetch(`/api/favorites/${id}`, { method: 'DELETE' })
       if (res.ok) {
-        setFavorites((prev) => prev.filter((f) => f.id !== id))
+        removeFavorite(id)
       } else {
         setError('Failed to remove favorite. Please try again.')
       }

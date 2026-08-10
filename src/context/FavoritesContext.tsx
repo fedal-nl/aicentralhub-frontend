@@ -4,52 +4,56 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   useState,
   useCallback,
 } from 'react'
 import { useSession } from 'next-auth/react'
-
-interface FavoriteEntry {
-  id: number
-  tool: number
-}
+import { Favorite } from '@/types/favorite'
 
 interface FavoritesContextValue {
-  favoritesMap: Map<number, number>
+  favorites: Favorite[]
+  favoritesMap: Map<number, number> // toolId -> favoriteId
   loading: boolean
   refetch: () => void
+  removeFavorite: (id: number) => void
 }
 
 const FavoritesContext = createContext<FavoritesContextValue>({
+  favorites: [],
   favoritesMap: new Map(),
   loading: false,
   refetch: () => {},
+  removeFavorite: () => {},
 })
 
-async function loadFavorites(): Promise<Map<number, number>> {
+async function loadFavorites(): Promise<Favorite[]> {
   const res = await fetch('/api/favorites')
   const data = await res.json()
-  const favorites: FavoriteEntry[] = data.results ?? data
-  return new Map(favorites.map((f) => [f.tool, f.id]))
+  return data.results ?? data
 }
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const { status } = useSession()
-  const [favoritesMap, setFavoritesMap] = useState<Map<number, number>>(
-    new Map(),
-  )
+  const [favorites, setFavorites] = useState<Favorite[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (status !== 'authenticated') return
     let cancelled = false
 
+    // TEMP LOGGING — remove once /api/favorites burst is diagnosed
+    console.log('[FavoritesProvider] mount-effect fetch firing', {
+      status,
+      timestamp: Date.now(),
+    })
+
     // eslint-disable-next-line react-hooks/set-state-in-effect -- legitimate fetch-on-mount pattern
     setLoading(true)
     ;(async () => {
       try {
-        const map = await loadFavorites()
-        if (!cancelled) setFavoritesMap(map)
+        const list = await loadFavorites()
+        if (!cancelled) setFavorites(list)
       } catch {
         // silently fail — buttons just show unfavorited
       } finally {
@@ -63,10 +67,16 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   }, [status])
 
   const refetch = useCallback(async () => {
+    // TEMP LOGGING — remove once /api/favorites burst is diagnosed
+    console.log('[FavoritesProvider] refetch() called', {
+      timestamp: Date.now(),
+      stack: new Error().stack,
+    })
+
     setLoading(true)
     try {
-      const map = await loadFavorites()
-      setFavoritesMap(map)
+      const list = await loadFavorites()
+      setFavorites(list)
     } catch {
       // silently fail
     } finally {
@@ -74,8 +84,18 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
+  const removeFavorite = useCallback((id: number) => {
+    setFavorites((prev) => prev.filter((f) => f.id !== id))
+  }, [])
+
+  const favoritesMap = useMemo(
+    () => new Map(favorites.map((f) => [f.tool, f.id])),
+    [favorites],
+  )
+
   return (
-    <FavoritesContext.Provider value={{ favoritesMap, loading, refetch }}>
+    <FavoritesContext.Provider
+      value={{ favorites, favoritesMap, loading, refetch, removeFavorite }}>
       {children}
     </FavoritesContext.Provider>
   )
