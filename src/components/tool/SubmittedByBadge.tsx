@@ -1,41 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
 import { Chip } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
 interface Props {
-  slug: string
+  isOwner?: boolean
 }
 
-export default function SubmittedByBadge({ slug }: Props) {
-  const { status } = useSession()
-  const [isOwner, setIsOwner] = useState(false)
-
-  useEffect(() => {
-    if (status !== 'authenticated') return
-
-    let cancelled = false
-
-    const checkOwnership = async () => {
-      try {
-        const res = await fetch(`/api/tool-status/${slug}`)
-        const data = await res.json()
-        if (!cancelled && data.isCreatedByCurrentUser) {
-          setIsOwner(true)
-        }
-      } catch {
-        // silently fail, badge just doesn't show
-      }
-    }
-
-    checkOwnership()
-    return () => {
-      cancelled = true
-    }
-  }, [slug, status])
-
+export default function SubmittedByBadge({ isOwner }: Props) {
   if (!isOwner) return null
 
   return (

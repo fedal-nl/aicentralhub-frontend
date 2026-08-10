@@ -7,7 +7,7 @@ import ToolStructuredData from '@/components/structured-data/ToolStructuredData'
 import { Review } from '@/types/review'
 import { Tool } from '@/types/tool'
 
-export const revalidate = 300
+export const revalidate = 3600 // 5 min → 1 hour
 
 export async function generateStaticParams() {
   try {
