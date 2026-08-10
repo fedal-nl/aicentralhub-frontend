@@ -42,12 +42,6 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     if (status !== 'authenticated') return
     let cancelled = false
 
-    // TEMP LOGGING — remove once /api/favorites burst is diagnosed
-    console.log('[FavoritesProvider] mount-effect fetch firing', {
-      status,
-      timestamp: Date.now(),
-    })
-
     // eslint-disable-next-line react-hooks/set-state-in-effect -- legitimate fetch-on-mount pattern
     setLoading(true)
     ;(async () => {
@@ -67,12 +61,6 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   }, [status])
 
   const refetch = useCallback(async () => {
-    // TEMP LOGGING — remove once /api/favorites burst is diagnosed
-    console.log('[FavoritesProvider] refetch() called', {
-      timestamp: Date.now(),
-      stack: new Error().stack,
-    })
-
     setLoading(true)
     try {
       const list = await loadFavorites()
