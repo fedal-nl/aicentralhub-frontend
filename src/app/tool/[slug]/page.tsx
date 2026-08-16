@@ -1,22 +1,11 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import { getToolBySlug, getTools, getReviews } from '@/lib/api'
+import { getToolBySlug, getTools, getReviews, getValidSlugs } from '@/lib/api'
 import ToolHero from '@/components/tool/ToolHero'
 import ToolDetailClient from '@/components/tool/ToolDetailClient'
 import ToolStructuredData from '@/components/structured-data/ToolStructuredData'
 import { Review } from '@/types/review'
 import { Tool } from '@/types/tool'
-
-export const revalidate = 3600 // 5 min → 1 hour
-
-export async function generateStaticParams() {
-  try {
-    const { results } = await getTools({ featured: true, page_size: 12 })
-    return results.map((tool: Tool) => ({ slug: tool.slug }))
-  } catch {
-    return []
-  }
-}
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -24,26 +13,38 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const tool = await getToolBySlug(slug)
 
-  if (!tool) {
+  const validSlugs = await getValidSlugs()
+  if (!validSlugs.has(slug)) {
     return {
       title: 'AI Tool — AI CentralHub',
       description: 'Discover AI tools on AI CentralHub.',
     }
   }
 
+  const tool = await getToolBySlug(slug)
+  if (!tool) {
+    return {
+      title: 'AI Tool — AI CentralHub',
+      description: 'Discover AI tools on AI CentralHub.',
+    }
+  }
   return {
     title: `${tool.name} — AI Tool Review`,
     description: tool.metaDescription ?? tool.description,
-    alternates: {
-      canonical: `/tool/${tool.slug}`,
-    },
   }
 }
 
 export default async function ToolDetailPage({ params }: Props) {
   const { slug } = await params
+
+  // Cheap rejection for slugs that aren't in the known catalog — avoids the
+  // full getToolBySlug() fetch (and its ISR cache write) for every
+  // bot-guessed or enumerated slug. Real tools still fall through to the
+  // normal fetch below, so a legitimately-deactivated tool is still handled
+  // as a standard 404 via getToolBySlug()'s own null check.
+  const validSlugs = await getValidSlugs()
+  if (!validSlugs.has(slug)) notFound()
 
   // Returns null on real 404, throws on transient errors
   const tool: Tool | null = await getToolBySlug(slug)

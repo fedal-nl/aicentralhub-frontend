@@ -125,3 +125,31 @@ export async function getCategories(): Promise<Category[]> {
   const data = await res.json()
   return Array.isArray(data) ? data : (data.results ?? [])
 }
+
+// ─── Slug validation ─────────────────────────────────────────────────────────
+// Builds the full set of real tool slugs from the existing paginated list
+// endpoint. Reuses getTools()'s cache config, so this stays capped at a
+// fixed number of cache entries (currently ~54 pages) no matter how much
+// invalid-slug traffic hits /tool/[slug] — unlike calling getToolBySlug()
+// per-slug, which creates a new ISR cache entry for every unique slug ever
+// requested, including bot-guessed ones that don't exist.
+export async function getValidSlugs(): Promise<Set<string>> {
+  const pageSize = 100
+  const firstPage = await getTools({ page: 1, page_size: pageSize })
+  const totalPages = Math.ceil(firstPage.count / pageSize)
+
+  const slugs = new Set<string>(firstPage.results.map((t) => t.slug))
+
+  if (totalPages > 1) {
+    const remainingPages = await Promise.all(
+      Array.from({ length: totalPages - 1 }, (_, i) =>
+        getTools({ page: i + 2, page_size: pageSize }),
+      ),
+    )
+    remainingPages.forEach((page) =>
+      page.results.forEach((t: Tool) => slugs.add(t.slug)),
+    )
+  }
+
+  return slugs
+}
