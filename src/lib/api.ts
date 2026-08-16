@@ -138,7 +138,7 @@ export async function getValidSlugs(): Promise<Set<string>> {
   const firstPage = await getTools({ page: 1, page_size: pageSize })
   const totalPages = Math.ceil(firstPage.count / pageSize)
 
-  const slugs = new Set<string>(firstPage.results.map((t) => t.slug))
+  const slugs = new Set<string>(firstPage.results.map((t: Tool) => t.slug))
 
   if (totalPages > 1) {
     const remainingPages = await Promise.all(
