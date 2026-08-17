@@ -134,8 +134,11 @@ export async function getCategories(): Promise<Category[]> {
 // invalid-slug traffic hits /tool/[slug] — unlike calling getToolBySlug()
 // per-slug, which creates a new ISR cache entry for every unique slug ever
 // requested, including bot-guessed ones that don't exist.
-let slugCache: { slugs: Set<string>; expiresAt: number } | null = null
-const SLUG_CACHE_TTL_MS = 60_000
+let slugCachePromise: Promise<Set<string>> | null = null
+let slugCacheExpiresAt = 0
+const SLUG_CACHE_TTL_MS = 300_000 // 5 min — matches the freshness window
+// used elsewhere for tool-detail revalidation; cuts rebuild frequency 5x
+// vs the original 60s without meaningfully delaying new-tool visibility.
 
 async function fetchValidSlugs(): Promise<Set<string>> {
   const pageSize = 100
@@ -162,10 +165,19 @@ async function fetchValidSlugs(): Promise<Set<string>> {
 // 2. React's cache() — dedupes calls *within* one request, since both
 //    generateMetadata() and the page component call this.
 export const getValidSlugs = cache(async (): Promise<Set<string>> => {
-  if (slugCache && slugCache.expiresAt > Date.now()) {
-    return slugCache.slugs
+  // Cache the in-flight Promise, not just the resolved value. If several
+  // requests land on the same warm instance while the cache is expired,
+  // they all await the same fetch instead of each independently
+  // triggering their own 54-page rebuild.
+  if (slugCachePromise && slugCacheExpiresAt > Date.now()) {
+    return slugCachePromise
   }
-  const slugs = await fetchValidSlugs()
-  slugCache = { slugs, expiresAt: Date.now() + SLUG_CACHE_TTL_MS }
-  return slugs
+  slugCacheExpiresAt = Date.now() + SLUG_CACHE_TTL_MS
+  slugCachePromise = fetchValidSlugs().catch((err) => {
+    // Reset on failure so the next request retries instead of being
+    // stuck reusing a rejected Promise for the rest of the TTL window.
+    slugCacheExpiresAt = 0
+    throw err
+  })
+  return slugCachePromise
 })
