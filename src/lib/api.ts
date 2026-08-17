@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { Tool, BackendTool, Category } from '@/types/tool'
 
 const BASE_URL = process.env.BACKEND_URL ?? 'https://api.fedal.xyz'
@@ -133,13 +134,14 @@ export async function getCategories(): Promise<Category[]> {
 // invalid-slug traffic hits /tool/[slug] — unlike calling getToolBySlug()
 // per-slug, which creates a new ISR cache entry for every unique slug ever
 // requested, including bot-guessed ones that don't exist.
-export async function getValidSlugs(): Promise<Set<string>> {
+let slugCache: { slugs: Set<string>; expiresAt: number } | null = null
+const SLUG_CACHE_TTL_MS = 60_000
+
+async function fetchValidSlugs(): Promise<Set<string>> {
   const pageSize = 100
   const firstPage = await getTools({ page: 1, page_size: pageSize })
   const totalPages = Math.ceil(firstPage.count / pageSize)
-
   const slugs = new Set<string>(firstPage.results.map((t: Tool) => t.slug))
-
   if (totalPages > 1) {
     const remainingPages = await Promise.all(
       Array.from({ length: totalPages - 1 }, (_, i) =>
@@ -150,6 +152,20 @@ export async function getValidSlugs(): Promise<Set<string>> {
       page.results.forEach((t: Tool) => slugs.add(t.slug)),
     )
   }
-
   return slugs
 }
+
+// Two caching layers, deliberately:
+// 1. Module-scope cache — reused across requests on the same warm Fluid
+//    instance, so the 54-page fetch + Set rebuild runs at most once a
+//    minute, not once per request.
+// 2. React's cache() — dedupes calls *within* one request, since both
+//    generateMetadata() and the page component call this.
+export const getValidSlugs = cache(async (): Promise<Set<string>> => {
+  if (slugCache && slugCache.expiresAt > Date.now()) {
+    return slugCache.slugs
+  }
+  const slugs = await fetchValidSlugs()
+  slugCache = { slugs, expiresAt: Date.now() + SLUG_CACHE_TTL_MS }
+  return slugs
+})
