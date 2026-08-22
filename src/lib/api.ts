@@ -72,7 +72,10 @@ export async function getTools(params?: {
 export async function getToolBySlug(slug: string): Promise<Tool | null> {
   const res = await fetch(`${BASE_URL}/api/tools/${slug}/`, {
     headers,
-    next: { revalidate: 3600 }, // 5 min → 1 hour
+    next: { revalidate: 86400 }, // 1 hour → 24 hours. Tool details rarely
+    // change post-approval, so a longer window collapses repeat crawler
+    // hits within the same day into cache serves instead of fresh
+    // function invocations — this is the main lever left on Active CPU.
   })
 
   if (res.status === 404) return null
