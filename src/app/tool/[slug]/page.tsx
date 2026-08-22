@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
 
   const validSlugs = await getValidSlugs()
-  if (!validSlugs.has(slug)) {
+  if (validSlugs && !validSlugs.has(slug)) {
     return {
       title: 'AI Tool — AI CentralHub',
       description: 'Discover AI tools on AI CentralHub.',
@@ -40,11 +40,11 @@ export default async function ToolDetailPage({ params }: Props) {
 
   // Cheap rejection for slugs that aren't in the known catalog — avoids the
   // full getToolBySlug() fetch (and its ISR cache write) for every
-  // bot-guessed or enumerated slug. Real tools still fall through to the
-  // normal fetch below, so a legitimately-deactivated tool is still handled
-  // as a standard 404 via getToolBySlug()'s own null check.
+  // bot-guessed or enumerated slug. If the slug-set fetch itself failed
+  // (validSlugs is null), we fall through to the normal fetch below rather
+  // than blocking the request — fails open instead of throwing a 500.
   const validSlugs = await getValidSlugs()
-  if (!validSlugs.has(slug)) notFound()
+  if (validSlugs && !validSlugs.has(slug)) notFound()
 
   // Returns null on real 404, throws on transient errors
   const tool: Tool | null = await getToolBySlug(slug)
