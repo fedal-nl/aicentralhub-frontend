@@ -136,9 +136,9 @@ export async function getCategories(): Promise<Category[]> {
 // requested, including bot-guessed ones that don't exist.
 let slugCachePromise: Promise<Set<string>> | null = null
 let slugCacheExpiresAt = 0
-const SLUG_CACHE_TTL_MS = 300_000 // 5 min — matches the freshness window
-// used elsewhere for tool-detail revalidation; cuts rebuild frequency 5x
-// vs the original 60s without meaningfully delaying new-tool visibility.
+const SLUG_CACHE_TTL_MS = 300_000 // 5 min. Bounds how often the 54-page
+// rebuild runs (once per instance per window, not once per request) —
+// matches the freshness window used elsewhere for tool-detail revalidation.
 
 async function fetchValidSlugs(): Promise<Set<string>> {
   const pageSize = 100
