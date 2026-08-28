@@ -37,7 +37,7 @@ const steps = ['Tool Information', 'Details & Pricing', 'SEO & Submit']
 
 const SHORT_DESC_MIN = 40
 const SHORT_DESC_MAX = 160
-const LONG_DESC_MIN = 100
+const LONG_DESC_MIN = 200
 const LONG_DESC_MAX = 2000
 
 const isValidUrl = (url: string) => {
