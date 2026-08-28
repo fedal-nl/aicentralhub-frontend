@@ -38,13 +38,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ToolDetailPage({ params }: Props) {
   const { slug } = await params
 
-  // Cheap rejection for slugs that aren't in the known catalog — avoids the
-  // full getToolBySlug() fetch (and its ISR cache write) for every
-  // bot-guessed or enumerated slug. If the slug-set fetch itself failed
-  // (validSlugs is null), we fall through to the normal fetch below rather
-  // than blocking the request — fails open instead of throwing a 500.
   const validSlugs = await getValidSlugs()
-  if (validSlugs && !validSlugs.has(slug)) notFound()
+  // Do NOT notFound() here. The list endpoint used to build this set can
+  // exclude tools the detail endpoint still serves (e.g. inactive/incomplete
+  // listings), so absence from this set is not proof a tool doesn't exist.
+  // Use it only as a signal for logging/monitoring, never to block a request.
+  if (validSlugs && !validSlugs.has(slug)) {
+    console.warn(
+      `Slug not in cached list, falling through to direct check: ${slug}`,
+    )
+  }
 
   // Returns null on real 404, throws on transient errors
   const tool: Tool | null = await getToolBySlug(slug)
