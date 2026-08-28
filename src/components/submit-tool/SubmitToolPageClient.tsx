@@ -35,6 +35,11 @@ const pricingOptions = [
 const appTypeOptions = ['website', 'app', 'chrome-extension', 'api']
 const steps = ['Tool Information', 'Details & Pricing', 'SEO & Submit']
 
+const SHORT_DESC_MIN = 40
+const SHORT_DESC_MAX = 160
+const LONG_DESC_MIN = 200
+const LONG_DESC_MAX = 2000
+
 const isValidUrl = (url: string) => {
   try {
     new URL(url)
@@ -93,8 +98,10 @@ export default function SubmitToolPageClient() {
     isValidUrl(url) &&
     category &&
     subcategory &&
-    shortDescription &&
-    longDescription
+    shortDescription.length >= SHORT_DESC_MIN &&
+    shortDescription.length <= SHORT_DESC_MAX &&
+    longDescription.length >= LONG_DESC_MIN &&
+    longDescription.length <= LONG_DESC_MAX
   const step2Valid = pricing && appType
   const step3Valid = metaDescription
 
@@ -538,8 +545,17 @@ export default function SubmitToolPageClient() {
                 onChange={(e) => setShortDescription(e.target.value)}
                 fullWidth
                 size="small"
-                helperText={`${shortDescription.length}/160 characters`}
-                slotProps={{ htmlInput: { maxLength: 160 } }}
+                error={
+                  shortDescription.length > 0 &&
+                  shortDescription.length < SHORT_DESC_MIN
+                }
+                helperText={
+                  shortDescription.length > 0 &&
+                  shortDescription.length < SHORT_DESC_MIN
+                    ? `${shortDescription.length}/${SHORT_DESC_MAX} characters — at least ${SHORT_DESC_MIN} required`
+                    : `${shortDescription.length}/${SHORT_DESC_MAX} characters`
+                }
+                slotProps={{ htmlInput: { maxLength: SHORT_DESC_MAX } }}
                 sx={textFieldSx}
               />
 
@@ -550,7 +566,17 @@ export default function SubmitToolPageClient() {
                 fullWidth
                 multiline
                 rows={5}
-                helperText="Describe your tool in detail — features, use cases, target audience"
+                error={
+                  longDescription.length > 0 &&
+                  longDescription.length < LONG_DESC_MIN
+                }
+                helperText={
+                  longDescription.length > 0 &&
+                  longDescription.length < LONG_DESC_MIN
+                    ? `${longDescription.length}/${LONG_DESC_MAX} characters — at least ${LONG_DESC_MIN} required. Describe your tool in detail — features, use cases, target audience`
+                    : `${longDescription.length}/${LONG_DESC_MAX} characters — describe your tool in detail`
+                }
+                slotProps={{ htmlInput: { maxLength: LONG_DESC_MAX } }}
                 sx={textFieldSx}
               />
             </Stack>
