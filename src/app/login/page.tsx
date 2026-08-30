@@ -8,6 +8,12 @@ export const metadata: Metadata = {
   alternates: { canonical: '/login' },
 }
 
+// Auth-dependent route: must never be cached (by Next.js's own data cache
+// or any hosting-level cache layer). Without this, Hostinger's cache was
+// serving stale RSC-format responses instead of rendered HTML on refresh.
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
+
 export default function LoginPage() {
   return <LoginPageClient />
 }
