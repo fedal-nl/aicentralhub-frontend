@@ -48,8 +48,7 @@ export default function HeroSection({ toolCountLabel }: HeroSectionProps) {
     <Box
       sx={{
         position: 'relative',
-        height: { xs: 'auto', md: '55vh' },
-        minHeight: 'unset',
+        minHeight: { xs: 'auto', md: '55vh' },
         display: 'flex',
         alignItems: 'center',
         overflow: 'hidden',
