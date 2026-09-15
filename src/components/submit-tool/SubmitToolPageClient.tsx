@@ -35,10 +35,10 @@ const pricingOptions = [
 const appTypeOptions = ['website', 'app', 'chrome-extension', 'api']
 const steps = ['Tool Information', 'Details & Pricing', 'SEO & Submit']
 
-const SHORT_DESC_MIN = 40
-const SHORT_DESC_MAX = 160
-const LONG_DESC_MIN = 200
-const LONG_DESC_MAX = 2000
+const SHORT_DESC_MIN = 80
+const SHORT_DESC_MAX = 200
+const LONG_DESC_MIN = 250
+const LONG_DESC_MAX = 1200
 
 const isValidUrl = (url: string) => {
   try {
