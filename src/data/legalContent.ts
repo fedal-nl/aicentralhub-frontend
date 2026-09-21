@@ -1,6 +1,6 @@
 export const privacyPolicyContent = {
   title: 'Privacy Policy',
-  lastUpdated: 'July 2026',
+  lastUpdated: 'September 2026',
   introduction:
     'AI CentralHub ("we", "us", or "our") is operated by The Webdux, based in the Netherlands. This Privacy Policy explains how we collect, use, store and protect your personal data when you use our website at ai-centralhub.com. We are committed to protecting your privacy and complying with the General Data Protection Regulation (GDPR) and applicable Dutch data protection laws.',
 
@@ -21,7 +21,7 @@ export const privacyPolicyContent = {
         '— Account data: when you create an account using Google or GitHub OAuth, we receive your name, email address and profile picture from those providers, along with a unique identifier linked to your social provider account.',
         '— User-generated content: reviews and ratings you submit for AI tools, tools you save to your favourites, and tool submissions you make through the Submit a Tool form.',
         '— Newsletter subscriptions: your email address if you subscribe to our newsletter.',
-        '— Usage data: pages visited, time spent, browser type, device type and IP address collected automatically via cookies and analytics tools.',
+        '— Technical and usage data: your IP address, browser type and device type, which are processed automatically in server logs and by our security and hosting providers whenever you visit the site; and pages visited and time spent, collected through Google Analytics (analytics cookies are only set if you accept them).',
         'We do not collect any special categories of personal data (such as health, financial or political data).',
       ],
     },
@@ -30,7 +30,7 @@ export const privacyPolicyContent = {
       content: [
         'Under the GDPR, we process your personal data on the following legal bases:',
         '— Contractual necessity: to provide our services, process your account registration, handle tool submissions and manage your user-generated content.',
-        '— Legitimate interests: to improve our website, understand how users interact with our content and prevent fraud.',
+        '— Legitimate interests: to keep the website secure and available, prevent fraud and abuse, and improve our directory.',
         '— Consent: for non-essential cookies and analytics. You may withdraw your consent at any time via our cookie settings.',
         '— Legal obligation: where we are required to process data to comply with applicable law.',
       ],
@@ -44,9 +44,10 @@ export const privacyPolicyContent = {
         '— To display your reviews and ratings publicly on tool pages, associated with your username.',
         '— To store your favourited tools privately in your dashboard.',
         '— To process and review your tool submissions before publishing them to the directory.',
+        '— To protect the website against malicious traffic, automated abuse and attacks.',
         '— To improve and maintain our website and directory.',
         '— To send transactional emails such as submission confirmations, account notifications and newsletter issues via Resend.',
-        '— To analyse website usage and improve user experience.',
+        '— To analyse website usage and improve user experience using Google Analytics, with analytics cookies only set if you consent.',
         'We do not sell, rent or share your personal data with third parties for marketing purposes.',
       ],
     },
@@ -67,7 +68,8 @@ export const privacyPolicyContent = {
         '— Account data: retained for as long as your account is active, plus 30 days after deletion request.',
         '— Reviews and favourites: retained until you delete them or request account deletion.',
         '— Newsletter subscriptions: retained until you unsubscribe.',
-        '— Analytics data: retained for 26 months in anonymised form.',
+        '— Analytics data: retained for up to 14 months, after which it is automatically deleted by Google Analytics.',
+        '— Server and security logs: retained by our hosting and security providers for a limited period under their own retention schedules.',
         'After the applicable retention period, your data is securely deleted or anonymised.',
       ],
     },
@@ -75,18 +77,21 @@ export const privacyPolicyContent = {
       title: 'Third-Party Services',
       content: [
         'We use the following third-party services that may process your personal data:',
+        '— Hostinger (Hostinger International Ltd., Cyprus): hosts our website and our info@ai-centralhub.com mailbox. Hostinger processes technical data such as IP addresses and server logs when you visit the site. Privacy policy: hostinger.com/legal/privacy-policy.',
+        '— Cloudflare, Inc. (United States): DNS, content delivery and security filtering in front of our website. Cloudflare processes visitor IP addresses and request metadata to route traffic and block malicious requests. Privacy policy: cloudflare.com/privacypolicy.',
+        '— Backend infrastructure partner: our API and database, which store account data, reviews, favourites and tool submissions, run on servers operated by a technical partner acting on our behalf and under our instructions.',
         '— Google OAuth: authentication provider. Privacy policy: policies.google.com/privacy.',
         '— GitHub OAuth: authentication provider. Privacy policy: docs.github.com/en/site-policy/privacy-policies/github-privacy-statement.',
-        "— Google Analytics: for website usage analytics. Data is anonymised and processed in accordance with Google's Privacy Policy.",
-        '— Vercel: our website hosting provider, based in the United States. Data transfers are covered by Standard Contractual Clauses.',
-        '— Resend: transactional email delivery for contact form replies, submission confirmations and newsletter emails.',
-        'All third-party processors are bound by data processing agreements and are required to handle your data in compliance with the GDPR.',
+        "— Google Analytics: for website usage analytics. Analytics cookies are only set if you accept them. If you decline, no analytics cookies are set, although Google Analytics may still receive limited technical information such as your IP address. Data is processed in accordance with Google's Privacy Policy.",
+        '— Resend: transactional email delivery for contact form replies, submission confirmations, account emails and newsletter emails.',
+        'We have data processing agreements or equivalent data processing terms in place with these providers, which require them to handle your data in compliance with the GDPR.',
       ],
     },
     {
       title: 'International Data Transfers',
       content: [
-        'Some of our third-party service providers are located outside the European Economic Area (EEA). Where data is transferred outside the EEA, we ensure appropriate safeguards are in place, including Standard Contractual Clauses approved by the European Commission.',
+        'Some of our service providers, or their sub-processors, are located outside the European Economic Area (EEA). For example, Cloudflare, Google, GitHub and Resend are based in the United States.',
+        "Where personal data is transferred outside the EEA, we rely on safeguards approved by the European Commission: the EU-US Data Privacy Framework where the provider is certified under it (for example Cloudflare and Google), and otherwise Standard Contractual Clauses. Hostinger's data processing agreement also includes Standard Contractual Clauses for transfers outside the EEA made by Hostinger or its sub-processors.",
       ],
     },
     {
@@ -112,14 +117,14 @@ export const privacyPolicyContent = {
     {
       title: 'Security',
       content: [
-        'We implement appropriate technical and organisational measures to protect your personal data against unauthorised access, loss, destruction or alteration. These measures include encrypted data transmission (HTTPS), secure OAuth authentication via Google and GitHub, JWT tokens with automatic expiry and refresh, API keys stored server-side only and never exposed to the browser, and regular security reviews.',
+        'We implement appropriate technical and organisational measures to protect your personal data against unauthorised access, loss, destruction or alteration. These measures include encrypted data transmission (HTTPS), traffic filtering and DDoS protection through Cloudflare, secure OAuth authentication via Google and GitHub, JWT tokens with automatic expiry and refresh, API keys stored server-side only and never exposed to the browser, and regular security reviews.',
         'However, no method of transmission over the internet is 100% secure. While we strive to protect your data, we cannot guarantee absolute security.',
       ],
     },
     {
       title: 'Changes to This Policy',
       content: [
-        'We may update this Privacy Policy from time to time. When we make significant changes, we will update the "last updated" date at the top of this page. We encourage you to review this policy periodically.',
+        'We may update this Privacy Policy from time to time, for example when we change service providers. When we make significant changes, we will update the "last updated" date at the top of this page. We encourage you to review this policy periodically.',
         'Continued use of AI CentralHub after any changes constitutes your acceptance of the updated policy.',
       ],
     },
@@ -128,9 +133,9 @@ export const privacyPolicyContent = {
 
 export const cookiesPolicyContent = {
   title: 'Cookies Policy',
-  lastUpdated: 'July 2026',
+  lastUpdated: 'September 2026',
   introduction:
-    'This Cookies Policy explains how AI CentralHub, operated by The Webdux (Netherlands), uses cookies and similar technologies on our website at ai-centralhub.com. By using our website, you consent to the use of cookies as described in this policy. You can manage your cookie preferences at any time.',
+    'This Cookies Policy explains how AI CentralHub, operated by The Webdux (Netherlands), uses cookies and similar technologies on our website at ai-centralhub.com. Strictly necessary cookies are always active; all other cookies are only set with your consent. You can manage your cookie preferences at any time.',
 
   sections: [
     {
@@ -144,8 +149,8 @@ export const cookiesPolicyContent = {
       title: 'Cookies We Use',
       content: [
         'We use the following categories of cookies:',
-        '— Strictly necessary cookies: these are essential for the website to function and cannot be disabled. They include cookies for authentication session management, security and remembering your cookie preferences. No consent is required for these cookies.',
-        '— Analytics cookies: these help us understand how visitors interact with our website by collecting anonymised data on pages visited, time spent and navigation paths. We use Google Analytics for this purpose. These cookies are only set with your consent.',
+        '— Strictly necessary cookies: these are essential for the website to function and cannot be disabled. They include cookies for authentication session management and security, and the security cookie our protection provider Cloudflare may set to tell real visitors from automated traffic. No consent is required for these cookies.',
+        '— Analytics cookies: these help us understand how visitors interact with our website by collecting data on pages visited, time spent and navigation paths. We use Google Analytics for this purpose. These cookies are only set with your consent.',
         '— Preference cookies: these remember your settings and preferences to improve your experience. These cookies are only set with your consent.',
         'We do not use advertising or tracking cookies for marketing purposes.',
       ],
@@ -153,18 +158,20 @@ export const cookiesPolicyContent = {
     {
       title: 'Specific Cookies We Use',
       content: [
-        '— authjs.session-token (AI CentralHub): session/persistent, 30 days. Keeps you logged in to your AI CentralHub account. This is a strictly necessary cookie set by NextAuth.js when you sign in.',
+        '— authjs.session-token (AI CentralHub): persistent, 30 days. Keeps you logged in to your AI CentralHub account. This is a strictly necessary cookie set by Auth.js (NextAuth) when you sign in.',
         '— __Secure-authjs.session-token (AI CentralHub): persistent, 30 days. Secure version of the session cookie used in production over HTTPS. Strictly necessary.',
-        '— cookie_consent (AI CentralHub): persistent, 12 months. Stores your cookie consent preferences. Strictly necessary.',
+        '— authjs.csrf-token / __Host-authjs.csrf-token (AI CentralHub): session. Protects the sign-in process against cross-site request forgery. Strictly necessary.',
+        '— authjs.callback-url / __Secure-authjs.callback-url (AI CentralHub): session. Remembers which page to return you to after you sign in. Strictly necessary.',
+        '— __cf_bm (Cloudflare): 30 minutes. May be set by Cloudflare, our security and content delivery provider, to distinguish real visitors from automated bots and protect the site from abuse. Strictly necessary for security.',
+        "— cookie_consent (AI CentralHub, stored in your browser's local storage rather than as a cookie): remains until you clear your browser data. Stores your cookie consent choice so we do not ask you again on every visit. Strictly necessary.",
         '— _ga, _ga_* (Google Analytics): persistent, 2 years. Used to distinguish users and track website usage. Set only with your consent.',
-        '— _gid (Google Analytics): persistent, 24 hours. Used to distinguish users. Set only with your consent.',
       ],
     },
     {
       title: 'Legal Basis',
       content: [
         'Under the GDPR and the Dutch Telecommunications Act (Telecommunicatiewet), we are required to obtain your consent before placing non-essential cookies on your device.',
-        'Strictly necessary cookies (including authentication session cookies) do not require consent as they are essential for the website to function and to keep you securely logged in.',
+        'Strictly necessary cookies (including authentication session and security cookies) do not require consent as they are essential for the website to function, to keep you securely logged in and to protect the site from abuse.',
         'For all other cookies (analytics, preferences), we rely on your explicit consent, which you provide via our cookie banner when you first visit our website.',
       ],
     },
@@ -173,6 +180,7 @@ export const cookiesPolicyContent = {
       content: [
         'You can manage your cookie preferences in the following ways:',
         '— Cookie banner: when you first visit our website, you will be presented with a cookie banner where you can accept or decline non-essential cookies.',
+        "— Changing your choice: to change your decision later, clear this site's data (cookies and local storage) in your browser settings. The banner will then appear again on your next visit.",
         '— Browser settings: most browsers allow you to control cookies through their settings. You can set your browser to refuse cookies, delete existing cookies or alert you when cookies are being sent. Please note that disabling strictly necessary cookies (such as the session cookie) will prevent you from staying logged in.',
         '— Google Analytics opt-out: you can opt out of Google Analytics tracking by installing the Google Analytics Opt-out Browser Add-on available at tools.google.com/dlpage/gaoptout.',
         'Please note that withdrawing your consent does not affect the lawfulness of processing based on consent before its withdrawal.',
@@ -182,7 +190,8 @@ export const cookiesPolicyContent = {
       title: 'Third-Party Cookies',
       content: [
         'Some cookies on our website are set by third-party services. These include:',
-        "— Google Analytics (Google LLC): analytics cookies to help us understand website usage. Google's privacy policy is available at policies.google.com/privacy.",
+        "— Google Analytics (Google LLC): analytics cookies to help us understand website usage. Set only with your consent. Google's privacy policy is available at policies.google.com/privacy.",
+        "— Cloudflare, Inc.: a security cookie used to protect the site from automated abuse. Cloudflare's privacy policy is available at cloudflare.com/privacypolicy.",
         "We do not control third-party cookies and they are subject to the respective third party's privacy and cookies policies.",
       ],
     },
