@@ -17,6 +17,20 @@ export default function GoogleAnalytics() {
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
+
+          // Consent Mode: analytics storage is DENIED by default and only
+          // granted once the visitor accepts the cookie banner. A previously
+          // stored "accepted" choice is restored here, before GA is configured,
+          // so no analytics cookies are set ahead of consent.
+          var storedConsent = null;
+          try { storedConsent = window.localStorage.getItem('cookie_consent'); } catch (e) {}
+          gtag('consent', 'default', {
+            analytics_storage: storedConsent === 'accepted' ? 'granted' : 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+          });
+
           gtag('js', new Date());
           gtag('config', '${GA_MEASUREMENT_ID}', {
             page_path: window.location.pathname,
