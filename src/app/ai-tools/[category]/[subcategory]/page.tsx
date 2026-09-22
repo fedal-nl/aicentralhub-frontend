@@ -7,6 +7,22 @@ interface Props {
   params: Promise<{ category: string; subcategory: string }>
 }
 
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  try {
+    const categories = await getCategories()
+    return categories.flatMap((cat) =>
+      cat.subcategories.map((sub) => ({
+        category: cat.slug,
+        subcategory: sub.slug,
+      })),
+    )
+  } catch {
+    return []
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category, subcategory } = await params
   const categories = await getCategories()

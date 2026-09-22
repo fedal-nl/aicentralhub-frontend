@@ -7,6 +7,19 @@ interface Props {
   params: Promise<{ category: string }>
 }
 
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  try {
+    const categories = await getCategories()
+    return categories.map((cat) => ({ category: cat.slug }))
+  } catch {
+    // Build-time backend hiccup — fall back to fully on-demand rendering
+    // for this build rather than failing the whole deploy.
+    return []
+  }
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params
   const categories = await getCategories()
