@@ -7,6 +7,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 import { Tool } from '@/types/tool'
 import { pricingColor, pricingLabel } from '@/lib/pricingColors'
+import { formatRelativeDate } from '@/lib/formatDate'
 import FavoriteButton from './FavoriteButton'
 import { addUtmParams } from '@/lib/utm'
 import ToolLogo from './ToolLogo'
@@ -24,6 +25,8 @@ export default function ToolListRow({
   isNew = false,
   secondaryLabel,
 }: ToolListRowProps) {
+  const dateLabel = isNew ? formatRelativeDate(tool.approvalDate) : null
+
   return (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
@@ -87,6 +90,16 @@ export default function ToolListRow({
                 border: `1px solid ${pricingColor[tool.pricing]}44`,
               }}
             />
+            {dateLabel && (
+              <Typography
+                variant="caption"
+                sx={{
+                  color: (theme) => theme.customColors.lightTextSecondary,
+                  fontWeight: 500,
+                }}>
+                {dateLabel}
+              </Typography>
+            )}
           </Stack>
           <Typography
             variant="body2"
