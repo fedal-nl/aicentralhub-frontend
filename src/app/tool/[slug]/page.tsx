@@ -11,6 +11,25 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+// Templated description used only when the backend has neither a
+// meta_description nor a description for this tool (or they're empty
+// strings), so a tool page can never ship with a blank meta description.
+function buildFallbackDescription(tool: Tool): string {
+  const pricingLabel = tool.pricing
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ')
+  return `${tool.name} is a ${pricingLabel} AI tool in the ${tool.category} category. Explore ${tool.name} and thousands of other AI tools on AI CentralHub.`
+}
+
+function resolveDescription(tool: Tool): string {
+  return (
+    tool.metaDescription?.trim() ||
+    tool.description?.trim() ||
+    buildFallbackDescription(tool)
+  )
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
 
@@ -31,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
   return {
     title: `${tool.name} — AI Tool Review`,
-    description: tool.metaDescription ?? tool.description,
+    description: resolveDescription(tool),
   }
 }
 
