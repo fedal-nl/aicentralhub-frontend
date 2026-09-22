@@ -12,8 +12,15 @@ interface Props {
 }
 
 // Templated description used only when the backend has neither a
-// meta_description nor a description for this tool (or they're empty
+// description nor a meta_description for this tool (or they're empty
 // strings), so a tool page can never ship with a blank meta description.
+//
+// description is preferred over metaDescription: as of writing, every
+// tool's meta_description in the backend is the same generic placeholder
+// ("Discover AI Centralhub, your ultimate AI tools directory...") rather
+// than being empty, so trusting it first means every tool page ships an
+// identical, wrong description. description is the field that's actually
+// populated per-tool. Revisit this ordering once the backend data is fixed.
 function buildFallbackDescription(tool: Tool): string {
   const pricingLabel = tool.pricing
     .split('-')
@@ -24,8 +31,8 @@ function buildFallbackDescription(tool: Tool): string {
 
 function resolveDescription(tool: Tool): string {
   return (
-    tool.metaDescription?.trim() ||
     tool.description?.trim() ||
+    tool.metaDescription?.trim() ||
     buildFallbackDescription(tool)
   )
 }
@@ -33,14 +40,11 @@ function resolveDescription(tool: Tool): string {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
 
-  const validSlugs = await getValidSlugs()
-  if (validSlugs && !validSlugs.has(slug)) {
-    return {
-      title: 'AI Tool — AI CentralHub',
-      description: 'Discover AI tools on AI CentralHub.',
-    }
-  }
-
+  // No getValidSlugs() pre-check here anymore — it added a second
+  // sequential await before metadata could resolve, which was slow enough
+  // to push metadata onto Next's async/streamed path instead of the
+  // initial HTML <head>. getToolBySlug() alone is enough: it returns null
+  // on a real miss, and the page body below still does the actual 404.
   const tool = await getToolBySlug(slug)
   if (!tool) {
     return {
@@ -51,6 +55,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${tool.name} — AI Tool Review`,
     description: resolveDescription(tool),
+    alternates: {
+      canonical: `/tool/${tool.slug}`,
+    },
   }
 }
 
