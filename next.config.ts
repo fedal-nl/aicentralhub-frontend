@@ -3,6 +3,13 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   output: 'standalone',
+  // Force blocking (non-streamed) metadata for every request, not just
+  // Next's default JS-limited bot list (Googlebot, Bingbot, Twitterbot,
+  // Slackbot, etc. already got this). Without it, generateMetadata's
+  // result gets appended to <body> and moved into <head> client-side,
+  // which real browsers/Googlebot handle fine but Lighthouse's raw-HTML
+  // SEO audit (and any other non-JS crawler) reads as a missing tag.
+  htmlLimitedBots: /.*/,
   async redirects() {
     return [
       // Redirect old WordPress tool URLs to new format
