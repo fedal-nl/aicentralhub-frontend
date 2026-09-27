@@ -15,13 +15,38 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function AIToolsPage() {
+interface AIToolsPageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+function firstParam(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value
+}
+
+export default async function AIToolsPage({ searchParams }: AIToolsPageProps) {
+  const params = await searchParams
+  const search = firstParam(params.search)
+  const category = firstParam(params.category)
+  const subcategory = firstParam(params.subcategory)
+  const pricing = firstParam(params.pricing)
+
   const count = await getTotalToolCount()
   const label = formatToolCount(count)
 
   let initialData = { results: [], count: 0 }
   try {
-    initialData = await getTools({ page: 1, page_size: 24 })
+    // Pass the URL's filters through so the server-rendered list already
+    // matches what the user searched for — without this, the page always
+    // rendered the unfiltered list and only picked up the search term once
+    // the client re-fetched after a manual filter interaction.
+    initialData = await getTools({
+      search,
+      category,
+      subcategory,
+      pricing,
+      page: 1,
+      page_size: 24,
+    })
   } catch (error) {
     console.error('Failed to fetch tools:', error)
   }
