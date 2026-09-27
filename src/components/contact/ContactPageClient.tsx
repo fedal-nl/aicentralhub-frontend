@@ -70,6 +70,11 @@ export default function ContactPageClient({
         'You can submit your AI tool directly via our Submit a Tool page at ai-centralhub.com/submit-tool. Simply fill in the details about your tool and our team will review it within 3-5 business days.',
     },
     {
+      question: 'Can I submit more than one tool?',
+      answer:
+        "Each account may submit one tool to the directory, at no cost. If you'd like to update a tool you've already listed, use the contact form and select 'Existing Tool Update Request' as your reason instead of submitting a new one.",
+    },
+    {
       question: 'Is AI CentralHub free to use?',
       answer: `Yes, AI CentralHub is completely free to browse and use. You can search, filter and explore all ${toolCountLabel} tools without any cost or sign-up required.`,
     },
