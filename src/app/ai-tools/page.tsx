@@ -29,6 +29,7 @@ export default async function AIToolsPage({ searchParams }: AIToolsPageProps) {
   const category = firstParam(params.category)
   const subcategory = firstParam(params.subcategory)
   const pricing = firstParam(params.pricing)
+  const sort = firstParam(params.sort)
 
   const count = await getTotalToolCount()
   const label = formatToolCount(count)
@@ -44,6 +45,7 @@ export default async function AIToolsPage({ searchParams }: AIToolsPageProps) {
       category,
       subcategory,
       pricing,
+      sort,
       page: 1,
       page_size: 24,
     })
