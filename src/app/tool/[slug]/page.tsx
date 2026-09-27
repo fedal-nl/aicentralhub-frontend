@@ -64,7 +64,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ToolDetailPage({ params }: Props) {
   const { slug } = await params
 
-  const validSlugs = await getValidSlugs()
+  // getValidSlugs() and getToolBySlug() don't depend on each other, so run
+  // them in parallel instead of paying for two sequential round trips.
+  const [validSlugs, tool] = await Promise.all([
+    getValidSlugs(),
+    getToolBySlug(slug),
+  ])
+
   // Do NOT notFound() here. The list endpoint used to build this set can
   // exclude tools the detail endpoint still serves (e.g. inactive/incomplete
   // listings), so absence from this set is not proof a tool doesn't exist.
@@ -75,33 +81,22 @@ export default async function ToolDetailPage({ params }: Props) {
     )
   }
 
-  // Returns null on real 404, throws on transient errors
-  const tool: Tool | null = await getToolBySlug(slug)
   if (!tool) notFound()
 
-  let reviews: Review[] = []
-  try {
-    reviews = await getReviews({ tool: String(tool.id) })
-  } catch {
-    reviews = []
-  }
+  // Reviews and related tools are independent fetches too — parallelize
+  // them the same way, each keeping its own fallback-on-error behavior.
+  const [reviews, relatedTools] = await Promise.all([
+    getReviews({ tool: String(tool.id) }).catch(() => [] as Review[]),
+    getTools({ subcategory: tool.subcategory, page_size: 5 })
+      .then((data) => data.results.filter((t: Tool) => t.slug !== slug))
+      .catch(() => [] as Tool[]),
+  ])
 
   const averageRating =
     reviews.length > 0
       ? reviews.reduce((sum: number, r: Review) => sum + r.rating, 0) /
         reviews.length
       : (tool.rating ?? 0)
-
-  let relatedTools: Tool[] = []
-  try {
-    const relatedData = await getTools({
-      subcategory: tool.subcategory,
-      page_size: 5,
-    })
-    relatedTools = relatedData.results.filter((t: Tool) => t.slug !== slug)
-  } catch {
-    relatedTools = []
-  }
 
   return (
     <>

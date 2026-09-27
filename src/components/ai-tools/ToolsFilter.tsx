@@ -24,12 +24,14 @@ interface ToolsFilterProps {
   category: string
   subcategory: string
   pricing: string
+  sort: string
   view: 'grid' | 'list'
   totalCount: number
   onSearchChange: (value: string) => void
   onCategoryChange: (value: string) => void
   onSubcategoryChange: (value: string) => void
   onPricingChange: (value: string) => void
+  onSortChange: (value: string) => void
   onViewChange: (value: 'grid' | 'list') => void
 }
 
@@ -42,17 +44,31 @@ const pricingOptions = [
   'contact-for-pricing',
 ]
 
+// Compound sort strings — each pairs the primary key with `name` as a
+// stable secondary key so tied values (e.g. rating=0, review_count=0,
+// which cover most rows today) don't reshuffle between pages.
+const sortOptions: { value: string; label: string }[] = [
+  { value: '', label: 'Sort: Default' },
+  { value: 'name', label: 'Name (A–Z)' },
+  { value: '-name', label: 'Name (Z–A)' },
+  { value: '-rating,name', label: 'Highest Rated' },
+  { value: '-review_count,name', label: 'Most Reviewed' },
+  { value: '-approval_date,name', label: 'Newest' },
+]
+
 export default function ToolsFilter({
   search,
   category,
   subcategory,
   pricing,
+  sort,
   view,
   totalCount,
   onSearchChange,
   onCategoryChange,
   onSubcategoryChange,
   onPricingChange,
+  onSortChange,
   onViewChange,
 }: ToolsFilterProps) {
   const [categories, setCategories] = useState<Category[]>([])
@@ -87,9 +103,9 @@ export default function ToolsFilter({
         overflowX: 'hidden',
       }}>
       <Stack spacing={1.5}>
-        {/* Row 1: Search + Category + Pricing chips + View toggle + Count
+        {/* Row 1: Search + Category + Sort + Pricing chips + View toggle + Count
             On desktop: all in one row
-            On mobile: search/category stack, pricing chips wrap, toggle/count on own row */}
+            On mobile: search/category/sort stack, pricing chips wrap, toggle/count on own row */}
 
         {/* Search + Category dropdown */}
         <Stack
@@ -168,6 +184,29 @@ export default function ToolsFilter({
             {categories.map((cat) => (
               <MenuItem key={cat.slug} value={cat.name}>
                 {cat.name}
+              </MenuItem>
+            ))}
+          </Select>
+
+          {/* Sort dropdown */}
+          <Select
+            value={sort}
+            onChange={(e) => onSortChange(e.target.value)}
+            size="small"
+            displayEmpty
+            sx={{
+              fontSize: '0.9rem',
+              color: (theme) => theme.customColors.lightText,
+              background: (theme) => theme.customColors.lightBg,
+              border: (theme) => `1px solid ${theme.customColors.lightBorder}`,
+              borderRadius: '10px',
+              minWidth: { md: 170 },
+              flexShrink: 0,
+              '.MuiOutlinedInput-notchedOutline': { border: 'none' },
+            }}>
+            {sortOptions.map((opt) => (
+              <MenuItem key={opt.value || 'default'} value={opt.value}>
+                {opt.label}
               </MenuItem>
             ))}
           </Select>

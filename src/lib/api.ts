@@ -40,6 +40,7 @@ export async function getTools(params?: {
   subcategory?: string
   pricing?: string
   featured?: boolean
+  sort?: string
   page?: number
   page_size?: number
 }) {
@@ -50,6 +51,7 @@ export async function getTools(params?: {
   if (params?.pricing && params.pricing !== 'all')
     query.set('pricing_model', params.pricing)
   if (params?.featured) query.set('is_featured', 'true')
+  if (params?.sort) query.set('sort', params.sort)
   if (params?.page) query.set('page', String(params.page))
   if (params?.page_size) query.set('page_size', String(params.page_size))
 
