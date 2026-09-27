@@ -421,7 +421,8 @@ export default function SubmitToolPageClient() {
               lineHeight: 1.8,
             }}>
             Share your AI tool with thousands of users on AI CentralHub. Fill in
-            the details below and our team will review your submission.
+            the details below and our team will review your submission. Each
+            account may submit one tool to the directory, at no cost.
           </Typography>
         </Container>
       </Box>
