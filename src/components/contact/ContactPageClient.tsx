@@ -72,7 +72,7 @@ export default function ContactPageClient({
     {
       question: 'Can I submit more than one tool?',
       answer:
-        "Each account may submit one tool to the directory, at no cost. If you'd like to update a tool you've already listed, use the contact form and select 'Existing Tool Update Request' as your reason instead of submitting a new one.",
+        'Yes. You can have one submission under review at a time. Once our team has reviewed it, you can submit your next tool. This keeps the review queue fair for everyone.',
     },
     {
       question: 'Is AI CentralHub free to use?',

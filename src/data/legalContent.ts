@@ -55,7 +55,7 @@ export const privacyPolicyContent = {
       title: 'User-Generated Content',
       content: [
         'Reviews and Ratings: Reviews you submit are publicly visible on tool pages and associated with your username. You can delete your own reviews at any time from the tool page.',
-        'Tool Submissions: When you submit a tool, we store the submission details along with your account information as the submitter. Submissions are reviewed by our team before being published. Approved tools are listed with is_active set to true and an approval date.',
+        'Tool Submissions: When you submit a tool, we store the submission details along with your account information as the submitter. Submissions are reviewed by our team before being published. Approved tools are listed with is_active set to true and an approval date. By submitting a tool, you confirm that the information you provide is accurate to the best of your knowledge. We review all submissions and may edit, decline, or remove any listing at our discretion. If you own a listed tool and would like it updated or removed, contact us.',
         'Favourites: Your saved/favourited tools are stored privately and only visible to you in your dashboard. You can remove favourites at any time.',
       ],
     },

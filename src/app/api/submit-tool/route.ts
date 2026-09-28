@@ -123,7 +123,12 @@ export async function POST(request: NextRequest) {
       let errorMessage =
         'Failed to submit tool. Please check your details and try again.'
 
-      if (error.website_url) {
+      // Surfaced by the backend when the user already has a submission
+      // under review (one-pending-submission-at-a-time policy) — check
+      // this first since it's the most specific, user-facing message.
+      if (error.non_field_errors?.[0]) {
+        errorMessage = error.non_field_errors[0]
+      } else if (error.website_url) {
         errorMessage = 'A tool with this URL already exists in our directory.'
       } else if (error.name) {
         errorMessage = 'A tool with this name already exists in our directory.'
