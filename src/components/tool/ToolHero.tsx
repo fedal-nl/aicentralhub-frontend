@@ -17,6 +17,7 @@ import SubmittedByBadge from './SubmittedByBadge'
 import { Tool } from '@/types/tool'
 import { parentCategories } from '@/data/mockData'
 import ToolLogo from './ToolLogo'
+import { addUtmParams } from '@/lib/utm'
 
 interface ToolHeroProps {
   tool: Tool
@@ -190,7 +191,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
 
             <Button
               component="a"
-              href={tool.url}
+              href={addUtmParams(tool.url)}
               target="_blank"
               rel="noopener noreferrer"
               variant="contained"
