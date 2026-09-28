@@ -36,6 +36,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
     searchParams.get('subcategory') ?? '',
   )
   const [pricing, setPricing] = useState(searchParams.get('pricing') ?? 'all')
+  const [sort, setSort] = useState(searchParams.get('sort') ?? '')
   const [view, setView] = useState<'grid' | 'list'>('grid')
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(24)
@@ -45,6 +46,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
     category?: string
     subcategory?: string
     pricing?: string
+    sort?: string
     page?: number
     page_size?: number
   }) => {
@@ -56,6 +58,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
       if (params.subcategory) query.set('subcategory', params.subcategory)
       if (params.pricing && params.pricing !== 'all')
         query.set('pricing', params.pricing)
+      if (params.sort) query.set('sort', params.sort)
       if (params.page) query.set('page', String(params.page))
       if (params.page_size) query.set('page_size', String(params.page_size))
 
@@ -78,6 +81,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
       category,
       subcategory,
       pricing,
+      sort,
       page: 1,
       page_size: perPage,
     })
@@ -92,6 +96,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
       category: value,
       subcategory: '',
       pricing,
+      sort,
       page: 1,
       page_size: perPage,
     })
@@ -105,6 +110,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
       category,
       subcategory: value,
       pricing,
+      sort,
       page: 1,
       page_size: perPage,
     })
@@ -118,6 +124,21 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
       category,
       subcategory,
       pricing: value,
+      sort,
+      page: 1,
+      page_size: perPage,
+    })
+  }
+
+  const handleSortChange = (value: string) => {
+    setSort(value)
+    setPage(1)
+    fetchTools({
+      search,
+      category,
+      subcategory,
+      pricing,
+      sort: value,
       page: 1,
       page_size: perPage,
     })
@@ -132,6 +153,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
       category,
       subcategory,
       pricing,
+      sort,
       page: 1,
       page_size: value,
     })
@@ -144,6 +166,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
       category,
       subcategory,
       pricing,
+      sort,
       page: value,
       page_size: perPage,
     })
@@ -194,12 +217,14 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
           category={category}
           subcategory={subcategory}
           pricing={pricing}
+          sort={sort}
           view={view}
           totalCount={totalCount}
           onSearchChange={handleSearchChange}
           onCategoryChange={handleCategoryChange}
           onSubcategoryChange={handleSubcategoryChange}
           onPricingChange={handlePricingChange}
+          onSortChange={handleSortChange}
           onViewChange={setView}
         />
 
