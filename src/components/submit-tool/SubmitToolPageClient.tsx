@@ -420,9 +420,9 @@ export default function SubmitToolPageClient() {
               maxWidth: 560,
               lineHeight: 1.8,
             }}>
-            Submit your AI tool to the directory at no cost. You can have one
-            submission under review at a time. Once it&apos;s been reviewed,
-            you&apos;re welcome to submit another.
+            Submit your AI tool to the directory at no cost. You can have up
+            to 5 submissions under review at a time. Once one of them has
+            been reviewed, you&apos;re welcome to submit another.
           </Typography>
         </Container>
       </Box>

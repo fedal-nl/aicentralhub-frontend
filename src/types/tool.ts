@@ -21,6 +21,8 @@ export interface Tool {
   isCreatedByCurrentUser?: boolean
 }
 
+export type ReviewStatus = 'pending' | 'on_hold' | 'rejected' | 'approved'
+
 export interface BackendTool {
   id: number
   name: string
@@ -45,6 +47,15 @@ export interface BackendTool {
   updated_at?: string
   creation_source?: string
   is_created_by_current_user?: boolean
+  review_status?: ReviewStatus
+  review_comment?: string | null
+}
+
+export interface MySubmissionsResponse {
+  in_review_count: number
+  max_in_review: number
+  bypass_limit: boolean
+  submissions: BackendTool[]
 }
 
 export interface PaginatedResponse<T> {
