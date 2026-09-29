@@ -72,7 +72,7 @@ export default function ContactPageClient({
     {
       question: 'Can I submit more than one tool?',
       answer:
-        'Yes. You can have one submission under review at a time. Once our team has reviewed it, you can submit your next tool. This keeps the review queue fair for everyone.',
+        'Yes. You can have up to 5 submissions under review at a time. Once our team has reviewed one, you can submit another. This keeps the review queue fair for everyone.',
     },
     {
       question: 'Is AI CentralHub free to use?',
