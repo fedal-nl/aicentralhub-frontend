@@ -8,11 +8,6 @@ import FavoritesList from './FavoritesList'
 import MySubmissionsList from './MySubmissionsList'
 import { BackendProfile } from '@/types/auth'
 
-// Flip to true once GET /api/tools/mine/ is live on the backend. Until then
-// the tab stays hidden so users don't see a load error for an endpoint that
-// doesn't exist yet.
-const SUBMISSIONS_TAB_ENABLED = false
-
 interface Props {
   profile: BackendProfile
   user: Session['user']
@@ -20,7 +15,6 @@ interface Props {
 
 export default function DashboardClient({ profile, user }: Props) {
   const [activeTab, setActiveTab] = useState(0)
-  const showSubmissions = SUBMISSIONS_TAB_ENABLED && activeTab === 1
 
   return (
     <Box
@@ -71,27 +65,25 @@ export default function DashboardClient({ profile, user }: Props) {
             <ProfileCard profile={profile} email={user?.email} />
           </Grid>
           <Grid size={{ xs: 12, md: 8 }}>
-            {SUBMISSIONS_TAB_ENABLED && (
-              <Tabs
-                value={activeTab}
-                onChange={(_, value) => setActiveTab(value)}
-                sx={{
-                  mb: 3,
+            <Tabs
+              value={activeTab}
+              onChange={(_, value) => setActiveTab(value)}
+              sx={{
+                mb: 3,
+                minHeight: 0,
+                borderBottom: (theme) =>
+                  `1px solid ${theme.customColors.lightBorderSubtle}`,
+                '& .MuiTab-root': {
+                  textTransform: 'none',
+                  fontWeight: 600,
                   minHeight: 0,
-                  borderBottom: (theme) =>
-                    `1px solid ${theme.customColors.lightBorderSubtle}`,
-                  '& .MuiTab-root': {
-                    textTransform: 'none',
-                    fontWeight: 600,
-                    minHeight: 0,
-                    py: 1.5,
-                  },
-                }}>
-                <Tab label="Favorites" />
-                <Tab label="My Submissions" />
-              </Tabs>
-            )}
-            {showSubmissions ? <MySubmissionsList /> : <FavoritesList />}
+                  py: 1.5,
+                },
+              }}>
+              <Tab label="Favorites" />
+              <Tab label="My Submissions" />
+            </Tabs>
+            {activeTab === 1 ? <MySubmissionsList /> : <FavoritesList />}
           </Grid>
         </Grid>
       </Container>

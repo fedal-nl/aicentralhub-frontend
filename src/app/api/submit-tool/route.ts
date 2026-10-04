@@ -123,9 +123,8 @@ export async function POST(request: NextRequest) {
       let errorMessage =
         'Failed to submit tool. Please check your details and try again.'
 
-      // Surfaced by the backend when the user already has a submission
-      // under review (one-pending-submission-at-a-time policy) — check
-      // this first since it's the most specific, user-facing message.
+      // Backend validation errors that are already user-facing — check
+      // this first since it's the most specific message.
       if (error.non_field_errors?.[0]) {
         errorMessage = error.non_field_errors[0]
       } else if (error.website_url) {
@@ -168,8 +167,13 @@ export async function POST(request: NextRequest) {
         <p><strong>Full Description:</strong><br/>${longDescription}</p>
         <p><strong>Meta Description:</strong><br/>${metaDescription}</p>
         <hr/>
-        <p><em>Review in Django admin and set is_active = true to publish.</em></p>
-        ${process.env.DJANGO_ADMIN_URL ? `<p><a href="${process.env.DJANGO_ADMIN_URL}api/aitool/${tool.id}/change/">Open in Django Admin</a></p>` : ''}
+        <p><em>Review in Django admin: open the tool submission, set the status (approved, on hold or rejected) and add a comment for the submitter. Approving publishes the tool automatically.</em></p>
+        ${
+          process.env.DJANGO_ADMIN_URL
+            ? `<p><a href="${process.env.DJANGO_ADMIN_URL}api/toolsubmission/?q=${encodeURIComponent(name)}">Open submission in Django Admin</a></p>
+        <p><a href="${process.env.DJANGO_ADMIN_URL}api/aitool/${tool.id}/change/">Open tool in Django Admin</a></p>`
+            : ''
+        }
       `,
     })
 
@@ -181,13 +185,14 @@ export async function POST(request: NextRequest) {
       html: `
         <h2>Thanks for submitting ${name}!</h2>
         <p>Hi ${submitterName},</p>
-        <p>We've received your tool submission and our team will review it within 3-5 business days. We'll be in touch at this email address once it's been reviewed.</p>
+        <p>We've received your tool submission and our team will review it within 3-5 business days.</p>
         <p><strong>What happens next:</strong></p>
         <ul>
           <li>Our team reviews your submission for quality and accuracy</li>
           <li>If approved, your tool will appear in the AI CentralHub directory</li>
-          <li>We'll notify you by email either way</li>
+          <li>Any feedback from our team will be shown alongside your submission</li>
         </ul>
+        <p>You can follow the status of your submission at any time on the <strong>My Submissions</strong> tab of your <a href="https://ai-centralhub.com/dashboard">dashboard</a>.</p>
         <p>In the meantime, <a href="https://ai-centralhub.com">browse our directory</a> to discover more AI tools.</p>
         <br/>
         <p>The AI CentralHub Team</p>

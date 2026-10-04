@@ -1,36 +1,92 @@
 'use client'
 
-import { Box, Typography, Stack, Divider, CircularProgress, Chip } from '@mui/material'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { BackendTool } from '@/types/tool'
+import {
+  Box,
+  Button,
+  Chip,
+  CircularProgress,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material'
+import {
+  PaginatedResponse,
+  SubmissionStatus,
+  ToolSubmission,
+} from '@/types/tool'
 
-interface MySubmissionsResponse {
-  in_review_count: number
-  max_in_review: number
-  bypass_limit: boolean
-  submissions: BackendTool[]
+interface StatusStyle {
+  label: string
+  bg: string
+  color: string
+  border: string
 }
 
-const statusLabels: Record<string, string> = {
-  pending: 'Pending review',
-  on_hold: 'On hold',
-  rejected: 'Rejected',
-  approved: 'Approved',
+const statusStyles: Record<SubmissionStatus, StatusStyle> = {
+  pending: {
+    label: 'Pending',
+    bg: '#E8F0FE',
+    color: '#1A56DB',
+    border: '#1A56DB33',
+  },
+  in_review: {
+    label: 'In review',
+    bg: '#F3EAFE',
+    color: '#7B3FC4',
+    border: '#7B3FC433',
+  },
+  on_hold: {
+    label: 'On hold',
+    bg: '#FFF4E5',
+    color: '#B25E09',
+    border: '#B25E0933',
+  },
+  rejected: {
+    label: 'Rejected',
+    bg: '#FDECEC',
+    color: '#C22A2A',
+    border: '#C22A2A33',
+  },
+  approved: {
+    label: 'Approved',
+    bg: '#E8F8EE',
+    color: '#1E7E42',
+    border: '#1E7E4233',
+  },
 }
 
-const statusColors: Record<string, { bg: string; color: string; border: string }> = {
-  pending: { bg: '#E8F0FE', color: '#1A56DB', border: '#1A56DB33' },
-  on_hold: { bg: '#FFF4E5', color: '#B25E09', border: '#B25E0933' },
-  rejected: { bg: '#FDECEC', color: '#C22A2A', border: '#C22A2A33' },
-  approved: { bg: '#E8F8EE', color: '#1E7E42', border: '#1E7E4233' },
+// Anything the backend returns that we don't have a style for renders
+// neutrally using the backend's own display label.
+const fallbackStyle: Omit<StatusStyle, 'label'> = {
+  bg: '#F1F3F5',
+  color: '#495057',
+  border: '#49505733',
+}
+
+function formatSubmittedDate(value: string): string {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ''
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
 }
 
 export default function MySubmissionsList() {
-  const [submissions, setSubmissions] = useState<BackendTool[]>([])
-  const [inReviewCount, setInReviewCount] = useState(0)
-  const [maxInReview, setMaxInReview] = useState(5)
+  const [submissions, setSubmissions] = useState<ToolSubmission[]>([])
+  const [totalCount, setTotalCount] = useState(0)
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -38,13 +94,13 @@ export default function MySubmissionsList() {
 
     ;(async () => {
       try {
-        const res = await fetch('/api/submissions')
+        const res = await fetch('/api/submissions?page=1')
         if (!res.ok) throw new Error('Failed to load submissions')
-        const data: MySubmissionsResponse = await res.json()
+        const data: PaginatedResponse<ToolSubmission> = await res.json()
         if (!cancelled) {
-          setSubmissions(data.submissions ?? [])
-          setInReviewCount(data.in_review_count ?? 0)
-          setMaxInReview(data.max_in_review ?? 5)
+          setSubmissions(data.results ?? [])
+          setTotalCount(data.count ?? 0)
+          setHasMore(Boolean(data.next))
         }
       } catch {
         if (!cancelled) {
@@ -59,6 +115,25 @@ export default function MySubmissionsList() {
       cancelled = true
     }
   }, [])
+
+  const handleLoadMore = useCallback(async () => {
+    const nextPage = page + 1
+    setLoadingMore(true)
+    setError('')
+    try {
+      const res = await fetch(`/api/submissions?page=${nextPage}`)
+      if (!res.ok) throw new Error('Failed to load more submissions')
+      const data: PaginatedResponse<ToolSubmission> = await res.json()
+      setSubmissions((prev) => [...prev, ...(data.results ?? [])])
+      setTotalCount(data.count ?? 0)
+      setHasMore(Boolean(data.next))
+      setPage(nextPage)
+    } catch {
+      setError('Could not load more submissions. Please try again.')
+    } finally {
+      setLoadingMore(false)
+    }
+  }, [page])
 
   return (
     <Box
@@ -80,9 +155,9 @@ export default function MySubmissionsList() {
           }}>
           My Submissions
         </Typography>
-        {!loading && submissions.length > 0 && (
+        {!loading && totalCount > 0 && (
           <Chip
-            label={`${inReviewCount} of ${maxInReview} in review`}
+            label={`${totalCount} submitted`}
             size="small"
             sx={{
               fontWeight: 600,
@@ -98,97 +173,153 @@ export default function MySubmissionsList() {
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
           <CircularProgress size={28} sx={{ color: 'primary.main' }} />
         </Box>
-      ) : error ? (
-        <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
+      ) : submissions.length === 0 ? (
+        error ? (
+          <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
+            {error}
+          </Typography>
+        ) : (
+          <Typography
+            variant="body2"
+            sx={{ color: (theme) => theme.customColors.lightTextSecondary }}>
+            You haven&apos;t submitted any tools yet. Use the Submit Tool page
+            to add your AI tool to the directory.
+          </Typography>
+        )
+      ) : (
+        <TableContainer>
+          <Table size="small" sx={{ minWidth: 560 }}>
+            <TableHead>
+              <TableRow
+                sx={{
+                  '& .MuiTableCell-root': {
+                    fontWeight: 700,
+                    fontSize: '0.75rem',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    color: (theme) => theme.customColors.lightTextSecondary,
+                    borderBottom: (theme) =>
+                      `1px solid ${theme.customColors.lightBorderSubtle}`,
+                    px: 1.5,
+                    py: 1,
+                  },
+                }}>
+                <TableCell>Tool</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Submitted</TableCell>
+                <TableCell>Comment</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {submissions.map((submission) => {
+                const { tool, status } = submission
+                const known = statusStyles[status as SubmissionStatus]
+                const label = known?.label ?? submission.status_display ?? status
+                const style = known ?? fallbackStyle
+                const isLive = status === 'approved' && tool.is_active
+                const submittedOn = formatSubmittedDate(submission.submitted_at)
+
+                return (
+                  <TableRow
+                    key={submission.id}
+                    sx={{
+                      '& .MuiTableCell-root': {
+                        borderBottom: (theme) =>
+                          `1px solid ${theme.customColors.lightBorderSubtle}`,
+                        px: 1.5,
+                        py: 1.5,
+                        verticalAlign: 'top',
+                      },
+                      '&:last-child .MuiTableCell-root': {
+                        borderBottom: 'none',
+                      },
+                    }}>
+                    <TableCell sx={{ minWidth: 140 }}>
+                      {isLive ? (
+                        <Typography
+                          variant="body2"
+                          component={Link}
+                          href={`/tool/${tool.slug}`}
+                          sx={{
+                            fontWeight: 600,
+                            color: (theme) => theme.customColors.lightText,
+                            textDecoration: 'none',
+                            '&:hover': { color: 'primary.main' },
+                          }}>
+                          {tool.name}
+                        </Typography>
+                      ) : (
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontWeight: 600,
+                            color: (theme) => theme.customColors.lightText,
+                          }}>
+                          {tool.name}
+                        </Typography>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        label={label}
+                        size="small"
+                        sx={{
+                          fontWeight: 600,
+                          background: style.bg,
+                          color: style.color,
+                          border: `1px solid ${style.border}`,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: (theme) =>
+                            theme.customColors.lightTextSecondary,
+                        }}>
+                        {submittedOn || '—'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell sx={{ minWidth: 180 }}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: (theme) =>
+                            submission.comments
+                              ? theme.customColors.lightText
+                              : theme.customColors.lightTextSecondary,
+                          whiteSpace: 'pre-wrap',
+                          wordBreak: 'break-word',
+                        }}>
+                        {submission.comments || '—'}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+
+      {!loading && hasMore && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={handleLoadMore}
+            disabled={loadingMore}
+            sx={{ borderRadius: '8px' }}>
+            {loadingMore ? 'Loading…' : 'Load more'}
+          </Button>
+        </Box>
+      )}
+
+      {!loading && submissions.length > 0 && error && (
+        <Typography variant="body2" sx={{ color: '#FF6B6B', mt: 2 }}>
           {error}
         </Typography>
-      ) : submissions.length === 0 ? (
-        <Typography
-          variant="body2"
-          sx={{ color: (theme) => theme.customColors.lightTextSecondary }}>
-          You haven&apos;t submitted any tools yet. Use the Submit Tool page to
-          add your AI tool to the directory.
-        </Typography>
-      ) : (
-        <Stack spacing={0}>
-          {submissions.map((tool, index) => {
-            const status = tool.review_status ?? 'pending'
-            const palette = statusColors[status] ?? statusColors.pending
-            const isLive = status === 'approved' && tool.is_active
-
-            return (
-              <Box key={tool.id}>
-                <Stack spacing={1} sx={{ py: 2 }}>
-                  <Stack
-                    direction="row"
-                    spacing={1}
-                    sx={{
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}>
-                    {isLive ? (
-                      <Typography
-                        variant="body2"
-                        component={Link}
-                        href={`/tool/${tool.slug}`}
-                        sx={{
-                          fontWeight: 600,
-                          color: (theme) => theme.customColors.lightText,
-                          textDecoration: 'none',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          '&:hover': { color: 'primary.main' },
-                        }}>
-                        {tool.name}
-                      </Typography>
-                    ) : (
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontWeight: 600,
-                          color: (theme) => theme.customColors.lightText,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}>
-                        {tool.name}
-                      </Typography>
-                    )}
-                    <Chip
-                      label={statusLabels[status] ?? status}
-                      size="small"
-                      sx={{
-                        fontWeight: 600,
-                        flexShrink: 0,
-                        background: palette.bg,
-                        color: palette.color,
-                        border: `1px solid ${palette.border}`,
-                      }}
-                    />
-                  </Stack>
-                  {tool.review_comment && (
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: (theme) => theme.customColors.lightTextSecondary,
-                      }}>
-                      {tool.review_comment}
-                    </Typography>
-                  )}
-                </Stack>
-                {index < submissions.length - 1 && (
-                  <Divider
-                    sx={{
-                      borderColor: (theme) =>
-                        theme.customColors.lightBorderSubtle,
-                    }}
-                  />
-                )}
-              </Box>
-            )
-          })}
-        </Stack>
       )}
     </Box>
   )
