@@ -21,8 +21,6 @@ export interface Tool {
   isCreatedByCurrentUser?: boolean
 }
 
-export type ReviewStatus = 'pending' | 'on_hold' | 'rejected' | 'approved'
-
 export interface BackendTool {
   id: number
   name: string
@@ -47,15 +45,35 @@ export interface BackendTool {
   updated_at?: string
   creation_source?: string
   is_created_by_current_user?: boolean
-  review_status?: ReviewStatus
-  review_comment?: string | null
 }
 
-export interface MySubmissionsResponse {
-  in_review_count: number
-  max_in_review: number
-  bypass_limit: boolean
-  submissions: BackendTool[]
+// Review status of a user's tool submission, as returned by
+// GET /api/profiles/{id}/tools/. The backend may add other values later, so
+// `status` is typed as a plain string and the UI falls back to
+// `status_display` for anything it doesn't recognise.
+export type SubmissionStatus =
+  | 'pending'
+  | 'in_review'
+  | 'on_hold'
+  | 'rejected'
+  | 'approved'
+
+export interface ToolSubmissionLog {
+  id: number
+  status: string
+  comments: string
+  created_at: string
+}
+
+export interface ToolSubmission {
+  id: number
+  tool: BackendTool
+  status: string
+  status_display: string
+  comments: string
+  submitted_at: string
+  updated_at: string
+  toolsubmitlogs: ToolSubmissionLog[]
 }
 
 export interface PaginatedResponse<T> {
