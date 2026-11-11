@@ -24,18 +24,6 @@ const nextConfig: NextConfig = {
         destination: '/tool/:slug',
         permanent: true,
       },
-      // Existing WordPress tool URL redirect
-      {
-        source: '/:id(\\d+)/:slug/',
-        destination: '/tool/:slug',
-        permanent: true,
-      },
-      {
-        source: '/:id(\\d+)/:slug',
-        destination: '/tool/:slug',
-        permanent: true,
-      },
-
       // WordPress tool feed URLs → tool page
       {
         source: '/:id(\\d+)/:slug/feed/',
@@ -47,6 +35,11 @@ const nextConfig: NextConfig = {
         destination: '/tool/:slug',
         permanent: true,
       },
+
+      // WordPress category archive URLs → ai-tools
+      // e.g. /category/business/ — previously unmatched, so it 404'd
+      { source: '/category/:slug/', destination: '/ai-tools', permanent: true },
+      { source: '/category/:slug', destination: '/ai-tools', permanent: true },
 
       // WordPress category feed URLs → ai-tools
       {
