@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { getTools, getCategories } from '@/lib/api'
+import { getAllTools, getCategories } from '@/lib/api'
 
 export const revalidate = 86400 // 24 hours
 
@@ -87,23 +87,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // silently fail — static pages still included
   }
 
-  // Fetch all tool pages (paginated — fetch all pages)
+  // Fetch all tool pages. getAllTools() handles the backend's page-size cap,
+  // batching and retries — see lib/api.ts.
   let toolPages: MetadataRoute.Sitemap = []
   try {
-    const pageSize = 100
-    const firstPage = await getTools({ page: 1, page_size: pageSize })
-    const totalPages = Math.ceil(firstPage.count / pageSize)
-
-    const allResults = [...firstPage.results]
-
-    if (totalPages > 1) {
-      const remainingPages = await Promise.all(
-        Array.from({ length: totalPages - 1 }, (_, i) =>
-          getTools({ page: i + 2, page_size: pageSize }),
-        ),
-      )
-      remainingPages.forEach((page) => allResults.push(...page.results))
-    }
+    const allResults = await getAllTools()
 
     toolPages = allResults.map((tool) => ({
       url: `${baseUrl}/tool/${tool.slug}`,

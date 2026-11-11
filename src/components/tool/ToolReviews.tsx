@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter, usePathname } from 'next/navigation'
-import Link from 'next/link'
 import {
   Box,
   Typography,
@@ -432,8 +431,13 @@ export default function ToolReviews({
                     You need to be logged in to write a review.
                   </Typography>
                   <Button
-                    component={Link}
-                    href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
+                    // Button, not a link: an <a href> here gave crawlers a
+                    // /login?callbackUrl=… URL on every tool page.
+                    onClick={() =>
+                      router.push(
+                        `/login?callbackUrl=${encodeURIComponent(pathname)}`,
+                      )
+                    }
                     variant="contained"
                     startIcon={<LockIcon />}
                     sx={{

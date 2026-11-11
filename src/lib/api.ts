@@ -132,35 +132,77 @@ export async function getCategories(): Promise<Category[]> {
   return Array.isArray(data) ? data : (data.results ?? [])
 }
 
+// ─── All tools (paginated) ───────────────────────────────────────────────────
+// Fetches every active tool by walking the paginated list endpoint.
+//
+// The backend caps page_size (currently 48), whatever we ask for. So the page
+// count must come from the number of results actually returned, not from the
+// page_size we requested — computing it as count / requested size silently
+// stopped halfway through the catalog (52 of 108 pages).
+//
+// Pages are fetched in small batches rather than one big Promise.all, and each
+// page is retried once, so a single slow or failed request doesn't take down
+// the whole result.
+const ALL_TOOLS_REQUESTED_PAGE_SIZE = 100
+const ALL_TOOLS_CONCURRENCY = 5
+
+async function getToolsPageWithRetry(page: number) {
+  try {
+    return await getTools({ page, page_size: ALL_TOOLS_REQUESTED_PAGE_SIZE })
+  } catch {
+    return await getTools({ page, page_size: ALL_TOOLS_REQUESTED_PAGE_SIZE })
+  }
+}
+
+export async function getAllTools(): Promise<Tool[]> {
+  const firstPage = await getToolsPageWithRetry(1)
+  const effectivePageSize = firstPage.results.length
+  const bySlug = new Map<string, Tool>(
+    firstPage.results.map((t: Tool) => [t.slug, t]),
+  )
+
+  if (effectivePageSize === 0 || !firstPage.next) {
+    return Array.from(bySlug.values())
+  }
+
+  const totalPages = Math.ceil(firstPage.count / effectivePageSize)
+  const remaining = Array.from({ length: totalPages - 1 }, (_, i) => i + 2)
+
+  for (let i = 0; i < remaining.length; i += ALL_TOOLS_CONCURRENCY) {
+    const batch = remaining.slice(i, i + ALL_TOOLS_CONCURRENCY)
+    const pages = await Promise.all(batch.map(getToolsPageWithRetry))
+    pages.forEach((page) =>
+      page.results.forEach((t: Tool) => bySlug.set(t.slug, t)),
+    )
+  }
+
+  // Dedupe by slug guards against records shifting between pages while we
+  // paginate. Log if the total still doesn't match, so drift is visible.
+  if (bySlug.size !== firstPage.count) {
+    console.warn(
+      `getAllTools: fetched ${bySlug.size} unique tools, backend count is ${firstPage.count}`,
+    )
+  }
+
+  return Array.from(bySlug.values())
+}
+
 // ─── Slug validation ─────────────────────────────────────────────────────────
-// Builds the full set of real tool slugs from the existing paginated list
-// endpoint. Reuses getTools()'s cache config, so this stays capped at a
-// fixed number of cache entries (currently ~54 pages) no matter how much
+// Builds the full set of real tool slugs from the paginated list endpoint via
+// getAllTools(). Reuses getTools()'s cache config, so this stays capped at a
+// fixed number of cache entries (currently ~108 pages) no matter how much
 // invalid-slug traffic hits /tool/[slug] — unlike calling getToolBySlug()
 // per-slug, which creates a new ISR cache entry for every unique slug ever
 // requested, including bot-guessed ones that don't exist.
 let slugCachePromise: Promise<Set<string> | null> | null = null
 let slugCacheExpiresAt = 0
-const SLUG_CACHE_TTL_MS = 300_000 // 5 min. Bounds how often the 54-page
+const SLUG_CACHE_TTL_MS = 300_000 // 5 min. Bounds how often the full
 // rebuild runs (once per instance per window, not once per request) —
 // matches the freshness window used elsewhere for tool-detail revalidation.
 
 async function fetchValidSlugs(): Promise<Set<string>> {
-  const pageSize = 100
-  const firstPage = await getTools({ page: 1, page_size: pageSize })
-  const totalPages = Math.ceil(firstPage.count / pageSize)
-  const slugs = new Set<string>(firstPage.results.map((t: Tool) => t.slug))
-  if (totalPages > 1) {
-    const remainingPages = await Promise.all(
-      Array.from({ length: totalPages - 1 }, (_, i) =>
-        getTools({ page: i + 2, page_size: pageSize }),
-      ),
-    )
-    remainingPages.forEach((page) =>
-      page.results.forEach((t: Tool) => slugs.add(t.slug)),
-    )
-  }
-  return slugs
+  const tools = await getAllTools()
+  return new Set<string>(tools.map((t) => t.slug))
 }
 
 export const getValidSlugs = cache(async (): Promise<Set<string> | null> => {
