@@ -4,6 +4,11 @@ import { getCategories } from '@/lib/api'
 export const runtime = 'nodejs'
 // Cache the rendered PNG for a day (see tool/[slug]/opengraph-image.tsx).
 export const revalidate = 86400
+
+// Enables ISR for this dynamic-segment route (see tool/[slug]/opengraph-image.tsx).
+export async function generateStaticParams() {
+  return []
+}
 export const alt = 'AI Tools Category'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'

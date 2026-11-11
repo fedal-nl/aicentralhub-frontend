@@ -1,13 +1,36 @@
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
 import { getTotalToolCount, formatToolCount } from '@/lib/toolCount'
 
-export const runtime = 'edge'
+// nodejs, not edge: on the self-hosted (Hostinger, output: standalone) server
+// the edge runtime version of this route returned 503, so the homepage had
+// no working og:image. Matches the tool and category OG routes.
+export const runtime = 'nodejs'
+// Re-render at most hourly (same window as the tool-count fetch).
+export const revalidate = 3600
 export const alt = 'AI CentralHub — Free AI Tools Directory'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
+// Read the logo from disk instead of fetching it over HTTP from our own
+// site. This route is now prerendered at build time, when no server is
+// running to fetch from (the HTTP fetch failed the build). public/ sits next
+// to server.js in the standalone deploy, so process.cwd() resolves it there
+// too. If the file can't be read, render without the logo rather than fail.
+async function loadLogo(): Promise<string | null> {
+  try {
+    const file = await readFile(
+      join(process.cwd(), 'public/assets/ai-centralhub-logo-dark-version.png'),
+    )
+    return `data:image/png;base64,${file.toString('base64')}`
+  } catch {
+    return null
+  }
+}
+
 export default async function OGImage() {
-  const count = await getTotalToolCount()
+  const [count, logo] = await Promise.all([getTotalToolCount(), loadLogo()])
   const label = formatToolCount(count)
 
   return new ImageResponse(
@@ -61,13 +84,15 @@ export default async function OGImage() {
       />
 
       {/* Logo */}
-      <img
-        src={`${process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'}/assets/ai-centralhub-logo-dark-version.png`}
-        width={280}
-        height={70}
-        style={{ objectFit: 'contain', marginBottom: '32px' }}
-        alt="ai-centralhub-logo"
-      />
+      {logo && (
+        <img
+          src={logo}
+          width={280}
+          height={70}
+          style={{ objectFit: 'contain', marginBottom: '32px' }}
+          alt="ai-centralhub-logo"
+        />
+      )}
 
       {/* Headline */}
       <div
@@ -91,8 +116,10 @@ export default async function OGImage() {
           textAlign: 'center',
           maxWidth: '600px',
         }}>
-        {label} AI tools across 12 categories & 50+ subcategories — completely
-        free
+        {/* One string, not {label} + text: two text nodes count as two
+            children, and Satori requires display: flex for that. This error
+            is likely what made the route 503 in production. */}
+        {`${label} AI tools across 12 categories & 50+ subcategories — completely free`}
       </div>
 
       {/* Bottom badge */}
