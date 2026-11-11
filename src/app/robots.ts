@@ -9,7 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/dashboard',
           '/api/',
-          '/login',
           '/submit-tool/success',
           '/*?*search=',
           '/*?*sort=',
