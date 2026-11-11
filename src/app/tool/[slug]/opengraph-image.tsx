@@ -7,6 +7,14 @@ export const runtime = 'nodejs'
 // deploy (the ?<hash> query changes per build), and each render costs CPU on
 // the Hostinger server.
 export const revalidate = 86400
+
+// Without generateStaticParams, Next.js renders a dynamic-segment route on
+// every request and ignores revalidate (build shows it as ƒ). Returning []
+// prerenders nothing at build time but turns on ISR: each tool's image is
+// rendered on its first request, then served from cache until revalidate.
+export async function generateStaticParams() {
+  return []
+}
 export const alt = 'AI Tool'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
