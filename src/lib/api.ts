@@ -95,7 +95,8 @@ export async function getReviews(params?: { tool?: string }) {
 
   const res = await fetch(`${BASE_URL}/api/reviews/?${query.toString()}`, {
     headers,
-    next: { revalidate: 300 }, // 1 min → 5 min, matches page-level revalidate
+    next: { revalidate: 3600 }, // 5 min → 1 hour. Matches the tool page's
+    // ISR window; review writes revalidate the page on demand instead.
   })
 
   if (!res.ok) throw new Error(`Failed to fetch reviews: ${res.status}`)

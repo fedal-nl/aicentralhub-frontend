@@ -11,6 +11,21 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+// ISR for tool pages. Without generateStaticParams, Next.js renders this
+// dynamic-segment route on every request and ignores revalidate (the build
+// table showed it as ƒ). Returning [] prerenders nothing at build time —
+// each page is rendered on its first request and then served from cache.
+//
+// The effective window is the lowest revalidate among this page's fetches:
+// getTools() (related tools) is 3600, so pages refresh at most hourly.
+// New or deleted reviews don't wait for that — the review API routes call
+// revalidatePath() for the tool page after a successful write.
+export const revalidate = 3600
+
+export async function generateStaticParams() {
+  return []
+}
+
 // Templated description used only when the backend has neither a
 // description nor a meta_description for this tool (or they're empty
 // strings), so a tool page can never ship with a blank meta description.

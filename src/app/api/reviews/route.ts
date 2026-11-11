@@ -1,5 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { authenticatedFetch } from '@/lib/backendAuth'
+
+// Tool pages are cached (ISR), so after a review write we revalidate the
+// page it was posted from. The path comes from the client, so only accept
+// a /tool/<slug> path — never revalidate arbitrary routes.
+function revalidateToolPage(request: NextRequest) {
+  const path = request.nextUrl.searchParams.get('path')
+  if (path && /^\/tool\/[a-z0-9-]+$/i.test(path)) {
+    revalidatePath(path)
+  }
+}
 
 const BASE_URL = process.env.BACKEND_URL ?? 'https://api.fedal.xyz'
 const API_KEY = process.env.API_KEY ?? ''
@@ -45,6 +56,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(body),
     })
     const data = await res.json()
+    if (res.ok) revalidateToolPage(request)
     return NextResponse.json(data, { status: res.status })
   } catch {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })

@@ -65,16 +65,20 @@ export default function ToolReviews({
     setError('')
 
     try {
-      const res = await fetch('/api/reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tool: toolId,
-          rating: userRating,
-          title,
-          body,
-        }),
-      })
+      // ?path= lets the API route revalidate this cached tool page
+      const res = await fetch(
+        `/api/reviews?path=${encodeURIComponent(pathname)}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tool: toolId,
+            rating: userRating,
+            title,
+            body,
+          }),
+        },
+      )
 
       if (!res.ok) throw new Error('Failed to submit review')
 
@@ -89,7 +93,10 @@ export default function ToolReviews({
 
   const handleDeleteReview = async (reviewId: number) => {
     try {
-      const res = await fetch(`/api/reviews/${reviewId}`, { method: 'DELETE' })
+      const res = await fetch(
+        `/api/reviews/${reviewId}?path=${encodeURIComponent(pathname)}`,
+        { method: 'DELETE' },
+      )
       if (res.ok) {
         router.refresh()
       }
