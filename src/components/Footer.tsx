@@ -168,7 +168,20 @@ export default function Footer({ toolCountLabel }: FooterProps) {
         <Typography
           variant="body2"
           sx={{ color: 'text.secondary', textAlign: 'center' }}>
-          © {new Date().getFullYear()} AI CentralHub by The Webdux
+          © {new Date().getFullYear()} AI CentralHub · Powered by{' '}
+          <Box
+            component="a"
+            href="https://thewebdux.com/"
+            target="_blank"
+            rel="noopener"
+            sx={{
+              color: 'text.primary',
+              fontWeight: 600,
+              textDecoration: 'none',
+              '&:hover': { color: 'primary.main', textDecoration: 'underline' },
+            }}>
+            The Webdux
+          </Box>
         </Typography>
       </Container>
     </Box>
