@@ -2,12 +2,17 @@ import { ImageResponse } from 'next/og'
 import { getToolBySlug } from '@/lib/api'
 
 export const runtime = 'nodejs'
+// Cache the rendered PNG for a day instead of re-running getToolBySlug() and
+// ImageResponse on every request. Crawlers fetch ~5K of these after every
+// deploy (the ?<hash> query changes per build), and each render costs CPU on
+// the Hostinger server.
+export const revalidate = 86400
 export const alt = 'AI Tool'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 interface Props {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 const pricingColor: Record<string, string> = {
@@ -21,7 +26,8 @@ const pricingColor: Record<string, string> = {
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
 
 export default async function OGImage({ params }: Props) {
-  const tool = await getToolBySlug(params.slug)
+  const { slug } = await params
+  const tool = await getToolBySlug(slug)
 
   if (!tool) {
     return new ImageResponse(

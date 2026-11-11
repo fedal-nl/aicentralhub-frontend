@@ -2,19 +2,22 @@ import { ImageResponse } from 'next/og'
 import { getCategories } from '@/lib/api'
 
 export const runtime = 'nodejs'
+// Cache the rendered PNG for a day (see tool/[slug]/opengraph-image.tsx).
+export const revalidate = 86400
 export const alt = 'AI Tools Category'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 interface Props {
-  params: { category: string }
+  params: Promise<{ category: string }>
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
 
 export default async function OGImage({ params }: Props) {
+  const { category } = await params
   const categories = await getCategories()
-  const cat = categories.find((c) => c.slug === params.category)
+  const cat = categories.find((c) => c.slug === category)
 
   if (!cat) {
     return new ImageResponse(
