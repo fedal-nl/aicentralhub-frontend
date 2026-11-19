@@ -69,7 +69,12 @@ export default async function RootLayout({
         <ThemeRegistry>
           <GoogleAnalytics />
           <Navbar />
-          <Box component="main" sx={{ flex: 1 }}>
+          {/* minHeight keeps the footer below the fold on first paint, so
+              client-rendered content mounting above it can't shift it
+              (CLS). 90px = Navbar toolbar spacer height. */}
+          <Box
+            component="main"
+            sx={{ flex: 1, minHeight: 'calc(100vh - 90px)' }}>
             {children}
           </Box>
           <Footer toolCountLabel={label} />
