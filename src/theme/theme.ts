@@ -11,6 +11,8 @@ declare module '@mui/material/styles' {
       lightBorder: string
       lightBorderSubtle: string
       lightChipBg: string
+      lightAccent: string
+      lightError: string
     }
   }
   interface ThemeOptions {
@@ -22,6 +24,8 @@ declare module '@mui/material/styles' {
       lightBorder?: string
       lightBorderSubtle?: string
       lightChipBg?: string
+      lightAccent?: string
+      lightError?: string
     }
   }
 }
@@ -56,6 +60,11 @@ const theme = createTheme({
     lightBorder: 'rgba(0,0,0,0.08)',
     lightBorderSubtle: 'rgba(0,0,0,0.06)',
     lightChipBg: 'rgba(0,0,0,0.05)',
+    // Accessible text accents for light backgrounds (WCAG AA ≥ 4.5:1 on
+    // white). primary.main (#00D4FF) is only 1.8:1 on white, and #FF6B6B
+    // 2.8:1 — fine on the dark theme, too faint as text on light sections.
+    lightAccent: '#0E7490',
+    lightError: '#DC2626',
   },
   typography: {
     fontFamily: '"Space Grotesk", sans-serif',

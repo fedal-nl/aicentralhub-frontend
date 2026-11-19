@@ -92,6 +92,7 @@ export default function AuthPageLayout({
               <Box sx={{ textAlign: 'center' }}>
                 <Typography
                   variant="h4"
+                  component="h1"
                   sx={{ fontWeight: 800, color: 'text.primary', mb: 1 }}>
                   {title}
                 </Typography>

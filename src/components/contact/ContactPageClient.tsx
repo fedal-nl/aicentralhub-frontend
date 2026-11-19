@@ -44,7 +44,13 @@ const isValidEmail = (email: string) =>
   )
 
 const RequiredMark = () => (
-  <Box component="span" sx={{ color: '#FF6B6B', ml: 0.3, fontWeight: 700 }}>
+  <Box
+    component="span"
+    sx={{
+      color: (theme) => theme.customColors.lightError,
+      ml: 0.3,
+      fontWeight: 700,
+    }}>
     *
   </Box>
 )
@@ -164,7 +170,7 @@ export default function ContactPageClient({
           <Typography
             variant="overline"
             sx={{
-              color: 'primary.main',
+              color: (theme) => theme.customColors.lightAccent,
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -172,6 +178,7 @@ export default function ContactPageClient({
           </Typography>
           <Typography
             variant="h3"
+            component="h1"
             sx={{
               fontWeight: 800,
               color: (theme) => theme.customColors.lightText,
@@ -198,7 +205,12 @@ export default function ContactPageClient({
               display: 'block',
             }}>
             Fields marked with{' '}
-            <Box component="span" sx={{ color: '#FF6B6B', fontWeight: 700 }}>
+            <Box
+              component="span"
+              sx={{
+                color: (theme) => theme.customColors.lightError,
+                fontWeight: 700,
+              }}>
               *
             </Box>{' '}
             are required.
@@ -238,6 +250,7 @@ export default function ContactPageClient({
                 </Box>
                 <Typography
                   variant="h6"
+                  component="h2"
                   sx={{
                     fontWeight: 700,
                     color: (theme) => theme.customColors.lightText,
@@ -326,6 +339,7 @@ export default function ContactPageClient({
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <FormControl fullWidth size="small">
                         <InputLabel
+                          id="contact-reason-label"
                           sx={{
                             color: (theme) =>
                               theme.customColors.lightTextSecondary,
@@ -335,6 +349,8 @@ export default function ContactPageClient({
                           </>
                         </InputLabel>
                         <Select
+                          labelId="contact-reason-label"
+                          id="contact-reason"
                           value={reason}
                           onChange={(e) => setReason(e.target.value)}
                           label="Reason for contact *"
@@ -414,7 +430,9 @@ export default function ContactPageClient({
                   </Button>
 
                   {error && (
-                    <Typography variant="body2" sx={{ color: '#FF6B6B' }}>
+                    <Typography
+                      variant="body2"
+                      sx={{ color: (theme) => theme.customColors.lightError }}>
                       {error}
                     </Typography>
                   )}
@@ -427,6 +445,7 @@ export default function ContactPageClient({
           <Grid size={{ xs: 12, md: 6 }}>
             <Typography
               variant="h5"
+              component="h2"
               sx={{
                 fontWeight: 800,
                 color: (theme) => theme.customColors.lightText,
