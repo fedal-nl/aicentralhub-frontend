@@ -91,8 +91,11 @@ export default function CookieConsent() {
         </Box>
 
         <Box sx={{ flex: 1 }}>
+          {/* subtitle2 renders as <h6> by default; the banner shows on every
+              first visit, so that broke the page heading order. */}
           <Typography
             variant="subtitle2"
+            component="p"
             sx={{ fontWeight: 700, color: '#F1F5F9', mb: 0.5 }}>
             We use cookies
           </Typography>
