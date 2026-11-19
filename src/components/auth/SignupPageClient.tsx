@@ -16,7 +16,11 @@ export default function SignupPageClient() {
     }
   }, [status, router])
 
-  if (status === 'authenticated' || status === 'loading') {
+  // Only hide the form once we know the user is logged in (redirecting).
+  // While the session is still loading — which is always the case on the
+  // server render — show the form, so the page isn't blank on first paint
+  // and the footer isn't pushed down when it appears (CLS/LCP).
+  if (status === 'authenticated') {
     return null
   }
 

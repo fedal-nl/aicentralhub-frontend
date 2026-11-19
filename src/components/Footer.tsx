@@ -102,8 +102,8 @@ export default function Footer({ toolCountLabel }: FooterProps) {
               color="text.secondary"
               sx={{ maxWidth: 280, lineHeight: 1.8 }}>
               Your free AI tools directory. Discover, compare and review{' '}
-              {toolCountLabel}
-              AI tools across 12 categories & 50+ subcategories.
+              {toolCountLabel} AI tools across 12 categories & 50+
+              subcategories.
             </Typography>
             <Box sx={{ mt: 3, display: 'flex', gap: 1 }}>
               {socialLinks.map((s) => (
