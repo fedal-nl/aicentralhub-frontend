@@ -1,7 +1,6 @@
 'use client'
 
 import { signIn } from 'next-auth/react'
-import { useSearchParams } from 'next/navigation'
 import { Button, Stack } from '@mui/material'
 import GoogleIcon from '@mui/icons-material/Google'
 import GitHubIcon from '@mui/icons-material/GitHub'
@@ -11,13 +10,21 @@ interface Props {
 }
 
 export default function AuthButtons({ callbackUrl = '/' }: Props) {
-  const searchParams = useSearchParams()
-  const redirectUrl = searchParams.get('callbackUrl') ?? callbackUrl
+  // Read ?callbackUrl= at click time instead of with useSearchParams():
+  // useSearchParams() on a statically prerendered page (/signup) needs a
+  // Suspense boundary, otherwise `next build` fails. Reading it on click
+  // keeps the buttons in the static HTML (no fallback, no layout shift).
+  const handleSignIn = (provider: 'google' | 'github') => {
+    const redirectUrl =
+      new URLSearchParams(window.location.search).get('callbackUrl') ??
+      callbackUrl
+    signIn(provider, { callbackUrl: redirectUrl })
+  }
 
   return (
     <Stack spacing={2}>
       <Button
-        onClick={() => signIn('google', { callbackUrl: redirectUrl })}
+        onClick={() => handleSignIn('google')}
         variant="outlined"
         fullWidth
         startIcon={<GoogleIcon />}
@@ -35,7 +42,7 @@ export default function AuthButtons({ callbackUrl = '/' }: Props) {
         Continue with Google
       </Button>
       <Button
-        onClick={() => signIn('github', { callbackUrl: redirectUrl })}
+        onClick={() => handleSignIn('github')}
         variant="outlined"
         fullWidth
         startIcon={<GitHubIcon />}
