@@ -61,7 +61,7 @@ export default function AboutPageClient({
           <Typography
             variant="overline"
             sx={{
-              color: 'primary.main',
+              color: (theme) => theme.customColors.lightAccent,
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -69,6 +69,7 @@ export default function AboutPageClient({
           </Typography>
           <Typography
             variant="h2"
+            component="h1"
             sx={{
               fontWeight: 800,
               color: (theme) => theme.customColors.lightText,
@@ -126,6 +127,7 @@ export default function AboutPageClient({
                 </Box>
                 <Typography
                   variant="h6"
+                  component="h3"
                   sx={{
                     fontWeight: 700,
                     color: (theme) => theme.customColors.lightText,
@@ -155,6 +157,7 @@ export default function AboutPageClient({
       <Container maxWidth="md" sx={{ py: 10 }}>
         <Typography
           variant="h4"
+          component="h2"
           sx={{
             fontWeight: 800,
             color: (theme) => theme.customColors.lightText,
@@ -198,6 +201,7 @@ export default function AboutPageClient({
         <Stack spacing={2} sx={{ alignItems: 'flex-start' }}>
           <Typography
             variant="h4"
+            component="h2"
             sx={{
               fontWeight: 800,
               color: (theme) => theme.customColors.lightText,

@@ -92,8 +92,11 @@ export default function Footer({ toolCountLabel }: FooterProps) {
       <Container maxWidth="xl">
         <Grid container spacing={6}>
           <Grid size={{ xs: 12, md: 4 }}>
+            {/* Styled like a heading, but not one: as an <h6> on every page it
+                broke the heading order (e.g. h2 → h6). */}
             <Typography
               variant="h6"
+              component="p"
               sx={{ fontWeight: 700, color: 'primary.main', mb: 1.5 }}>
               AI CentralHub
             </Typography>
