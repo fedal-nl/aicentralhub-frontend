@@ -89,7 +89,7 @@ export default function CategoryPageClient({
               component={Link}
               href="/categories"
               sx={{
-                color: 'primary.main',
+                color: (theme) => theme.customColors.lightAccent,
                 textDecoration: 'none',
                 '&:hover': { textDecoration: 'underline' },
               }}>
@@ -145,7 +145,7 @@ export default function CategoryPageClient({
                     : (theme) => theme.customColors.lightChipBg,
                 color:
                   activeSubcategory === ''
-                    ? 'primary.main'
+                    ? (theme) => theme.customColors.lightAccent
                     : (theme) => theme.customColors.lightTextSecondary,
                 border:
                   activeSubcategory === ''
@@ -166,7 +166,7 @@ export default function CategoryPageClient({
                       : (theme) => theme.customColors.lightChipBg,
                   color:
                     activeSubcategory === sub.slug
-                      ? 'primary.main'
+                      ? (theme) => theme.customColors.lightAccent
                       : (theme) => theme.customColors.lightTextSecondary,
                   border:
                     activeSubcategory === sub.slug
@@ -222,7 +222,7 @@ export default function CategoryPageClient({
                   },
                   '&.Mui-selected': {
                     background: (theme) => `${theme.palette.primary.main}33`,
-                    color: 'primary.main',
+                    color: (theme) => theme.customColors.lightAccent,
                     borderColor: (theme) => theme.palette.primary.main,
                   },
                 },

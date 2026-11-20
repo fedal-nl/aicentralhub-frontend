@@ -18,18 +18,12 @@ import { Tool } from '@/types/tool'
 import { parentCategories } from '@/data/mockData'
 import ToolLogo from './ToolLogo'
 import { addUtmParams } from '@/lib/utm'
+import { pricingChipSx } from '@/lib/pricingColors'
 
 interface ToolHeroProps {
   tool: Tool
 }
 
-const pricingColor: Record<Tool['pricing'], string> = {
-  free: '#00D4FF',
-  freemium: '#7B2FFF',
-  paid: '#FF6B6B',
-  'free-trial': '#00E5A0',
-  'contact-for-pricing': '#FF9500',
-}
 
 export default function ToolHero({ tool }: ToolHeroProps) {
   const parentCat = parentCategories.find((c) => c.name === tool.category)
@@ -85,7 +79,9 @@ export default function ToolHero({ tool }: ToolHeroProps) {
             sx={{ color: (theme) => theme.customColors.lightTextSecondary }}>
             ›
           </Typography>
-          <Typography variant="body2" sx={{ color: 'primary.main' }}>
+          <Typography
+            variant="body2"
+            sx={{ color: (theme) => theme.customColors.lightAccent }}>
             {tool.name}
           </Typography>
         </Stack>
@@ -130,9 +126,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
                 sx={{
                   fontSize: '0.75rem',
                   fontWeight: 600,
-                  background: `${pricingColor[tool.pricing]}22`,
-                  color: pricingColor[tool.pricing],
-                  border: `1px solid ${pricingColor[tool.pricing]}44`,
+                  ...pricingChipSx(tool.pricing),
                 }}
               />
               <SubmittedByBadge isOwner={tool.isCreatedByCurrentUser} />

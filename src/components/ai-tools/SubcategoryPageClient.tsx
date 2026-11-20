@@ -42,7 +42,7 @@ export default function SubcategoryPageClient({
           <Typography
             variant="overline"
             sx={{
-              color: 'primary.main',
+              color: (theme) => theme.customColors.lightAccent,
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>

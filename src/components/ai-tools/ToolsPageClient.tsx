@@ -187,7 +187,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
           <Typography
             variant="overline"
             sx={{
-              color: 'primary.main',
+              color: (theme) => theme.customColors.lightAccent,
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -275,7 +275,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
                   },
                   '&.Mui-selected': {
                     background: (theme) => `${theme.palette.primary.main}33`,
-                    color: 'primary.main',
+                    color: (theme) => theme.customColors.lightAccent,
                     borderColor: (theme) => theme.palette.primary.main,
                   },
                 },

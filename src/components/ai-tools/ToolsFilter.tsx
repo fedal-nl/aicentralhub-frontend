@@ -245,7 +245,7 @@ export default function ToolsFilter({
                       : (theme) => theme.customColors.lightChipBg,
                   color:
                     pricing === option
-                      ? 'primary.main'
+                      ? (theme) => theme.customColors.lightAccent
                       : (theme) => theme.customColors.lightTextSecondary,
                   border:
                     pricing === option
@@ -282,7 +282,7 @@ export default function ToolsFilter({
                   px: 1.5,
                   '&.Mui-selected': {
                     background: (theme) => `${theme.palette.primary.main}22`,
-                    color: 'primary.main',
+                    color: (theme) => theme.customColors.lightAccent,
                   },
                 },
               }}>
@@ -335,7 +335,7 @@ export default function ToolsFilter({
                     : (theme) => theme.customColors.lightChipBg,
                 color:
                   pricing === option
-                    ? 'primary.main'
+                    ? (theme) => theme.customColors.lightAccent
                     : (theme) => theme.customColors.lightTextSecondary,
                 border:
                   pricing === option
@@ -369,7 +369,7 @@ export default function ToolsFilter({
                 px: 1.5,
                 '&.Mui-selected': {
                   background: (theme) => `${theme.palette.primary.main}22`,
-                  color: 'primary.main',
+                  color: (theme) => theme.customColors.lightAccent,
                 },
               },
             }}>

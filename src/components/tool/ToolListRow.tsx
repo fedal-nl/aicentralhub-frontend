@@ -6,7 +6,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 import { Tool } from '@/types/tool'
-import { pricingColor, pricingLabel } from '@/lib/pricingColors'
+import { pricingChipSx, pricingLabel } from '@/lib/pricingColors'
 import { formatRelativeDate } from '@/lib/formatDate'
 import FavoriteButton from './FavoriteButton'
 import { addUtmParams } from '@/lib/utm'
@@ -87,9 +87,7 @@ export default function ToolListRow({
               sx={{
                 fontSize: '0.7rem',
                 fontWeight: 600,
-                background: `${pricingColor[tool.pricing]}22`,
-                color: pricingColor[tool.pricing],
-                border: `1px solid ${pricingColor[tool.pricing]}44`,
+                ...pricingChipSx(tool.pricing),
               }}
             />
             {dateLabel && (

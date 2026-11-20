@@ -326,7 +326,7 @@ export default function ToolReviews({
       ) : submitted ? (
         <Typography
           variant="body1"
-          sx={{ color: 'primary.main', fontWeight: 600 }}>
+          sx={{ color: (theme) => theme.customColors.lightAccent, fontWeight: 600 }}>
           Thank you for your review!
         </Typography>
       ) : (
@@ -352,7 +352,7 @@ export default function ToolReviews({
           {submitted ? (
             <Typography
               variant="body1"
-              sx={{ color: 'primary.main', fontWeight: 600 }}>
+              sx={{ color: (theme) => theme.customColors.lightAccent, fontWeight: 600 }}>
               Thank you for your review!
             </Typography>
           ) : (

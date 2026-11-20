@@ -13,7 +13,7 @@ import {
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import { Tool } from '@/types/tool'
-import { pricingColor, pricingLabel } from '@/lib/pricingColors'
+import { pricingChipSx, pricingLabel } from '@/lib/pricingColors'
 import FavoriteButton from './FavoriteButton'
 import { addUtmParams } from '@/lib/utm'
 import ToolLogo from './ToolLogo'
@@ -87,9 +87,7 @@ export default function ToolCard({ tool, topPick = false }: ToolCardProps) {
                 sx={{
                   fontSize: '0.7rem',
                   fontWeight: 600,
-                  background: `${pricingColor[tool.pricing]}22`,
-                  color: pricingColor[tool.pricing],
-                  border: `1px solid ${pricingColor[tool.pricing]}44`,
+                  ...pricingChipSx(tool.pricing),
                 }}
               />
               <FavoriteButton toolId={tool.id} size="small" />

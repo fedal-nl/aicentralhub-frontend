@@ -56,7 +56,8 @@ const theme = createTheme({
     lightBg: '#FFFFFF',
     lightBgAlt: '#F8F9FA',
     lightText: '#0a111f',
-    lightTextSecondary: '#64748B',
+    // #5B6678 (was #64748B): passes 4.5:1 on light-grey chip backgrounds too
+    lightTextSecondary: '#5B6678',
     lightBorder: 'rgba(0,0,0,0.08)',
     lightBorderSubtle: 'rgba(0,0,0,0.06)',
     lightChipBg: 'rgba(0,0,0,0.05)',
