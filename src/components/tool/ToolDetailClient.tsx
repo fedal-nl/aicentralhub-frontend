@@ -46,6 +46,7 @@ export default function ToolDetailClient({
                 <Box>
                   <Typography
                     variant="h5"
+                    component="h2"
                     sx={{
                       fontWeight: 800,
                       color: (theme) => theme.customColors.lightText,
@@ -98,6 +99,7 @@ export default function ToolDetailClient({
               }}>
               <Typography
                 variant="h6"
+                component="h2"
                 sx={{
                   fontWeight: 700,
                   color: (theme) => theme.customColors.lightText,

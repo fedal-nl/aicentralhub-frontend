@@ -104,6 +104,7 @@ export default function ToolCard({ tool, topPick = false }: ToolCardProps) {
               <ToolLogo logo={tool.logo} name={tool.name} size={36} />
               <Typography
                 variant="h6"
+                component="h2"
                 sx={{
                   fontWeight: 700,
                   color: (theme) => theme.customColors.lightText,

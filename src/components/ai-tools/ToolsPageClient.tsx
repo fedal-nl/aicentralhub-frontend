@@ -195,6 +195,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
           </Typography>
           <Typography
             variant="h3"
+            component="h1"
             sx={{
               fontWeight: 800,
               color: (theme) => theme.customColors.lightText,
@@ -293,6 +294,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
                 value={perPage}
                 onChange={handlePerPageChange}
                 size="small"
+                inputProps={{ 'aria-label': 'Tools per page' }}
                 sx={{
                   fontSize: '0.9rem',
                   color: (theme) => theme.customColors.lightText,

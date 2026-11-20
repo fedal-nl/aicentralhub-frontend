@@ -42,6 +42,7 @@ export default function ToolListRow({
         {index !== undefined && (
           <Typography
             variant="h6"
+            component="span"
             sx={{
               fontWeight: 800,
               color: (theme) => theme.customColors.lightBorder,
@@ -59,6 +60,7 @@ export default function ToolListRow({
             sx={{ alignItems: 'center', mb: 0.5, flexWrap: 'wrap' }}>
             <Typography
               variant="subtitle1"
+              component="h2"
               sx={{
                 fontWeight: 700,
                 color: (theme) => theme.customColors.lightText,

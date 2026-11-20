@@ -140,6 +140,7 @@ export default function ToolHero({ tool }: ToolHeroProps) {
 
             <Typography
               variant="h2"
+              component="h1"
               sx={{
                 fontWeight: 800,
                 color: (theme) => theme.customColors.lightText,

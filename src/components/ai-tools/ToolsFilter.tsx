@@ -150,6 +150,7 @@ export default function ToolsFilter({
             />
             {search && (
               <IconButton
+                aria-label="Clear search"
                 onClick={() => onSearchChange('')}
                 size="small"
                 sx={{
@@ -170,6 +171,7 @@ export default function ToolsFilter({
             }}
             size="small"
             displayEmpty
+            inputProps={{ 'aria-label': 'Category' }}
             sx={{
               fontSize: '0.9rem',
               color: (theme) => theme.customColors.lightText,
@@ -194,6 +196,7 @@ export default function ToolsFilter({
             onChange={(e) => onSortChange(e.target.value)}
             size="small"
             displayEmpty
+            inputProps={{ 'aria-label': 'Sort by' }}
             sx={{
               fontSize: '0.9rem',
               color: (theme) => theme.customColors.lightText,
@@ -283,10 +286,10 @@ export default function ToolsFilter({
                   },
                 },
               }}>
-              <ToggleButton value="grid">
+              <ToggleButton value="grid" aria-label="Grid view">
                 <GridViewIcon fontSize="small" />
               </ToggleButton>
-              <ToggleButton value="list">
+              <ToggleButton value="list" aria-label="List view">
                 <ViewListIcon fontSize="small" />
               </ToggleButton>
             </ToggleButtonGroup>
@@ -370,10 +373,10 @@ export default function ToolsFilter({
                 },
               },
             }}>
-            <ToggleButton value="grid">
+            <ToggleButton value="grid" aria-label="Grid view">
               <GridViewIcon fontSize="small" />
             </ToggleButton>
-            <ToggleButton value="list">
+            <ToggleButton value="list" aria-label="List view">
               <ViewListIcon fontSize="small" />
             </ToggleButton>
           </ToggleButtonGroup>

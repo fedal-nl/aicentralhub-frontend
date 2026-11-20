@@ -14,6 +14,7 @@ export default function ToolsGrid({ tools }: ToolsGridProps) {
       <Box sx={{ textAlign: 'center', py: 12 }}>
         <Typography
           variant="h5"
+          component="p"
           sx={{
             fontWeight: 700,
             color: (theme) => theme.customColors.lightText,
