@@ -187,7 +187,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
           <Typography
             variant="overline"
             sx={{
-              color: 'primary.main',
+              color: (theme) => theme.customColors.lightAccent,
               fontWeight: 700,
               letterSpacing: '0.15em',
             }}>
@@ -195,6 +195,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
           </Typography>
           <Typography
             variant="h3"
+            component="h1"
             sx={{
               fontWeight: 800,
               color: (theme) => theme.customColors.lightText,
@@ -274,7 +275,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
                   },
                   '&.Mui-selected': {
                     background: (theme) => `${theme.palette.primary.main}33`,
-                    color: 'primary.main',
+                    color: (theme) => theme.customColors.lightAccent,
                     borderColor: (theme) => theme.palette.primary.main,
                   },
                 },
@@ -293,6 +294,7 @@ export default function ToolsPageClient({ initialTools, initialCount }: Props) {
                 value={perPage}
                 onChange={handlePerPageChange}
                 size="small"
+                inputProps={{ 'aria-label': 'Tools per page' }}
                 sx={{
                   fontSize: '0.9rem',
                   color: (theme) => theme.customColors.lightText,

@@ -60,7 +60,10 @@ export default function Navbar() {
     if (status === 'authenticated' && session?.user) {
       return (
         <>
-          <IconButton onClick={handleUserMenuOpen} size="small">
+          <IconButton
+            onClick={handleUserMenuOpen}
+            size="small"
+            aria-label="Open account menu">
             <Avatar
               src={
                 session.backendProfile?.avatar_url ??
@@ -307,6 +310,7 @@ export default function Navbar() {
 
               {/* Mobile Menu Icon */}
               <IconButton
+                aria-label="Open menu"
                 sx={{ display: { md: 'none' }, color: 'text.primary' }}
                 onClick={() => setMobileOpen(true)}>
                 <MenuIcon />
@@ -332,6 +336,7 @@ export default function Navbar() {
         }}>
         <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-end' }}>
           <IconButton
+            aria-label="Close menu"
             onClick={() => setMobileOpen(false)}
             sx={{ color: 'text.primary' }}>
             <CloseIcon />

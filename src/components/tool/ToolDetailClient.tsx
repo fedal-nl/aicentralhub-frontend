@@ -17,6 +17,7 @@ import { Review } from '@/types/review'
 import ToolReviews from './ToolReviews'
 import RelatedTools from './RelatedTools'
 import { addUtmParams } from '@/lib/utm'
+import { pricingChipSx } from '@/lib/pricingColors'
 
 interface Props {
   tool: Tool
@@ -46,6 +47,7 @@ export default function ToolDetailClient({
                 <Box>
                   <Typography
                     variant="h5"
+                    component="h2"
                     sx={{
                       fontWeight: 800,
                       color: (theme) => theme.customColors.lightText,
@@ -98,6 +100,7 @@ export default function ToolDetailClient({
               }}>
               <Typography
                 variant="h6"
+                component="h2"
                 sx={{
                   fontWeight: 700,
                   color: (theme) => theme.customColors.lightText,
@@ -171,11 +174,7 @@ export default function ToolDetailClient({
                       sx={{
                         fontWeight: 600,
                         fontSize: '0.75rem',
-                        background: (theme) =>
-                          `${theme.palette.primary.main}22`,
-                        color: 'primary.main',
-                        border: (theme) =>
-                          `1px solid ${theme.palette.primary.main}44`,
+                        ...pricingChipSx(tool.pricing),
                       }}
                     />
                   </Box>
@@ -218,7 +217,7 @@ export default function ToolDetailClient({
                       href={addUtmParams(tool.url)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ color: '#00D4FF' }}>
+                      style={{ color: '#0E7490' }}>
                       {tool.url.replace('https://', '')}
                     </Link>
                   </Typography>

@@ -20,6 +20,7 @@ export default function RelatedTools({
     <Box>
       <Typography
         variant="h5"
+        component="h2"
         sx={{
           fontWeight: 800,
           color: (theme) => theme.customColors.lightText,

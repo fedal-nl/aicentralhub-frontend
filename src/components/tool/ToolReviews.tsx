@@ -134,6 +134,7 @@ export default function ToolReviews({
     <Box>
       <Typography
         variant="h5"
+        component="h2"
         sx={{
           fontWeight: 800,
           color: (theme) => theme.customColors.lightText,
@@ -147,6 +148,7 @@ export default function ToolReviews({
         <Box sx={{ textAlign: 'center', minWidth: 120 }}>
           <Typography
             variant="h2"
+            component="p"
             sx={{
               fontWeight: 800,
               background: (theme) =>
@@ -191,6 +193,7 @@ export default function ToolReviews({
               <LinearProgress
                 variant="determinate"
                 value={percent}
+                aria-label={`${star}-star reviews`}
                 sx={{
                   flex: 1,
                   height: 8,
@@ -247,6 +250,7 @@ export default function ToolReviews({
                   <Box>
                     <Typography
                       variant="subtitle1"
+                      component="h3"
                       sx={{
                         fontWeight: 700,
                         color: (theme) => theme.customColors.lightText,
@@ -280,6 +284,7 @@ export default function ToolReviews({
                   {session?.backendProfile?.username === review.username && (
                     <IconButton
                       size="small"
+                      aria-label="Delete review"
                       onClick={() => handleDeleteReview(review.id)}
                       sx={{
                         color: (theme) => theme.customColors.lightTextSecondary,
@@ -321,7 +326,7 @@ export default function ToolReviews({
       ) : submitted ? (
         <Typography
           variant="body1"
-          sx={{ color: 'primary.main', fontWeight: 600 }}>
+          sx={{ color: (theme) => theme.customColors.lightAccent, fontWeight: 600 }}>
           Thank you for your review!
         </Typography>
       ) : (
@@ -335,6 +340,7 @@ export default function ToolReviews({
           }}>
           <Typography
             variant="h6"
+            component="h3"
             sx={{
               fontWeight: 700,
               color: (theme) => theme.customColors.lightText,
@@ -346,7 +352,7 @@ export default function ToolReviews({
           {submitted ? (
             <Typography
               variant="body1"
-              sx={{ color: 'primary.main', fontWeight: 600 }}>
+              sx={{ color: (theme) => theme.customColors.lightAccent, fontWeight: 600 }}>
               Thank you for your review!
             </Typography>
           ) : (
