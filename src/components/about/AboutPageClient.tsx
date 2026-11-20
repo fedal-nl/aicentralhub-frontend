@@ -127,7 +127,7 @@ export default function AboutPageClient({
                 </Box>
                 <Typography
                   variant="h6"
-                  component="h3"
+                  component="h2"
                   sx={{
                     fontWeight: 700,
                     color: (theme) => theme.customColors.lightText,
